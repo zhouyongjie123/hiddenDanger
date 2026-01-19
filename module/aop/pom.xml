@@ -5,30 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zyj</groupId>
-        <artifactId>hidden-danger</artifactId>
+        <artifactId>module</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>module</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>web</module>
-        <module>core</module>
-        <module>database</module>
-        <module>aop</module>
-    </modules>
+    <artifactId>aop</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zyj</groupId>
+            <artifactId>core</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
-
 </project>
