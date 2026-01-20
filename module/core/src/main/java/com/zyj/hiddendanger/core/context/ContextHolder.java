@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.core.context;
 
+import com.zyj.hiddendanger.core.exception.ContextException;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -7,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.zyj.jmartx.core.exception.constant.ContextExceptionCodeEnum.CONTEXT_GET_EXCEPTION;
+import static com.zyj.hiddendanger.core.exception.constant.ContextExceptionCodeEnum.CONTEXT_GET_EXCEPTION;
 
 @Setter
 @Accessors(chain = true)

@@ -5,21 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zyj</groupId>
-        <artifactId>hidden-danger</artifactId>
+        <artifactId>module</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>module</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>web</module>
-        <module>core</module>
-        <module>database</module>
-        <module>aop</module>
-        <module>auth</module>
-        <module>rpc</module>
-        <module>rpc-api</module>
-    </modules>
+    <artifactId>auth</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -28,9 +18,17 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
     </dependencies>
 
