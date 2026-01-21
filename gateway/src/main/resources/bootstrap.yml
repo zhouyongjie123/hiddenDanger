@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.139.5:8848
+        namespace: 71f8949a-fcb1-400e-ac98-58654f531542
+      config:
+        import-check:
+          enabled: false
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        refresh-enabled: true
+        shared-configs:
+          - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  main:
+    web-application-type: reactive
+server:
+  port: 8081

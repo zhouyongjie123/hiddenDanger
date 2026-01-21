@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.9</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.zyj</groupId>
@@ -23,6 +23,7 @@
     </developers>
     <modules>
         <module>module</module>
+        <module>gateway</module>
     </modules>
     <scm>
         <connection/>
@@ -32,7 +33,7 @@
     </scm>
     <properties>
         <kava.version>21</kava.version>
-        <spring-boot.version>3.5.9</spring-boot.version>
+        <spring-boot.version>3.2.4</spring-boot.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
         <dubbo.version>3.3.0</dubbo.version>
@@ -42,6 +43,24 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- Sa-Token 整合 Dubbo -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dubbo</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 jwt -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：https://sa-token.cc -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
             <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
             <dependency>
                 <groupId>cn.dev33</groupId>
