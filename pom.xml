@@ -44,6 +44,10 @@
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <satoken.version>1.44.0</satoken.version>
         <dashscope.version>2.22.12</dashscope.version>
+        <redisson.version>3.17.7</redisson.version>
+        <caffine.version>3.1.8</caffine.version>
+        <jetcache.version>2.7.4</jetcache.version>
+        <jedis.version>5.2.0</jedis.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -146,6 +150,41 @@
                 <groupId>com.alibaba.cloud.ai</groupId>
                 <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>
                 <version>${spring.ai.alibaba.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!--    Caffeine    -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffine.version}</version>
+            </dependency>
+
+            <!--    JetCache    -->
+            <dependency>
+                <groupId>com.alicp.jetcache</groupId>
+                <artifactId>jetcache-starter-redisson</artifactId>
+                <version>${jetcache.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.alicp.jetcache</groupId>
+                <artifactId>jetcache-starter-redis</artifactId>
+                <version>${jetcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

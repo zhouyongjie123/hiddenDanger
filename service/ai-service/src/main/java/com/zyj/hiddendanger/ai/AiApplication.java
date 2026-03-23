@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener;
 
 import java.util.Optional;
 
-@SpringBootApplication(scanBasePackages = "com.zyj.hiddendanger.ai")
+@SpringBootApplication(scanBasePackages = "com.zyj.hiddendanger")
 public class AiApplication {
     @Resource
     private ConfigurableApplicationContext applicationContext;

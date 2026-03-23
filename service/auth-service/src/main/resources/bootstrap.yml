@@ -1,4 +1,12 @@
 spring:
+  data:
+    redis:
+      host: r-bp14j2s1on0pqfzcwxpd.redis.rds.aliyuncs.com
+      port: 6379
+      username: zhou_yong_jie
+      password: '!Zyj13617720953'
+      database: 0
+      timeout: 10000
   profiles:
     active: dev
   application:
@@ -17,5 +25,8 @@ spring:
         refresh-enabled: true
         shared-configs:
           - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - cache-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 server:
   port: 8082

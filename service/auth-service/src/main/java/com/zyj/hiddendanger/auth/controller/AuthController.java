@@ -1,0 +1,18 @@
+package com.zyj.hiddendanger.auth.controller;
+
+import cn.dev33.satoken.stp.StpUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/auth")
+public class AuthController {
+    @GetMapping("/test")
+    public String login(){
+        StpUtil.login("1876849563");
+        return "登录成功";
+    }
+}
