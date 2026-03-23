@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.database;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -25,7 +25,7 @@ public class BasePojoInjector implements MetaObjectHandler {
         }
         if (originalObject instanceof Entity entity) {
             if (entity.getCreatorId() == null) {
-                Long loginId = StpUtil.getLoginIdAsLong();
+                String loginId = UserIdContextHolder.get();
                 entity.setCreatorId(loginId);
             }
         }
@@ -40,8 +40,8 @@ public class BasePojoInjector implements MetaObjectHandler {
 
         if (originalObject instanceof Entity entity) {
             if (entity.getUpdaterId() == null) {
-                long loginId = StpUtil.getLoginIdAsLong();
-                ((Entity) originalObject).setUpdaterId(loginId);
+                String loginId = UserIdContextHolder.get();
+                entity.setCreatorId(loginId);
             }
         }
     }

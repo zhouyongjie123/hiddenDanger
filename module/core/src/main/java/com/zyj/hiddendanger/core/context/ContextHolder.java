@@ -13,12 +13,17 @@ import static com.zyj.hiddendanger.core.exception.constant.ContextExceptionCodeE
 @Setter
 @Accessors(chain = true)
 public class ContextHolder<T> {
-    private ContextHolder() {
-    }
-
     private static final Map<Class<?>, ThreadLocal<?>> threadLocalMap = new ConcurrentHashMap<>();
 
     private String exceptionMessage;
+
+    private ContextHolder() {
+    }
+
+    protected ContextHolder(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
+        threadLocalMap.put(this.getClass(), new ThreadLocal<>());
+    }
 
     @SuppressWarnings("unchecked")
     private ThreadLocal<T> getThreadLocal() {
@@ -29,17 +34,15 @@ public class ContextHolder<T> {
         getThreadLocal().set(value);
     }
 
-    public void remove(){
+    public void remove() {
         getThreadLocal().remove();
     }
 
     public T get() {
-        return ThrowUtil.supplyWithExceptionTranslation(getThreadLocal()::get, NullPointerException.class,
-                                                        e -> new ContextException(CONTEXT_GET_EXCEPTION,
-                                                                                  exceptionMessage));
-    }
-
-    public static <T> ContextHolder<T> create(Class<T> type, String message) {
-        return new ContextHolder<T>().setExceptionMessage(message);
+        return ThrowUtil.supplyWithExceptionTranslation(
+                getThreadLocal()::get, NullPointerException.class,
+                e -> new ContextException(
+                        CONTEXT_GET_EXCEPTION,
+                        exceptionMessage));
     }
 }

@@ -13,8 +13,8 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true)
 public abstract class Entity extends SuperEntity {
     @TableField(fill = FieldFill.INSERT)
-    protected Long creatorId;
+    protected String creatorId;
 
     @TableField(fill = FieldFill.UPDATE)
-    protected Long updaterId;
+    protected String updaterId;
 }
