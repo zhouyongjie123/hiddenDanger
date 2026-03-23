@@ -2,6 +2,7 @@ package com.zyj.hiddendanger.web.handler;
 
 import com.zyj.hiddendanger.core.exception.biz.BizException;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

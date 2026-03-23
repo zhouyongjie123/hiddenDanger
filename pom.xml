@@ -24,6 +24,7 @@
     <modules>
         <module>module</module>
         <module>gateway</module>
+        <module>service</module>
     </modules>
     <scm>
         <connection/>
@@ -92,9 +93,7 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
             </dependency>
-
-
-<!--            版本定义-->
+            <!-- 版本定义 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

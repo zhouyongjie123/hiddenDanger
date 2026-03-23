@@ -16,7 +16,6 @@
         <module>core</module>
         <module>database</module>
         <module>aop</module>
-        <module>auth</module>
         <module>rpc</module>
         <module>rpc-api</module>
     </modules>
