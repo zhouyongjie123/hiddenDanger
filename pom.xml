@@ -37,10 +37,13 @@
         <spring-boot.version>3.2.4</spring-boot.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring.ai.version>1.1.0</spring.ai.version>
+        <spring.ai.alibaba.version>1.1.2.0</spring.ai.alibaba.version>
         <dubbo.version>3.3.0</dubbo.version>
         <hutool.version>5.8.16</hutool.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <satoken.version>1.44.0</satoken.version>
+        <dashscope.version>2.22.12</dashscope.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -91,6 +94,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
                 <scope>test</scope>
             </dependency>
             <!-- 版本定义 -->
@@ -123,6 +127,25 @@
                 <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-bom</artifactId>
+                <version>${spring.ai.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring.ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>
+                <version>${spring.ai.alibaba.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
