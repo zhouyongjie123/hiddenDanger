@@ -10,7 +10,7 @@ import org.springframework.context.event.EventListener;
 
 import java.util.Optional;
 
-@SpringBootApplication(scanBasePackages = "com.zyj.hiddendanger.auth")
+@SpringBootApplication(scanBasePackages = "com.zyj.hiddendanger")
 public class AuthApplication {
     @Resource
     private ConfigurableApplicationContext applicationContext;

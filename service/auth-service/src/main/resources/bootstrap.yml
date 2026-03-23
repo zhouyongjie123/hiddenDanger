@@ -1,12 +1,4 @@
 spring:
-  data:
-    redis:
-      host: r-bp14j2s1on0pqfzcwxpd.redis.rds.aliyuncs.com
-      port: 6379
-      username: zhou_yong_jie
-      password: '!Zyj13617720953'
-      database: 0
-      timeout: 10000
   profiles:
     active: dev
   application:

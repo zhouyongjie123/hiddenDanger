@@ -22,6 +22,7 @@ public class RedissonConfig {
         config.useSingleServer()
               .setDatabase(0)
               .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
+                .setUsername(redisProperties.getUsername())
               .setPassword(redisProperties.getPassword());
         config.setCodec(new JsonJacksonCodec());
         // 创建RedissonClient对象
