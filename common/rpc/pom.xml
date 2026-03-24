@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zyj</groupId>
-        <artifactId>hidden-danger</artifactId>
+        <artifactId>common</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>service</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>auth-service</module>
-        <module>ai-service</module>
-    </modules>
+    <artifactId>rpc</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -24,31 +19,39 @@
     <dependencies>
         <dependency>
             <groupId>com.zyj</groupId>
-            <artifactId>web</artifactId>
+            <artifactId>core</artifactId>
             <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.zyj</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>aop</artifactId>
             <version>0.0.1</version>
         </dependency>
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-nacos-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.zyj</groupId>
-            <artifactId>rpc-api</artifactId>
-            <version>0.0.1</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <!--解决SpringCloud项目无法读取bootstrap.yaml配置文件-->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
     </dependencies>
 

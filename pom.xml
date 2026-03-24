@@ -22,7 +22,7 @@
         <developer/>
     </developers>
     <modules>
-        <module>module</module>
+        <module>common</module>
         <module>gateway</module>
         <module>service</module>
     </modules>
@@ -199,6 +199,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

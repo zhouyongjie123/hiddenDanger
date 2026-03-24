@@ -1,0 +1,2 @@
+com.zyj.hiddendanger.database.config.MybatisConfig
+com.zyj.hiddendanger.database.config.MapperScanAutoConfiguration

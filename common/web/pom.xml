@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zyj</groupId>
-        <artifactId>hidden-danger</artifactId>
+        <artifactId>common</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>service</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>auth-service</module>
-        <module>ai-service</module>
-    </modules>
+    <artifactId>web</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,32 +18,31 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.zyj</groupId>
-            <artifactId>web</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.zyj</groupId>
-            <artifactId>model</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.zyj</groupId>
-            <artifactId>rpc-api</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 jwt -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zyj</groupId>
+            <artifactId>core</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
