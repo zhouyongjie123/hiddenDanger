@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChainConfig {
     @Bean
-    public LoginHandlerComposite loginHandlerComposite() {
-        return new LoginHandlerComposite(new AccountAndPasswordLoginHandler());
+    public LoginHandlerComposite loginHandlerComposite(AccountAndPasswordLoginHandler accountAndPasswordLoginHandler) {
+        return new LoginHandlerComposite(accountAndPasswordLoginHandler);
     }
 }

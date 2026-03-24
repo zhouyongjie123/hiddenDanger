@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
+import com.zyj.hiddendanger.model.vo.UserLoginVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,5 +37,12 @@ public class User extends Entity {
 
     public enum UserStatus {
         NORMAL, DISABLED;
+    }
+
+    public UserLoginVO toUserLoginVO() {
+        return new UserLoginVO().setAccount(this.account)
+                                .setId(this.id)
+                                .setRealName(this.realName)
+                                .setPhoneNumber(this.phoneNumber);
     }
 }

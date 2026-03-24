@@ -5,40 +5,43 @@ import com.zyj.hiddendanger.core.exception.biz.UncaughtException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ThrowUtil {
     private ThrowUtil() {
-
     }
 
-    public static <T extends Throwable> void throwIf(Boolean condition, T throwable) throws T {
-        Optional.ofNullable(condition) // 将 condition 包装为 Optional
-                .filter(c -> !c)      // 如果 condition 为 false，保留
-                .orElseThrow(() -> throwable); // 否则抛出异常
-    }
+//    public static <T extends Throwable> void throwIf(Boolean condition, T throwable) throws T {
+//        Optional.ofNullable(condition) // 将 condition 包装为 Optional
+//                .filter(c -> !c)      // 如果 condition 为 false，保留
+//                .orElseThrow(() -> throwable); // 否则抛出异常
+//    }
 
-    public static <T extends RuntimeException> void throwIf(Boolean condition, T runtimeException) {
+    public static <T extends RuntimeException> void throwIf(
+            Boolean condition, Supplier<RuntimeException> exceptionSupplier) {
         Optional
                 .ofNullable(condition)
                 .filter(c -> !c)
-                .orElseThrow(() -> runtimeException);
+                .orElseThrow(exceptionSupplier);
     }
 
-    public static <T extends RuntimeException> void throwIfNot(Boolean condition, T runtimeException) {
-        throwIf(!condition, runtimeException);
-    }
+//    public static <T extends RuntimeException> void throwIfNot(Boolean condition, T runtimeException) {
+//        throwIf(!condition, runtimeException);
+//    }
 
-    public static <T extends RuntimeException> void throwIfNull(Object object, T runtimeException) {
+    public static <T extends RuntimeException> void throwIfNull(
+            Object object, Supplier<RuntimeException> exceptionSupplier) {
         Optional
                 .ofNullable(object)
-                .orElseThrow(() -> runtimeException);
+                .orElseThrow(exceptionSupplier);
     }
 
-    public static <T extends RuntimeException> void throwIfNotNull(Object object, T runtimeException) {
+    public static <T extends RuntimeException> void throwIfNotNull(
+            Object object, Supplier<RuntimeException> exceptionSupplier) {
         Optional
                 .ofNullable(object)
                 .ifPresent(o -> {
-                    throw runtimeException;
+                    throw exceptionSupplier.get();
                 });
     }
 
@@ -48,9 +51,10 @@ public class ThrowUtil {
         }
     }
 
-    public static <T extends RuntimeException, E> E supplyWithExceptionTranslation(ThrowingSupplier<E> command,
-                                                                                   List<Class<? extends Exception>> targetExceptions,
-                                                                                   Function<Exception, T> exceptionSupplier) {
+    public static <T extends RuntimeException, E> E supplyWithExceptionTranslation(
+            ThrowingSupplier<E> command,
+            List<Class<? extends Exception>> targetExceptions,
+            Function<Exception, T> exceptionSupplier) {
         try {
             return command.get();
         } catch (Exception e) {
@@ -63,9 +67,10 @@ public class ThrowUtil {
         }
     }
 
-    public static <T extends RuntimeException, E> E supplyWithExceptionTranslation(ThrowingSupplier<E> command,
-                                                                                   Class<? extends Exception> targetException,
-                                                                                   Function<Exception, T> exceptionSupplier) {
+    public static <T extends RuntimeException, E> E supplyWithExceptionTranslation(
+            ThrowingSupplier<E> command,
+            Class<? extends Exception> targetException,
+            Function<Exception, T> exceptionSupplier) {
         return supplyWithExceptionTranslation(command, List.of(targetException), exceptionSupplier);
     }
 }
