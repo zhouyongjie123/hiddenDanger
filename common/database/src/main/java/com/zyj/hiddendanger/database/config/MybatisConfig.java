@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import com.zyj.hiddendanger.core.id.SnowflakeIdGenerator;
-import com.zyj.hiddendanger.database.BasePojoInjector;
+import com.zyj.hiddendanger.database.handler.BasePojoInjector;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

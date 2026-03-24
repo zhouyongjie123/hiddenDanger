@@ -1,8 +1,10 @@
 package com.zyj.hiddendanger.model.po;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,10 +16,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-@TableName("user")
+@TableName(value = "user", autoResultMap = true)
 public class User extends Entity {
     private String account;
 
+    @TableField(typeHandler = PasswordEncryptTypeHandler.class)
     private String password;
 
     private String realName;

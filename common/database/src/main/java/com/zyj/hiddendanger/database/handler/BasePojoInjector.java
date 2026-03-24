@@ -1,8 +1,10 @@
-package com.zyj.hiddendanger.database;
+package com.zyj.hiddendanger.database.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
+import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.database.SuperEntity;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.util.Date;

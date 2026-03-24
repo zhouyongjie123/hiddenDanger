@@ -39,4 +39,10 @@ public class TestUserTable {
 
         System.out.println(userService.save(user));
     }
+
+    @Test
+    public void testQuery() {
+        UserIdContextHolder.set("0");
+        System.out.println(userService.getById("2036347045152862209"));
+    }
 }
