@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zyj.hiddendanger.model.po.Role;
+import com.zyj.hiddendanger.model.domain.Role;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

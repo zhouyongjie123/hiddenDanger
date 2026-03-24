@@ -31,20 +31,17 @@ public class PasswordEncryptTypeHandler extends BaseTypeHandler<String> {
 
     @Override
     public String getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        String columnValue = rs.getString(columnName);
-        return decrypt(columnValue);
+        return decrypt(rs.getString(columnName));
     }
 
     @Override
     public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        String columnValue = rs.getString(columnIndex);
-        return decrypt(columnValue);
+        return decrypt(rs.getString(columnIndex));
     }
 
     @Override
     public String getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        String columnValue = cs.getString(columnIndex);
-        return decrypt(columnValue);
+        return decrypt(cs.getString(columnIndex));
     }
 
     private String decrypt(String encryptedValue) {

@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.model.po;
+package com.zyj.hiddendanger.model.domain;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;

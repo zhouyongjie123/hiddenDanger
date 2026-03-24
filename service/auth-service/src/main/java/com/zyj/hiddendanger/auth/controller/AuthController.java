@@ -1,8 +1,11 @@
 package com.zyj.hiddendanger.auth.controller;
 
-import cn.dev33.satoken.stp.StpUtil;
+import com.zyj.hiddendanger.auth.service.SessionService;
+import com.zyj.hiddendanger.model.dto.LoginRequestDTO;
+import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.web.vo.ResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
-    @GetMapping("/test")
-    public String login(){
-        StpUtil.login("1876849563");
-        return "登录成功";
+    private final SessionService sessionService;
+
+    @PostMapping("/login")
+    public ResponseResult<UserLoginVO> login(LoginRequestDTO loginRequestDTO) {
+        return ResponseResult.ok(sessionService.login(loginRequestDTO));
     }
 }

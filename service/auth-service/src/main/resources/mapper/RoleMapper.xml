@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyj.hiddendanger.auth.mapper.RoleMapper">
 
-    <resultMap id="BaseResultMap" type="com.zyj.hiddendanger.model.po.Role">
+    <resultMap id="BaseResultMap" type="com.zyj.hiddendanger.model.domain.Role">
             <id property="id" column="id" />
             <result property="roleName" column="role_name" />
             <result property="creatorId" column="creator_id" />
