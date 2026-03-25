@@ -1,11 +1,9 @@
 package com.zyj.hiddendanger.model.domain;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -16,26 +14,96 @@ import java.util.Date;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 @TableName("hidden_risk")
-public class HiddenRisk  extends Entity {
+public class HiddenRisk extends Entity {
     private String name;
 
     private String description;
 
     private String location;
 
-    private Integer riskLevel;
+    @EnumValue
+    private RiskLevel riskLevel;
 
-    private Integer riskType;
+    @EnumValue
+    private RiskType riskType;
 
-    private Long responsibleDepartmentId;
+    private String responsibleDepartmentId;
 
-    private Long responsiblePersonId;
+    private String responsiblePersonId;
 
     private Date discoveryTime;
 
     private Date rectificationDeadline;
 
-    private Integer status;
+    @EnumValue
+    private RiskStatus status;
 
-    private Integer source;
+    @EnumValue
+    private RiskSource source;
+
+    @Getter
+    @AllArgsConstructor
+    public enum RiskLevel {
+        LOW("1", "低"),
+        MIDDLE("2", "中"),
+        HIGH("3", "高"),
+        DANGER("4", "危险");
+
+        @EnumValue
+        private final String code;
+
+        private final String name;
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    public enum RiskStatus {
+        // 1-待整改，2-整改中，3-待验收，4-已闭环，5-已撤销
+        WAIT_RECTIFY("1", "待整改"),
+        RECTIFYING("2", "整改中"),
+        WAIT_ACCEPTANCE("3", "待验收"),
+        CLOSED("4", "已闭环"),
+        CANCELED("5", "已撤销"),
+        ;
+
+        @EnumValue
+        private final String code;
+
+        private final String name;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum RiskType {
+        // 隐患类型：1-人的不安全行为，2-物的不安全状态，3-管理缺陷
+        PEOPLE_UNSAFE_BEHAVIOR("1", "人的不安全行为"),
+        MATERIAL_UNSAFE_STATUS("2", "物的不安全行为"),
+        MANAGEMENT_DEFECT("3", "管理缺陷"),
+        OTHER("4", "其他"),
+        ;
+
+        @EnumValue
+        private final String code;
+
+        private final String name;
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    public enum RiskSource {
+        // 来源：1-日常检查，2-员工上报，3-上级督办，4-其他
+        DAILY_CHECK("1", "日常检查"),
+        EMPLOYEE_REPORT("2", "员工上报"),
+        SUPERVISOR_SUPERVISE("3", "上级督办"),
+        OTHER("4", "其他"),
+        ;
+
+        @EnumValue
+        private final String code;
+
+        private final String name;
+    }
 }
