@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.model.vo.HiddenRiskVO;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -105,5 +106,20 @@ public class HiddenRisk extends Entity {
         private final String code;
 
         private final String name;
+    }
+
+
+    public HiddenRiskVO toHiddenRiskVO(String responsibleDepartmentName, String responsiblePersonName) {
+        return new HiddenRiskVO().setName(this.getName())
+                                 .setDescription(this.getDescription())
+                                 .setLocation(this.getLocation())
+                                 .setRiskLevel(this.getRiskLevel().getName())
+                                 .setRiskType(this.getRiskType().getName())
+                                 .setResponsibleDepartmentName(responsibleDepartmentName)
+                                 .setResponsiblePersonName(responsiblePersonName)
+                                 .setDiscoveryTime(this.getDiscoveryTime())
+                                 .setRectificationDeadline(this.getRectificationDeadline())
+                                 .setStatus(this.getStatus().getName())
+                                 .setSource(this.getSource().getName());
     }
 }

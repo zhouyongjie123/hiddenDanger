@@ -1,6 +1,5 @@
 package com.zyj.hiddendanger.model.vo;
 
-import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,19 +18,19 @@ public class HiddenRiskVO {
 
     private String location;
 
-    private HiddenRisk.RiskLevel riskLevel;
+    private String riskLevel;
 
-    private Integer riskType;
+    private String riskType;
 
-    private Long responsibleDepartmentId;
+    private String responsibleDepartmentName;
 
-    private Long responsiblePersonId;
+    private String responsiblePersonName;
 
     private Date discoveryTime;
 
     private Date rectificationDeadline;
 
-    private Integer status;
+    private String status;
 
-    private Integer source;
+    private String source;
 }
