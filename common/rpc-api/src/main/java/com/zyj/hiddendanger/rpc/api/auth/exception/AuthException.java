@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.model.exception.auth;
+package com.zyj.hiddendanger.rpc.api.auth.exception;
 
 import com.zyj.hiddendanger.core.exception.biz.BizException;
 
