@@ -27,7 +27,7 @@ public class BizException extends RuntimeException implements Serializable {
         };
     }
 
-    public BizException(String message, ExceptionCode exceptionCode) {
+    public BizException(ExceptionCode exceptionCode, String message) {
         super(message);
         this.exceptionCode = exceptionCode;
     }
@@ -42,8 +42,9 @@ public class BizException extends RuntimeException implements Serializable {
         this.exceptionCode = exceptionCode;
     }
 
-    public BizException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace,
-                        ExceptionCode exceptionCode) {
+    public BizException(
+            String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace,
+            ExceptionCode exceptionCode) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.exceptionCode = exceptionCode;
     }

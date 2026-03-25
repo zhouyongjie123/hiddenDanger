@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>com.zyj</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>model</artifactId>
             <version>0.0.1</version>
         </dependency>
     </dependencies>

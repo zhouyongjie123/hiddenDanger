@@ -17,4 +17,10 @@ public class AuthController {
     public ResponseResult<UserLoginVO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         return ResponseResult.ok(sessionService.login(loginRequestDTO));
     }
+
+    @DeleteMapping("/logout")
+    public ResponseResult<?> logout() {
+        sessionService.logout();
+        return ResponseResult.ok("注销成功");
+    }
 }

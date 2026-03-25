@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.SessionService;
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.model.dto.LoginRequestDTO;
 import com.zyj.hiddendanger.model.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class SessionServiceImpl implements SessionService {
         UserLoginVO userLoginVO = loginHandlerComposite.handle(loginRequestDTO);
         StpUtil.login(userLoginVO.getId());
         return userLoginVO;
+    }
+
+    @Override
+    public void logout() {
+        StpUtil.logout(UserIdContextHolder.get());
     }
 }

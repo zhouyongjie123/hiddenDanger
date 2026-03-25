@@ -5,4 +5,6 @@ import com.zyj.hiddendanger.model.vo.UserLoginVO;
 
 public interface SessionService {
     UserLoginVO login(LoginRequestDTO loginRequestDTO);
+
+    void logout();
 }

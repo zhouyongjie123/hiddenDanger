@@ -45,9 +45,10 @@ public class ThrowUtil {
                 });
     }
 
-    public static <T extends RuntimeException> void throwIfBlank(String string, T runtimeException) {
+    public static <T extends RuntimeException> void throwIfBlank(
+            String string, Supplier<RuntimeException> exceptionSupplier) {
         if (string == null || string.isEmpty()) {
-            throw runtimeException;
+            throw exceptionSupplier.get();
         }
     }
 

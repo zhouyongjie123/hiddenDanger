@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum AuthExceptionCodeEnum implements ExceptionCode {
     AccountError("10001", "账号错误"),
     PasswordError("10002", "密码错误"),
+    NotLogin("10003", "未登录"),
     ;
 
     private final String code;

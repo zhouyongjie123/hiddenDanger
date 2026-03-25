@@ -1,13 +1,13 @@
 package com.zyj.hiddendanger.model.exception.auth;
 
-import java.io.Serial;
-import java.io.Serializable;
+import com.zyj.hiddendanger.core.exception.biz.BizException;
 
-public class AuthException extends RuntimeException implements Serializable {
-    public AuthException(AuthExceptionCodeEnum authExceptionCode) {
-        super(authExceptionCode.getCode());
+public class AuthException extends BizException {
+    public AuthException(AuthExceptionCodeEnum authExceptionCodeEnum) {
+        super(authExceptionCodeEnum);
     }
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+    public AuthException(AuthExceptionCodeEnum authExceptionCodeEnum, String message) {
+        super(authExceptionCodeEnum, message);
+    }
 }
