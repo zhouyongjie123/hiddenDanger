@@ -3,7 +3,7 @@ package com.zyj.hiddendanger.risk.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyj.hiddendanger.model.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.risk.service.HiddenRiskService;
-import com.zyj.hiddendanger.web.vo.ResponseResult;
+import com.zyj.hiddendanger.web.vo.PageResponseResult;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +17,8 @@ public class RiskController {
     private final HiddenRiskService hiddenRiskService;
 
     @GetMapping("/page")
-    public ResponseResult<Page<HiddenRiskVO>> page(
+    public PageResponseResult<HiddenRiskVO> page(
             @PathParam("current") Long current, @PathParam("pageSize") Long pageSize) {
-        return ResponseResult.ok(hiddenRiskService.page(new Page<>(current, pageSize)));
+        return PageResponseResult.ok(hiddenRiskService.page(new Page<>(current, pageSize)));
     }
 }

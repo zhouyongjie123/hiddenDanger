@@ -40,8 +40,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
     public Page<HiddenRiskVO> page(Page<HiddenRisk> page) {
         Page<HiddenRisk> hiddenRiskPage = hiddenRiskMapper.selectPage(page, null);
         // 优化:本地和远程缓存部门名,用户名
-        List<HiddenRisk> records = hiddenRiskPage.getRecords();
-        List<HiddenRiskVO> list = records.stream().map(record -> {
+        List<HiddenRiskVO> list = hiddenRiskPage.getRecords().stream().map(record -> {
             // 查询部门名字
             String departmentName = departmentNameCache.get(record.getResponsibleDepartmentId());
             if (departmentName == null) {

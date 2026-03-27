@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.web.vo;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -13,27 +14,26 @@ public class PageResponseResult<T> extends ResponseResult<List<T>> {
     /**
      * 总记录数
      */
-    private long total;
+    private Long total;
 
     /**
      * 当前页码
      */
-    private int page;
+    private Long current;
 
     /**
      * 每页记录数
      */
-    private int size;
+    private Long size;
 
-    public static <T> PageResponseResult<T> of(List<T> data, long total, int page, int size) {
-        PageResponseResult<T> result = new PageResponseResult<>();
-        result
-                .setTotal(total)
-                .setPage(page)
-                .setSize(size)
-                .setTotal(total)
-                .setCode("200")
-                .setData(data);
+
+    public static <T> PageResponseResult<T> ok(Page<T> page) {
+        PageResponseResult<T> result = new PageResponseResult<T>().setTotal(page.getTotal())
+                                                                  .setCurrent(page.getCurrent())
+                                                                  .setSize(page.getSize());
+        result.setCode(SUCCESSFUL_CODE)
+              .setMessage("查询成功")
+              .setData(page.getRecords());
         return result;
     }
 }
