@@ -26,4 +26,14 @@ public class AuthServiceCacheConfig {
                                     .build();
         return cacheManager.getOrCreateCache(qc);
     }
+
+    @Bean
+    public Cache<String,String> userNameCache(){
+        QuickConfig qc = QuickConfig.newBuilder("user" + DEFAULT_SEPARATOR + "name" + DEFAULT_SEPARATOR)
+                                    .expire(Duration.ofSeconds(100))
+                                    .cacheType(CacheType.BOTH)
+                                    .syncLocal(true)
+                                    .build();
+        return cacheManager.getOrCreateCache(qc);
+    }
 }

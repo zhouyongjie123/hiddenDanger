@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class RedissonConfig {
     @Resource
@@ -22,7 +21,7 @@ public class RedissonConfig {
         config.useSingleServer()
               .setDatabase(0)
               .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
-                .setUsername(redisProperties.getUsername())
+              .setUsername(redisProperties.getUsername())
               .setPassword(redisProperties.getPassword());
         config.setCodec(new JsonJacksonCodec());
         // 创建RedissonClient对象
