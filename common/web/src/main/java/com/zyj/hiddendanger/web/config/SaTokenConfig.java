@@ -5,8 +5,8 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.model.exception.auth.AuthException;
-import com.zyj.hiddendanger.model.exception.auth.AuthExceptionCodeEnum;
+import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
+import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,7 +26,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
                             .check(r -> {
                                 String token = StpUtil.getTokenValue();
                                 ThrowUtil.throwIfBlank(
-                                        token, () -> new AuthException(AuthExceptionCodeEnum.NotLogin));
+                                        token, () -> new AuthException(AuthExceptionCode.NOT_LOGIN));
                             });
                     UserIdContextHolder.set(StpUtil.getLoginIdAsString());
                 }))

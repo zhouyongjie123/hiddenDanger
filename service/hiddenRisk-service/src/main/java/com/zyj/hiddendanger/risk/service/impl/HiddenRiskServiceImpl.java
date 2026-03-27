@@ -34,6 +34,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
     public Page<HiddenRiskVO> page(Page<HiddenRisk> page) {
         Page<HiddenRisk> hiddenRiskPage = hiddenRiskMapper.selectPage(page, null);
         // 优化:查询完成之后放到map中,之后如果有相同的查询,就先从map中取
+        // todo 改成在redis中缓存结果
         final Map<String, String> map = new HashMap<>();
         List<HiddenRiskVO> list = hiddenRiskPage.getRecords().stream().map(record -> {
             // 查询部门名字

@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.rpc.api.auth.exception;
+package com.zyj.hiddendanger.model.service.auth.exception;
 
 import com.zyj.hiddendanger.core.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
