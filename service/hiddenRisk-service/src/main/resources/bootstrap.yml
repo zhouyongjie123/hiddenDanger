@@ -7,7 +7,7 @@ spring:
     nacos:
       discovery:
         server-addr: 120.26.139.5:8848
-        namespace: 07f140a8-18e7-4f76-a58a-1d3aaa6de0c8
+        namespace: 18cde16e-ffb2-419f-80bb-5e79a5e4ca95
       config:
         import-check:
           enabled: false

@@ -1,0 +1,32 @@
+package com.zyj.hiddendanger.auth;
+
+
+import jakarta.annotation.Resource;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.EventListener;
+
+import java.util.Optional;
+
+@SpringBootApplication(scanBasePackages = "com.zyj.hiddendanger")
+@EnableDubbo(scanBasePackages = "com.zyj.hiddendanger.auth")
+public class AuthApplication {
+    @Resource
+    private ConfigurableApplicationContext applicationContext;
+
+    public static void main(String[] args) {
+        SpringApplication.run(AuthApplication.class, args);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady() {
+        String applicationName = Optional
+                .ofNullable(applicationContext.getEnvironment()
+                                              .getProperty("spring.application.name"))
+                .orElse("");
+        System.out.println(applicationName + " started ✧⁺⸜(๑˙▾˙๑)⸝⁺✧");
+    }
+}
