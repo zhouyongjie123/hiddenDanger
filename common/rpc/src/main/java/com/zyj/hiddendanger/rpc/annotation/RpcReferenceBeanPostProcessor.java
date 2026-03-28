@@ -62,6 +62,9 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
         reference.setVersion(rpc.version());
         reference.setGroup(rpc.group());
         reference.setTimeout(rpc.timeout());
+        reference.setCheck(false);
+        // 使用 Spring Cloud 的服务发现
+        reference.setProtocol("dubbo");
         return reference.get();
     }
 
