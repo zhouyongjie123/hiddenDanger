@@ -41,7 +41,8 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
 
     private void inject(Field field, Object bean) throws Exception {
         field.setAccessible(true);
-        RpcReference rpc = field.getAnnotation(RpcReference.class);
+        RpcReference rpc = field.getAnnotation(
+                RpcReference.class);
         Class<?> interfaceClass = field.getType();
         Object target;
         if (rpcProperties.isMock()) {
