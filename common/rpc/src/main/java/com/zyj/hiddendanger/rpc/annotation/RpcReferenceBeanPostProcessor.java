@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.rpc.annotation;
 
+import com.zyj.hiddendanger.core.exception.sys.RPCInjectionException;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.rpc.config.RpcProperties;
 import jakarta.annotation.Resource;
@@ -32,7 +33,7 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
                 try {
                     inject(field, bean);
                 } catch (Exception e) {
-                    throw new RuntimeException("RPC 注入失败", e);
+                    throw new RPCInjectionException();
                 }
             }
         }

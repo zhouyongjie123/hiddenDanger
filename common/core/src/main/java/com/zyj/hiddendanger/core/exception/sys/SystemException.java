@@ -30,19 +30,7 @@ public class SystemException extends RuntimeException {
         this.exceptionCode = exceptionCode;
     }
 
-    protected SystemException(String message, Throwable cause, ExceptionCode exceptionCode) {
-        super(message, cause);
-        this.exceptionCode = exceptionCode;
-    }
-
-    public SystemException(Throwable cause, ExceptionCode exceptionCode) {
-        super(cause);
-        this.exceptionCode = exceptionCode;
-    }
-
-    public SystemException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace,
-                           ExceptionCode exceptionCode) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.exceptionCode = exceptionCode;
+    protected SystemException(String message) {
+        super(message);
     }
 }
