@@ -8,6 +8,7 @@ import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +19,7 @@ public class RiskController {
 
     @GetMapping("/page")
     public PageResponseResult<HiddenRiskVO> page(
-            @PathParam("current") Long current, @PathParam("pageSize") Long pageSize) {
+            @RequestParam("current") Long current, @RequestParam("pageSize") Long pageSize) {
         return PageResponseResult.ok(hiddenRiskService.page(new Page<>(current, pageSize)));
     }
 }

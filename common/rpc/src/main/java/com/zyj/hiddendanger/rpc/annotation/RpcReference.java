@@ -6,8 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RpcReference {
-    // 只保留 Dubbo 原生需要的属性，没有 mock！
-    String version() default "1.0.0";
+    String version() default "";
 
     String group() default "";
 

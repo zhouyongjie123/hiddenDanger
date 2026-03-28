@@ -21,4 +21,4 @@ spring:
           - cache-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 server:
-  port: 8083
+  port: 8084
