@@ -9,11 +9,11 @@ import java.util.List;
 public class DepartmentFacadeServiceMock implements DepartmentFacadeService {
     @Override
     public String getDepartmentNameById(String departmentId) {
-        return "";
+        return "mockDepartment_" + departmentId;
     }
 
     @Override
     public List<String> getDepartmentNameByIds(List<String> departmentIds) {
-        return List.of();
+        return departmentIds.stream().map(id -> "mockDepartment_" + id).toList();
     }
 }

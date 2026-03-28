@@ -7,6 +7,6 @@ import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
 public class UserFacadeServiceMock implements UserFacadeService {
     @Override
     public String getRealNameById(String userId) {
-        return "";
+        return "mockUser_" + userId;
     }
 }
