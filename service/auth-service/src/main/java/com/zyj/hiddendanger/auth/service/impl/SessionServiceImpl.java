@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.auth.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
@@ -22,7 +23,8 @@ public class SessionServiceImpl implements SessionService {
         // 这里用责任链实现不同方式登录
         UserLoginVO userLoginVO = loginHandlerComposite.handle(loginRequestDTO);
         StpUtil.login(userLoginVO.getId());
-        return userLoginVO;
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return userLoginVO.setTokenName(tokenInfo.tokenName).setTokenValue(tokenInfo.tokenValue);
     }
 
     @Override

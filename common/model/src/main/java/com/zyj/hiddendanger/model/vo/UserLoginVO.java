@@ -21,4 +21,8 @@ public class UserLoginVO {
     private String departmentName;
 
     private String roleName;
+
+    private String tokenName;
+
+    private String tokenValue;
 }
