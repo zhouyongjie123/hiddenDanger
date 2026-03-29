@@ -78,8 +78,8 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
             Class<?> clazz = Class.forName(bd.getBeanClassName());
             result.add(clazz);
         }
-        ThrowUtil.throwIf(result.isEmpty(), () -> new RuntimeException("找不到Mock类"));
-        ThrowUtil.throwIf(result.size() > 1, () -> new RuntimeException("找到多个Mock类"));
+        ThrowUtil.throwIfTrue(result.isEmpty(), () -> new RuntimeException("找不到Mock类"));
+        ThrowUtil.throwIfTrue(result.size() > 1, () -> new RuntimeException("找到多个Mock类"));
         return result.get(0).getConstructor().newInstance();
     }
 

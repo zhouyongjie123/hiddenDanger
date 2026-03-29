@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
+import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,10 +40,22 @@ public class User extends Entity {
         NORMAL, DISABLED;
     }
 
-    public UserLoginVO toUserLoginVO() {
+    public UserLoginVO toUserLoginVO( String departmentName, String roleName) {
         return new UserLoginVO().setAccount(this.account)
                                 .setId(this.id)
                                 .setRealName(this.realName)
-                                .setPhoneNumber(this.phoneNumber);
+                                .setPhoneNumber(this.phoneNumber)
+                                .setDepartmentName(departmentName)
+                                .setRoleName(roleName);
+    }
+
+    public UserInfoVO toUserInfoVO(String departmentName, String roleName) {
+        return new UserInfoVO().setId(this.id)
+                               .setAccount(this.account)
+                               .setRealName(this.realName)
+                               .setPhoneNumber(this.phoneNumber)
+                               .setDepartmentName(this.departmentId)
+                               .setDepartmentName(departmentName)
+                               .setRoleName(roleName);
     }
 }

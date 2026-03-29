@@ -10,7 +10,8 @@ public enum AuthExceptionCode implements ExceptionCode {
     ACCOUNT_ERROR("10001", "账号错误"),
     PASSWORD_ERROR("10002", "密码错误"),
     NOT_LOGIN("10003", "未登录"),
-    ID_NOT_EXIST("10004", "用户id不存在");
+    ID_NOT_EXIST("10004", "用户id不存在"),
+    ACCOUNT_DUPLICATE("10005", "账号已存在");
 
     private final String code;
 

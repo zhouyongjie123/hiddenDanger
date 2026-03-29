@@ -11,33 +11,34 @@ public class ThrowUtil {
     private ThrowUtil() {
     }
 
-//    public static <T extends Throwable> void throwIf(Boolean condition, T throwable) throws T {
-//        Optional.ofNullable(condition) // 将 condition 包装为 Optional
-//                .filter(c -> !c)      // 如果 condition 为 false，保留
-//                .orElseThrow(() -> throwable); // 否则抛出异常
-//    }
-
-    public static <T extends RuntimeException> void throwIf(
-            Boolean condition, Supplier<RuntimeException> exceptionSupplier) {
+    public static <T extends RuntimeException> void throwIfTrue(
+            Boolean condition, Supplier<T> exceptionSupplier) {
         Optional
                 .ofNullable(condition)
                 .filter(c -> !c)
                 .orElseThrow(exceptionSupplier);
     }
 
-//    public static <T extends RuntimeException> void throwIfNot(Boolean condition, T runtimeException) {
-//        throwIf(!condition, runtimeException);
-//    }
+    public static <T extends RuntimeException> void throwIf(
+            Boolean condition, Supplier<T> exceptionSupplier) {
+        throwIfTrue(condition, exceptionSupplier);
+    }
+
+    public static <T extends RuntimeException> void throwIfFalse(
+            Boolean condition, Supplier<T> exceptionSupplier) {
+        throwIfTrue(!condition, exceptionSupplier);
+    }
+
 
     public static <T extends RuntimeException> void throwIfNull(
-            Object object, Supplier<RuntimeException> exceptionSupplier) {
+            Object object, Supplier<T> exceptionSupplier) {
         Optional
                 .ofNullable(object)
                 .orElseThrow(exceptionSupplier);
     }
 
     public static <T extends RuntimeException> void throwIfNotNull(
-            Object object, Supplier<RuntimeException> exceptionSupplier) {
+            Object object, Supplier<T> exceptionSupplier) {
         Optional
                 .ofNullable(object)
                 .ifPresent(o -> {
@@ -46,7 +47,7 @@ public class ThrowUtil {
     }
 
     public static <T extends RuntimeException> void throwIfBlank(
-            String string, Supplier<RuntimeException> exceptionSupplier) {
+            String string, Supplier<T> exceptionSupplier) {
         if (string == null || string.isEmpty()) {
             throw exceptionSupplier.get();
         }
