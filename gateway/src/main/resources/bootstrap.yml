@@ -5,6 +5,13 @@ spring:
     name: gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
+      # 全局的跨域配置
       routes:
         - id: auth-service
           uri: lb://auth-service
