@@ -1,8 +1,8 @@
 package com.zyj.hiddendanger.auth.controller;
 
 import com.zyj.hiddendanger.auth.service.SessionService;
-import com.zyj.hiddendanger.model.dto.LoginRequestDTO;
-import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

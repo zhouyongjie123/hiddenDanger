@@ -11,7 +11,7 @@ import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
-import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

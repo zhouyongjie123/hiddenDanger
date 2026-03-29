@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.model.dto;
+package com.zyj.hiddendanger.model.service.auth.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +9,20 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public final class LoginRequestDTO {
+public class UserLoginVO {
+    private String id;
+
     private String account;
 
-    private String password;
+    private String realName;
 
     private String phoneNumber;
 
-    private String verificationCode;
+    private String departmentName;
+
+    private String roleName;
+
+    private String tokenName;
+
+    private String tokenValue;
 }

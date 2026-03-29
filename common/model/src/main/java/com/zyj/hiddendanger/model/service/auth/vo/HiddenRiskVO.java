@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.model.vo;
+package com.zyj.hiddendanger.model.service.auth.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

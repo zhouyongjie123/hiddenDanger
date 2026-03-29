@@ -3,7 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import com.zyj.hiddendanger.model.vo.HiddenRiskVO;
+import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import lombok.*;
 import lombok.experimental.Accessors;
 

@@ -3,8 +3,8 @@ package com.zyj.hiddendanger.auth.infrustructure.chain;
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.core.chain.PredicatableHandler;
-import com.zyj.hiddendanger.model.dto.LoginRequestDTO;
-import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 

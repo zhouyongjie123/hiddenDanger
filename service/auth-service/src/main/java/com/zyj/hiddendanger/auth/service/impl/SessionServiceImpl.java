@@ -6,8 +6,8 @@ import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.SessionService;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
-import com.zyj.hiddendanger.model.dto.LoginRequestDTO;
-import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

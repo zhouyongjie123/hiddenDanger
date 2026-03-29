@@ -1,11 +1,10 @@
 package com.zyj.hiddendanger.model.domain;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.zyj.hiddendanger.model.service.auth.vo.DepartmentVO;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 @Data
@@ -15,15 +14,57 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @TableName("department")
 public class Department extends Entity {
-    private Long parentDepartmentId;
+    /**
+     * 父部门ID，顶级部门为NULL
+     */
+    private String parentDepartmentId;
 
+    /**
+     * 部门名
+     */
     private String departmentName;
 
+    /**
+     * 部门层级路径，如 /1/2/3，便于快速查询子树
+     */
     private String departmentPath;
 
-    private Long leaderId;
+    /**
+     * 部门负责人ID
+     */
+    private String leaderId;
 
-    private Integer status;
+    /**
+     * 部门状态：1-启用，0-禁用
+     */
+    @EnumValue
+    private Status status;
 
+
+    /**
+     * 同级排序序号
+     */
     private Integer sortOrder;
+
+    @Getter
+    @AllArgsConstructor
+    public enum Status {
+        ENABLED("1", "启用"),
+        DISABLED("0", "禁用");
+
+        @EnumValue
+        private final String code;
+
+        private final String name;
+    }
+
+    public DepartmentVO toDepartmentVO(String leaderName) {
+        return new DepartmentVO()
+                .setId(this.getId())
+                .setDepartmentName(this.getDepartmentName())
+                .setDepartmentPath(this.getDepartmentPath())
+                .setLeaderName(leaderName)
+                .setStatus(this.getStatus().getName())
+                .setSortOrder(this.getSortOrder());
+    }
 }

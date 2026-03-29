@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
-import com.zyj.hiddendanger.model.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
