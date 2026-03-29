@@ -25,7 +25,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor(handle -> {
                     SaRouter
                             .match("/**")
-                            .notMatch("/auth/login")
+                            .notMatch("/login")
                             .check(r -> {
                                 String token = StpUtil.getTokenValue();
                                 ThrowUtil.throwIfBlank(
@@ -34,7 +34,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
                     UserIdContextHolder.set(StpUtil.getLoginIdAsString());
                 }))
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/login", "/error");// 解决SaTokenContext 上下文尚未初始化
+                .excludePathPatterns("/login", "/error");// 解决SaTokenContext 上下文尚未初始化
     }
 
     // Sa-Token 整合 jwt (Simple 简单模式)

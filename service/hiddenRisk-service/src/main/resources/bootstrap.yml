@@ -22,5 +22,5 @@ spring:
           - database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 server:
   port: 8084
-rpc:
-  mock: true
+  servlet:
+    context-path: /risk

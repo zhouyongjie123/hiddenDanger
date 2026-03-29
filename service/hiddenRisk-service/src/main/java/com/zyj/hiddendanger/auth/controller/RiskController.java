@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/risk")
+//@RequestMapping("/risk")
 public class RiskController {
     private final HiddenRiskService hiddenRiskService;
 
