@@ -3,10 +3,14 @@ package com.zyj.hiddendanger.web.handler;
 import cn.dev33.satoken.exception.NotLoginException;
 import com.zyj.hiddendanger.core.exception.biz.BizException;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -30,5 +34,15 @@ public class GlobalWebExceptionHandler {
                                                  .getFieldError())
                                 .getDefaultMessage();
         return ResponseResult.fail("400", message);
+    }
+    // 处理 400 通用参数错误
+    @ExceptionHandler(BindException.class)
+    public ResponseResult<Map<String, String>> handleBindException(BindException e) {
+        FieldError fieldError = e.getFieldError();
+        String message = fieldError.getDefaultMessage();
+        String field = fieldError.getField();
+        Map<String, String> map = new HashMap<>();
+        map.put(field, message);
+        return ResponseResult.fail (map.toString(),"参数错误");
     }
 }
