@@ -1,6 +1,7 @@
 package com.zyj.hiddendanger.model.service.auth.dto;
 
 import com.zyj.hiddendanger.model.domain.User;
+import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,8 @@ public class UserInfoDTO {
     private String roleName;
 
     private User.UserStatus status;
+
+    public UserInfoVO toUserInfoVO() {
+        return new UserInfoVO(id, account, realName, phoneNumber, departmentName, roleName);
+    }
 }

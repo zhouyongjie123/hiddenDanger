@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     UserInfoDTO getUserInfoByAccount(String account);
+
+    UserInfoDTO getUserInfoById(String id);
 }
 
 

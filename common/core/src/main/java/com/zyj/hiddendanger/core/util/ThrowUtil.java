@@ -53,6 +53,17 @@ public class ThrowUtil {
         }
     }
 
+    // 运行一段代码,如果抛出特定的异常,则转换成指定的异常
+
+    /**
+     *
+     * @param command 要运行的代码
+     * @param targetExceptions 需要转换的异常类型
+     * @param exceptionSupplier 异常转换函数
+     * @return 未出现异常的情况下,command的返回值
+     * @param <T> 异常类型
+     * @param <E> 返回值类型
+     */
     public static <T extends RuntimeException, E> E supplyWithExceptionTranslation(
             ThrowingSupplier<E> command,
             List<Class<? extends Exception>> targetExceptions,

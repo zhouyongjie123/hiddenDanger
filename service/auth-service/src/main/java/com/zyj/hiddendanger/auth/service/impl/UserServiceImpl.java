@@ -7,10 +7,7 @@ import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.UserService;
-import com.zyj.hiddendanger.core.exception.sys.SystemException;
-import com.zyj.hiddendanger.core.exception.sys.UnknownExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
@@ -19,6 +16,7 @@ import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,10 +42,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public UserInfoVO register(UserRegisterDTO userRegisterDTO) {
-        // 先保证唯一account
-        ThrowUtil.throwIfTrue(
-                isAccountExist(userRegisterDTO.getAccount()),
-                () -> new AuthException(AuthExceptionCode.ACCOUNT_DUPLICATE));
         User user = new User().setAccount(userRegisterDTO.getAccount())
                               .setPassword(userRegisterDTO.getPassword())
                               .setRealName(userRegisterDTO.getRealName())
@@ -55,17 +49,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                               .setDepartmentId(userRegisterDTO.getDepartmentId())
                               .setStatus(User.UserStatus.NORMAL)
                               .setRoleId(userRegisterDTO.getRoleId());
-        ThrowUtil.throwIf(
-                userMapper.insert(user) != 1, () -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+        // 执行插入操作,如果account存在则抛出异常
+        ThrowUtil.supplyWithExceptionTranslation(
+                () -> userMapper.insert(user), DuplicateKeyException.class,
+                (duplicateKeyException) -> new AuthException(
+                        AuthExceptionCode.ACCOUNT_DUPLICATE));
         // 返回用户信息
-        String deptName = departmentNameCache.get(user.getDepartmentId());
-        if (deptName == null) {
-            Department department = departmentMapper.selectById(user.getDepartmentId());
-            deptName = department.getDepartmentName();
-            departmentNameCache.put(department.getId(), department.getDepartmentName());
-        }
-        String roleName = roleMapper.selectById(user.getRoleId()).getRoleName().name();
-        return user.toUserInfoVO(deptName, roleName);
+        return userMapper.getUserInfoById(user.getId()).toUserInfoVO();
     }
 
     @Override
