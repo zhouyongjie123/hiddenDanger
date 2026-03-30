@@ -21,6 +21,7 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -35,8 +36,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     private final RoleMapper roleMapper;
 
+
     @Resource
     private Cache<String, String> departmentNameCache;
+
+    @Resource
+    private Cache<String, String> roleNameCache;
 
     @Override
     public UserInfoDTO getUserInfoByAccount(String account) {
@@ -81,7 +86,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         );
 
         List<UserInfoVO> results = page.getRecords().stream().map(record -> {
-            return record.toUserInfoVO("null", "null");
+            String departmentName = departmentNameCache.get(record.getDepartmentId());
+            if (!StringUtils.hasText(departmentName)) {
+                departmentName = departmentMapper.selectById(record.getDepartmentId()).getDepartmentName();
+                departmentNameCache.put(record.getDepartmentId(), departmentName);
+            }
+            String roleName = roleNameCache.get(record.getRoleId());
+            if (!StringUtils.hasText(roleName)) {
+                roleName = roleMapper.selectById(record.getRoleId()).getRoleName().name();
+                roleNameCache.put(record.getRoleId(), roleName);
+            }
+            return record.toUserInfoVO(departmentName, roleName);
         }).toList();
         return PageUtil.pageConvert(page, results);
     }

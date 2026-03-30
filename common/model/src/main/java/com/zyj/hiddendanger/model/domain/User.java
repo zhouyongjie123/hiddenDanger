@@ -40,7 +40,7 @@ public class User extends Entity {
         NORMAL, DISABLED;
     }
 
-    public UserLoginVO toUserLoginVO( String departmentName, String roleName) {
+    public UserLoginVO toUserLoginVO(String departmentName, String roleName) {
         return new UserLoginVO().setAccount(this.account)
                                 .setId(this.id)
                                 .setRealName(this.realName)
@@ -54,8 +54,9 @@ public class User extends Entity {
                                .setAccount(this.account)
                                .setRealName(this.realName)
                                .setPhoneNumber(this.phoneNumber)
-                               .setDepartmentName(this.departmentId)
+                               .setDepartmentId(this.departmentId)
                                .setDepartmentName(departmentName)
+                               .setRoleId(this.roleId)
                                .setRoleName(roleName);
     }
 }

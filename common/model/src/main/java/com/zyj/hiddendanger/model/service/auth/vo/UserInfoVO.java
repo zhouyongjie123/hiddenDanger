@@ -18,7 +18,12 @@ public class UserInfoVO {
 
     private String phoneNumber;
 
+    private String departmentId;
+
     private String departmentName;
+
+
+    private String roleId;
 
     private String roleName;
 }

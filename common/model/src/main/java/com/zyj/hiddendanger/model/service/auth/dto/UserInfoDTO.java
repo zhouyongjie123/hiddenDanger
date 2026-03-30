@@ -33,6 +33,8 @@ public class UserInfoDTO {
     private User.UserStatus status;
 
     public UserInfoVO toUserInfoVO() {
-        return new UserInfoVO(id, account, realName, phoneNumber, departmentName, roleName);
+        return new UserInfoVO(
+                this.id, this.account, this.realName, this.phoneNumber, this.departmentId, this.departmentName,
+                this.roleId, this.roleName);
     }
 }
