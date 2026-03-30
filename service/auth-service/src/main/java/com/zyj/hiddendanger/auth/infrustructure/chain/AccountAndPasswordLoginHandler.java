@@ -4,20 +4,20 @@ import com.alibaba.cloud.commons.lang.StringUtils;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.core.chain.PredicatableHandler;
 import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
-import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
 
 @Component
-public class AccountAndPasswordLoginHandler implements PredicatableHandler<UserLoginVO, LoginRequestDTO> {
+public class AccountAndPasswordLoginHandler implements PredicatableHandler<UserInfoDTO, LoginRequestDTO> {
     @Resource
     private UserService userService;
 
     @Override
-    public UserLoginVO handle(LoginRequestDTO value) {
-        return userService.getUserLoginVO(value.getAccount(), value.getPassword());
+    public UserInfoDTO handle(LoginRequestDTO value) {
+        return userService.getUserInfoByAccount(value.getAccount());
     }
 
     @Override

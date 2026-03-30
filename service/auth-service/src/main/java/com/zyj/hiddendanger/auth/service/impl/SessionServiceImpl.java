@@ -6,7 +6,11 @@ import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.SessionService;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
+import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
+import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
+import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +25,23 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public UserLoginVO login(LoginRequestDTO loginRequestDTO) {
         // 这里用责任链实现不同方式登录
-        UserLoginVO userLoginVO = loginHandlerComposite.handle(loginRequestDTO);
-        StpUtil.login(userLoginVO.getId());
+        UserInfoDTO userInfoDTO = loginHandlerComposite.handle(loginRequestDTO);
+        // 检验密码
+        ThrowUtil.throwIfFalse(
+                userInfoDTO.getPassword().equals(loginRequestDTO.getPassword()), () -> new AuthException(
+                        AuthExceptionCode.PASSWORD_ERROR));
+        // 实现登录
+        StpUtil.login(userInfoDTO.getId());
+        // 获取token信息
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return userLoginVO.setTokenName(tokenInfo.tokenName).setTokenValue(tokenInfo.tokenValue);
+        return new UserLoginVO().setId(userInfoDTO.getId())
+                                .setAccount(userInfoDTO.getAccount())
+                                .setRealName(userInfoDTO.getRealName())
+                                .setPhoneNumber(userInfoDTO.getPhoneNumber())
+                                .setDepartmentName(userInfoDTO.getDepartmentName())
+                                .setRoleName(userInfoDTO.getRoleName())
+                                .setTokenName(tokenInfo.getTokenName())
+                                .setTokenValue(tokenInfo.getTokenValue());
     }
 
     @Override

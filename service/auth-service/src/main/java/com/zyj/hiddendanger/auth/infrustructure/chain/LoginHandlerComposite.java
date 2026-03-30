@@ -3,12 +3,12 @@ package com.zyj.hiddendanger.auth.infrustructure.chain;
 import com.zyj.hiddendanger.core.chain.AbstractPredicatableHandlerComposite;
 import com.zyj.hiddendanger.core.chain.PredicatableHandler;
 import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
-import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 
-public class LoginHandlerComposite extends AbstractPredicatableHandlerComposite<UserLoginVO, LoginRequestDTO> {
+public class LoginHandlerComposite extends AbstractPredicatableHandlerComposite<UserInfoDTO, LoginRequestDTO> {
 
     @SafeVarargs
-    public LoginHandlerComposite(PredicatableHandler<UserLoginVO, LoginRequestDTO>... predicatableHandlers) {
+    public LoginHandlerComposite(PredicatableHandler<UserInfoDTO, LoginRequestDTO>... predicatableHandlers) {
         super(predicatableHandlers);
     }
 }

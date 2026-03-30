@@ -12,11 +12,11 @@ import com.zyj.hiddendanger.core.exception.sys.UnknownExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
+import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
-import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,25 +36,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private Cache<String, String> departmentNameCache;
 
     @Override
-    public UserLoginVO getUserLoginVO(String account, String password) {
-        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                                                 .eq(User::getAccount, account)
-        );
-        // 如果这个用户不存在，则抛出异常
-        ThrowUtil.throwIfNull(user, () -> new AuthException(AuthExceptionCode.ACCOUNT_ERROR));
-        // 判断密码是否正确
-        ThrowUtil.throwIfTrue(
-                !user.getPassword().equals(password), () -> new AuthException(AuthExceptionCode.PASSWORD_ERROR));
-        String deptName = departmentNameCache.get(user.getDepartmentId());
-        if (deptName == null) {
-            Department department = departmentMapper.selectById(user.getDepartmentId());
-            deptName = department.getDepartmentName();
-            departmentNameCache.put(department.getId(), department.getDepartmentName());
-        }
-
-        // 获取角色名称
-        String roleName = roleMapper.selectById(user.getRoleId()).getRoleName().name();
-        return user.toUserLoginVO(deptName, roleName);
+    public UserInfoDTO getUserInfoByAccount(String account) {
+        UserInfoDTO userInfoDTO = userMapper.getUserInfoByAccount(account);
+        ThrowUtil.throwIfNull(userInfoDTO, () -> new AuthException(AuthExceptionCode.ACCOUNT_ERROR));
+        return userInfoDTO;
     }
 
     @Override
