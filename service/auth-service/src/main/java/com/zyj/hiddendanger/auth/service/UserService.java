@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.auth.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zyj.hiddendanger.auth.infrustructure.dto.UserPageQueryDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;

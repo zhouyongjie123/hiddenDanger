@@ -5,17 +5,29 @@
 <mapper namespace="com.zyj.hiddendanger.auth.mapper.RoleMapper">
 
     <resultMap id="BaseResultMap" type="com.zyj.hiddendanger.model.domain.Role">
-            <id property="id" column="id" />
-            <result property="roleName" column="role_name" />
-            <result property="creatorId" column="creator_id" />
-            <result property="updaterId" column="updater_id" />
-            <result property="createTime" column="create_time" />
-            <result property="updateTime" column="update_time" />
-            <result property="deleted" column="deleted" />
+        <id property="id" column="id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+    <resultMap id="RoleSelectionVO" type="com.zyj.hiddendanger.model.service.auth.vo.RoleSelectionVO">
+        <id property="id" column="id"/>
+        <result property="roleName" column="role_name"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,role_name,creator_id,updater_id,create_time,update_time,
+        id
+        ,role_name,creator_id,updater_id,create_time,update_time,
         deleted
     </sql>
+    <select id="getSelectionVO" resultType="com.zyj.hiddendanger.model.service.auth.vo.RoleSelectionVO"
+            resultMap="RoleSelectionVO">
+        select id, role_name
+        from role
+        where is_deleted = 0
+    </select>
+
 </mapper>

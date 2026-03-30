@@ -19,10 +19,23 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <resultMap id="DepartmentSelectionVO" type="com.zyj.hiddendanger.model.service.auth.vo.DepartmentSelectionVO">
+        <id property="id" column="id"/>
+        <result property="departmentName" column="department_name"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id
         ,parent_department_id,department_name,department_path,leader_id,status,
         sort_order,is_deleted,creator_id,updater_id,create_time,
         update_time
     </sql>
+    <select id="getSelectionVO" resultType="com.zyj.hiddendanger.model.service.auth.vo.DepartmentSelectionVO"
+            resultMap="DepartmentSelectionVO">
+        select id, department_name, status
+        from department
+        where is_deleted = 0
+    </select>
+
 </mapper>

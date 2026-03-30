@@ -3,7 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import com.zyj.hiddendanger.model.service.auth.vo.DepartmentVO;
+import com.zyj.hiddendanger.model.service.auth.vo.DepartmentInfoVO;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -58,8 +58,8 @@ public class Department extends Entity {
         private final String name;
     }
 
-    public DepartmentVO toDepartmentVO(String leaderName) {
-        return new DepartmentVO()
+    public DepartmentInfoVO toDepartmentInfoVO(String leaderName) {
+        return new DepartmentInfoVO()
                 .setId(this.getId())
                 .setDepartmentName(this.getDepartmentName())
                 .setDepartmentPath(this.getDepartmentPath())

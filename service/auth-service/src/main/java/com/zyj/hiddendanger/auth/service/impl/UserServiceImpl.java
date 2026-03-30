@@ -4,7 +4,7 @@ import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zyj.hiddendanger.auth.infrustructure.dto.UserPageQueryDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;

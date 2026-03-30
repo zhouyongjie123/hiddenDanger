@@ -1,10 +1,7 @@
 package com.zyj.hiddendanger.model.service.auth.vo;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.zyj.hiddendanger.model.domain.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
@@ -12,7 +9,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class DepartmentVO {
+public class DepartmentInfoVO {
     /**
      * 部门id
      */

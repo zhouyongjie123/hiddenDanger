@@ -12,7 +12,8 @@ import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
-import com.zyj.hiddendanger.model.service.auth.vo.DepartmentVO;
+import com.zyj.hiddendanger.model.service.auth.vo.DepartmentInfoVO;
+import com.zyj.hiddendanger.model.service.auth.vo.DepartmentSelectionVO;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     private Cache<String, String> userNameCache;
 
     @Override
-    public Page<DepartmentVO> page(Long current, Long pageSize) {
+    public Page<DepartmentInfoVO> page(Long current, Long pageSize) {
         Page<Department> page = this.page(Page.of(current, pageSize));
-        List<DepartmentVO> results = page.getRecords().stream().map(record -> {
+        List<DepartmentInfoVO> results = page.getRecords().stream().map(record -> {
             String leaderName = userNameCache.get(record.getLeaderId());
             if (leaderName == null){
                 // 去查id对应的名字
@@ -42,9 +43,14 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
                 leaderName = user.getRealName();
                 userNameCache.put(record.getLeaderId(), leaderName);
             }
-            return record.toDepartmentVO(leaderName);
+            return record.toDepartmentInfoVO(leaderName);
         }).toList();
         return PageUtil.pageConvert(page, results);
+    }
+
+    @Override
+    public List<DepartmentSelectionVO> getSelectionVo() {
+        return departmentMapper.getSelectionVO();
     }
 }
 

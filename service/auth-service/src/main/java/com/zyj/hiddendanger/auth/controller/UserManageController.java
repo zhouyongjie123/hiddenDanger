@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.auth.controller;
 
-import com.zyj.hiddendanger.auth.infrustructure.dto.UserPageQueryDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;

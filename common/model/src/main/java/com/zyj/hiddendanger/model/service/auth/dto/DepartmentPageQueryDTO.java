@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.auth.infrustructure.dto;
+package com.zyj.hiddendanger.model.service.auth.dto;
 
 import com.zyj.hiddendanger.database.BasePageQueryDTO;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,5 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class UserPageQueryDTO extends BasePageQueryDTO {
-    private String departmentId;
-
-    private String roleId;
+public class DepartmentPageQueryDTO extends BasePageQueryDTO {
 }
