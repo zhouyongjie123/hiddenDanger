@@ -2,12 +2,14 @@ package com.zyj.hiddendanger.auth.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
+import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
@@ -18,6 +20,8 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public UserInfoVO register(UserRegisterDTO userRegisterDTO) {
+        // todo 增加管理员的权限校验
         User user = new User().setAccount(userRegisterDTO.getAccount())
                               .setPassword(userRegisterDTO.getPassword())
                               .setRealName(userRegisterDTO.getRealName())
@@ -56,6 +61,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                         AuthExceptionCode.ACCOUNT_DUPLICATE));
         // 返回用户信息
         return userMapper.getUserInfoById(user.getId()).toUserInfoVO();
+    }
+
+    @Override
+    public Page<UserInfoVO> page(String current, String pageSize) {
+        Page<User> page = this.page(Page.of(Long.parseLong(current), Long.parseLong(pageSize)));
+
+        List<UserInfoVO> results = page.getRecords().stream().map(record -> {
+            return record.toUserInfoVO("null", "null");
+        }).toList();
+        return PageUtil.pageConvert(page, results);
     }
 
     @Override

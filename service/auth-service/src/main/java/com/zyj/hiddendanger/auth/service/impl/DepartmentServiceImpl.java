@@ -1,14 +1,14 @@
 package com.zyj.hiddendanger.auth.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zyj.hiddendanger.auth.mapper.UserMapper;
-import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.model.domain.Department;
-import com.zyj.hiddendanger.auth.service.DepartmentService;
 import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
+import com.zyj.hiddendanger.auth.mapper.UserMapper;
+import com.zyj.hiddendanger.auth.service.DepartmentService;
+import com.zyj.hiddendanger.core.util.ThrowUtil;
+import com.zyj.hiddendanger.database.util.PageUtil;
+import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
@@ -44,10 +44,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             }
             return record.toDepartmentVO(leaderName);
         }).toList();
-        Page<DepartmentVO> resultPage = new Page<>();
-        BeanUtil.copyProperties(page, resultPage);
-        resultPage.setRecords(results);
-        return resultPage;
+        return PageUtil.pageConvert(page, results);
     }
 }
 
