@@ -22,6 +22,8 @@ public class UserLoginVO {
 
     private String roleName;
 
+    private String avatarUrl;
+
     private String tokenName;
 
     private String tokenValue;

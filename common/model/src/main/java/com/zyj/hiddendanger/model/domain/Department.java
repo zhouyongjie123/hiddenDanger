@@ -63,6 +63,7 @@ public class Department extends Entity {
                 .setId(this.getId())
                 .setDepartmentName(this.getDepartmentName())
                 .setDepartmentPath(this.getDepartmentPath())
+                .setLeaderId(this.getLeaderId())
                 .setLeaderName(leaderName)
                 .setStatus(this.getStatus().getName())
                 .setSortOrder(this.getSortOrder());

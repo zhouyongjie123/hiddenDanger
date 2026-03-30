@@ -22,6 +22,7 @@ public class UserInfoVO {
 
     private String departmentName;
 
+    private String avatarUrl;
 
     private String roleId;
 

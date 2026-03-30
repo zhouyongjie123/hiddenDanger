@@ -41,6 +41,7 @@ public class SessionServiceImpl implements SessionService {
                                 .setDepartmentName(userInfoDTO.getDepartmentName())
                                 .setRoleName(userInfoDTO.getRoleName())
                                 .setTokenName(tokenInfo.getTokenName())
+                                .setAvatarUrl(userInfoDTO.getAvatarUrl())
                                 .setTokenValue(tokenInfo.getTokenValue());
     }
 

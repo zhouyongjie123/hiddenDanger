@@ -30,11 +30,19 @@ public class UserInfoDTO {
 
     private String roleName;
 
+    private String avatarUrl;
+
     private User.UserStatus status;
 
     public UserInfoVO toUserInfoVO() {
-        return new UserInfoVO(
-                this.id, this.account, this.realName, this.phoneNumber, this.departmentId, this.departmentName,
-                this.roleId, this.roleName);
+        return new UserInfoVO().setId(this.id)
+                               .setAccount(this.account)
+                               .setRealName(this.realName)
+                               .setPhoneNumber(this.phoneNumber)
+                               .setDepartmentId(this.departmentId)
+                               .setDepartmentName(this.departmentName)
+                               .setAvatarUrl(this.avatarUrl)
+                               .setRoleId(this.roleId)
+                               .setRoleName(this.roleName);
     }
 }

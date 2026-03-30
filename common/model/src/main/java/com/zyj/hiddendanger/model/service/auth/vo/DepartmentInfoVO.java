@@ -36,6 +36,11 @@ public class DepartmentInfoVO {
     private String leaderName;
 
     /**
+     * 部门负责人id
+     */
+    private String leaderId;
+
+    /**
      * 部门状态
      */
     private String status;

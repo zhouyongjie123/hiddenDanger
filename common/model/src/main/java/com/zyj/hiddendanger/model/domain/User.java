@@ -36,6 +36,8 @@ public class User extends Entity {
 
     private String roleId;
 
+    private String avatarUrl;
+
     public enum UserStatus {
         NORMAL, DISABLED;
     }
@@ -45,6 +47,7 @@ public class User extends Entity {
                                 .setId(this.id)
                                 .setRealName(this.realName)
                                 .setPhoneNumber(this.phoneNumber)
+                                .setAvatarUrl(this.avatarUrl)
                                 .setDepartmentName(departmentName)
                                 .setRoleName(roleName);
     }
@@ -57,6 +60,7 @@ public class User extends Entity {
                                .setDepartmentId(this.departmentId)
                                .setDepartmentName(departmentName)
                                .setRoleId(this.roleId)
+                               .setAvatarUrl(this.avatarUrl)
                                .setRoleName(roleName);
     }
 }
