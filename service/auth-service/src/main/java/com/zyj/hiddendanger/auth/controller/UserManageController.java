@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.auth.controller;
 
+import com.zyj.hiddendanger.auth.infrustructure.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
@@ -20,10 +21,8 @@ public class UserManageController {
         return ResponseResult.ok(userService.register(userRegisterDTO));
     }
 
-    @GetMapping("/page")
-    public PageResponseResult<UserInfoVO> page(
-            @RequestParam(required = false) String current, @RequestParam(required = false) String pageSize){
-//        userService.
-        return null;
+    @PostMapping("/page")
+    public PageResponseResult<UserInfoVO> page(@RequestBody UserPageQueryDTO userPageQueryDTO) {
+        return PageResponseResult.ok(userService.page(userPageQueryDTO));
     }
 }

@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.auth.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
+import com.zyj.hiddendanger.auth.infrustructure.chain.login.LoginHandlerComposite;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.SessionService;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;

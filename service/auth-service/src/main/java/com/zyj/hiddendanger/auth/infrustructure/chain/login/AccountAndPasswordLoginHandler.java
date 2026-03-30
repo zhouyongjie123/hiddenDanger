@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.auth.infrustructure.chain;
+package com.zyj.hiddendanger.auth.infrustructure.chain.login;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.zyj.hiddendanger.auth.service.UserService;

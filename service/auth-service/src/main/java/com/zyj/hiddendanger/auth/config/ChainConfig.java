@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.auth.config;
 
-import com.zyj.hiddendanger.auth.infrustructure.chain.AccountAndPasswordLoginHandler;
-import com.zyj.hiddendanger.auth.infrustructure.chain.LoginHandlerComposite;
+import com.zyj.hiddendanger.auth.infrustructure.chain.login.AccountAndPasswordLoginHandler;
+import com.zyj.hiddendanger.auth.infrustructure.chain.login.LoginHandlerComposite;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

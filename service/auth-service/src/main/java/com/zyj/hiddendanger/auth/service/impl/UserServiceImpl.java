@@ -4,6 +4,7 @@ import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.hiddendanger.auth.infrustructure.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
@@ -64,8 +65,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Page<UserInfoVO> page(String current, String pageSize) {
-        Page<User> page = this.page(Page.of(Long.parseLong(current), Long.parseLong(pageSize)));
+    public Page<UserInfoVO> page(UserPageQueryDTO userPageQueryDTO) {
+        Page<User> page = userMapper.selectPage(
+                Page.of(userPageQueryDTO.getCurrent(), userPageQueryDTO.getPageSize()),
+                new LambdaQueryWrapper<User>()
+                        .eq(
+                                userPageQueryDTO.getDepartmentId() != null && !userPageQueryDTO
+                                        .getDepartmentId()
+                                        .isBlank(),
+                                User::getDepartmentId, userPageQueryDTO.getDepartmentId())
+                        .eq(
+                                userPageQueryDTO.getRoleId() != null && !userPageQueryDTO.getRoleId().isBlank(),
+                                User::getRoleId,
+                                userPageQueryDTO.getRoleId())
+        );
 
         List<UserInfoVO> results = page.getRecords().stream().map(record -> {
             return record.toUserInfoVO("null", "null");

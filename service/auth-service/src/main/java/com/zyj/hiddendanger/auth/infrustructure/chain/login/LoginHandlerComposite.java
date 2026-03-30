@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.auth.infrustructure.chain;
+package com.zyj.hiddendanger.auth.infrustructure.chain.login;
 
 import com.zyj.hiddendanger.core.chain.AbstractPredicatableHandlerComposite;
 import com.zyj.hiddendanger.core.chain.PredicatableHandler;
