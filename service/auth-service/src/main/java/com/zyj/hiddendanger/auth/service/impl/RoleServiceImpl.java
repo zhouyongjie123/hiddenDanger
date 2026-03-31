@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.auth.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.service.RoleService;
@@ -9,7 +10,6 @@ import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.RoleSelectionVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,11 +27,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
 
     @Override
     public RoleSelectionVO addRole(String roleName) {
+        ThrowUtil.throwIfTrue(this.isRoleExist(roleName), () -> new AuthException(AuthExceptionCode.ROLE_DUPLICATE));
         Role role = new Role().setRoleName(roleName);
-        ThrowUtil.supplyWithExceptionTranslation(
-                () -> roleMapper.insert(role), DuplicateKeyException.class,
-                (duplicateKeyException) -> new AuthException(
-                        AuthExceptionCode.ROLE_DUPLICATE));
+        roleMapper.insert(role);
         return new RoleSelectionVO().setId(role.getId())
                                     .setRoleName(role.getRoleName());
     }
@@ -39,6 +37,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     @Override
     public void deleteById(String id) {
         ThrowUtil.throwIf(roleMapper.deleteById(id) != 1, () -> new AuthException(AuthExceptionCode.ID_NOT_EXIST));
+    }
+
+    @Override
+    public Boolean isRoleExist(String roleName) {
+        return this.exists(new LambdaQueryWrapper<Role>().eq(Role::getRoleName, roleName));
     }
 }
 

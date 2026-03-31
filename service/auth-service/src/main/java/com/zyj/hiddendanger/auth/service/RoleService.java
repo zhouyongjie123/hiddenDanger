@@ -13,4 +13,6 @@ public interface RoleService extends IService<Role> {
     RoleSelectionVO addRole(String roleName);
 
     void deleteById(String id);
+
+    Boolean isRoleExist(String roleName);
 }
