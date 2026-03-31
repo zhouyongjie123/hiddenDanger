@@ -59,6 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                               .setPhoneNumber(userRegisterDTO.getPhoneNumber())
                               .setDepartmentId(userRegisterDTO.getDepartmentId())
                               .setStatus(User.UserStatus.NORMAL)
+                              .setAvatarUrl(userRegisterDTO.getAvatarUrl())
                               .setRoleId(userRegisterDTO.getRoleId());
         // 执行插入操作,如果account存在则抛出异常
         ThrowUtil.supplyWithExceptionTranslation(
@@ -93,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
             String roleName = roleNameCache.get(record.getRoleId());
             if (!StringUtils.hasText(roleName)) {
-                roleName = roleMapper.selectById(record.getRoleId()).getRoleName().name();
+                roleName = roleMapper.selectById(record.getRoleId()).getRoleName();
                 roleNameCache.put(record.getRoleId(), roleName);
             }
             return record.toUserInfoVO(departmentName, roleName);

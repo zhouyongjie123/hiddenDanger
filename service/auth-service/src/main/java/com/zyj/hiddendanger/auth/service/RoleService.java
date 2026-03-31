@@ -9,4 +9,8 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
 
     List<RoleSelectionVO> getSelectionVO();
+
+    RoleSelectionVO addRole(String roleName);
+
+    void deleteById(String id);
 }

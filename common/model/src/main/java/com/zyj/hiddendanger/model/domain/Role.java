@@ -1,9 +1,11 @@
 package com.zyj.hiddendanger.model.domain;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
@@ -13,11 +15,5 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @TableName("role")
 public class Role extends Entity {
-    @EnumValue
-    private RoleEnum roleName;
-
-    public enum RoleEnum {
-        ADMIN,
-        USER
-    }
+    private String roleName;
 }

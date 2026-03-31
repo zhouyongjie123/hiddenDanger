@@ -28,6 +28,8 @@ public class UserRegisterDTO {
     @NotBlank(message = "角色id不能为空")
     private String roleId;
 
+    private String avatarUrl;
+
     private static String DEFAULT_PASSWORD = "123456";
 
     public String getPassword() {

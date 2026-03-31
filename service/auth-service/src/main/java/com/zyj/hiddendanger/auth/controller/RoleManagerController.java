@@ -4,9 +4,7 @@ import com.zyj.hiddendanger.auth.service.RoleService;
 import com.zyj.hiddendanger.model.service.auth.vo.RoleSelectionVO;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +17,17 @@ public class RoleManagerController {
     @GetMapping("/select")
     public ResponseResult<List<RoleSelectionVO>> select() {
         return ResponseResult.ok(roleService.getSelectionVO());
+    }
+
+    @PostMapping("/add/{roleName}")
+    public ResponseResult<RoleSelectionVO> add(@PathVariable String roleName) {
+        RoleSelectionVO roleSelectionVO = roleService.addRole(roleName);
+        return ResponseResult.ok(roleSelectionVO);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseResult<?> delete(@PathVariable String id) {
+        roleService.deleteById(id);
+        return ResponseResult.ok("删除成功");
     }
 }

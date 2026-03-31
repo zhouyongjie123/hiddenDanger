@@ -25,4 +25,10 @@ public class UserManageController {
     public PageResponseResult<UserInfoVO> page(@RequestBody UserPageQueryDTO userPageQueryDTO) {
         return PageResponseResult.ok(userService.page(userPageQueryDTO));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseResult<?> delete(@RequestParam("id") Long id) {
+        userService.removeById(id);
+        return ResponseResult.ok("删除成功");
+    }
 }
