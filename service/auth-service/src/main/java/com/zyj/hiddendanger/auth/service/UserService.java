@@ -7,6 +7,9 @@ import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
+
+import java.util.List;
 
 public interface UserService extends IService<User> {
     UserInfoDTO getUserInfoByAccount(String account);
@@ -16,4 +19,6 @@ public interface UserService extends IService<User> {
     Page<UserInfoVO> page(UserPageQueryDTO userPageQueryDTO);
 
     Boolean isAccountExist(String account);
+
+    List<UserSelectionVO> getUserInfosByDepartmentId(String departmentId);
 }

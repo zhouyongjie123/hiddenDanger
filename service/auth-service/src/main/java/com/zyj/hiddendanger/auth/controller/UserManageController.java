@@ -4,11 +4,14 @@ import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +27,12 @@ public class UserManageController {
     @PostMapping("/page")
     public PageResponseResult<UserInfoVO> page(@RequestBody UserPageQueryDTO userPageQueryDTO) {
         return PageResponseResult.ok(userService.page(userPageQueryDTO));
+    }
+
+    @GetMapping("/select")
+    public ResponseResult<List<UserSelectionVO>> getUserInfoByDepartment(
+            @RequestParam("departmentId") String departmentId) {
+        return ResponseResult.ok(userService.getUserInfosByDepartmentId(departmentId));
     }
 
     @DeleteMapping("/delete")

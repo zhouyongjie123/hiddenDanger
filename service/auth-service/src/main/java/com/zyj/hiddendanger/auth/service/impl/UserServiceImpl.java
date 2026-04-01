@@ -17,6 +17,7 @@ import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
@@ -107,5 +108,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return userMapper.selectOne(new LambdaQueryWrapper<User>()
                                             .eq(User::getAccount, account)
         ) != null;
+    }
+
+    @Override
+    public List<UserSelectionVO> getUserInfosByDepartmentId(String departmentId) {
+        return userMapper.selectList(new LambdaQueryWrapper<User>()
+                                             .eq(User::getDepartmentId, departmentId)).stream().map(
+                User::toUserSelectionVO).toList();
     }
 }

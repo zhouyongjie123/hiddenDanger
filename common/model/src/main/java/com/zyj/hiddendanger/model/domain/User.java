@@ -7,6 +7,7 @@ import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,15 +43,11 @@ public class User extends Entity {
         NORMAL, DISABLED;
     }
 
-    public UserLoginVO toUserLoginVO(String departmentName, String roleName) {
-        return new UserLoginVO().setAccount(this.account)
-                                .setId(this.id)
-                                .setRealName(this.realName)
-                                .setPhoneNumber(this.phoneNumber)
-                                .setAvatarUrl(this.avatarUrl)
-                                .setDepartmentName(departmentName)
-                                .setRoleName(roleName);
+    public UserSelectionVO toUserSelectionVO() {
+        return new UserSelectionVO().setId(this.id)
+                                    .setRealName(this.realName);
     }
+
 
     public UserInfoVO toUserInfoVO(String departmentName, String roleName) {
         return new UserInfoVO().setId(this.id)

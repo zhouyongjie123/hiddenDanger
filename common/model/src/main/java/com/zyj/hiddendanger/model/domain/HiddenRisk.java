@@ -54,6 +54,15 @@ public class HiddenRisk extends Entity {
         private final String code;
 
         private final String name;
+
+        public static RiskLevel getByCode(String code) {
+            for (RiskLevel value : values()) {
+                if (value.code.equals(code)) {
+                    return value;
+                }
+            }
+            throw new RuntimeException("没有对应的枚举值");
+        }
     }
 
 
@@ -73,9 +82,9 @@ public class HiddenRisk extends Entity {
 
         private final String name;
 
-        public static RiskStatus getByName(String name) {
+        public static RiskStatus getByCode(String code) {
             for (RiskStatus value : values()) {
-                if (value.name.equals(name)) {
+                if (value.code.equals(code)) {
                     return value;
                 }
             }
@@ -97,6 +106,15 @@ public class HiddenRisk extends Entity {
         private final String code;
 
         private final String name;
+
+        public static RiskType getByCode(String code) {
+            for (RiskType value : values()) {
+                if (value.code.equals(code)) {
+                    return value;
+                }
+            }
+            throw new RuntimeException("没有对应的枚举值");
+        }
     }
 
     @Getter
@@ -113,6 +131,15 @@ public class HiddenRisk extends Entity {
         private final String code;
 
         private final String name;
+
+        public static RiskSource getByCode(String code) {
+            for (RiskSource value : values()) {
+                if (value.code.equals(code)) {
+                    return value;
+                }
+            }
+            throw new RuntimeException("没有对应的枚举值");
+        }
     }
 
 

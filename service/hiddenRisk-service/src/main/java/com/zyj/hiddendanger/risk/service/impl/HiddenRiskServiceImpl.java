@@ -4,10 +4,15 @@ import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.hiddendanger.core.exception.sys.SystemException;
+import com.zyj.hiddendanger.core.exception.sys.UnknownExceptionCode;
+import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
+import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
+import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskReportDTO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
 import com.zyj.hiddendanger.risk.service.HiddenRiskService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
@@ -86,6 +91,42 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
             return record.toHiddenRiskVO(departmentName, realName);
         }).toList();
         return PageUtil.pageConvert(hiddenRiskPage, list);
+    }
+
+    @Override
+    public HiddenRiskVO report(HiddenRiskReportDTO hiddenRiskReportDTO) {
+        HiddenRisk hiddenRisk = new HiddenRisk().setName(hiddenRiskReportDTO.getName())
+                                                .setDescription(hiddenRiskReportDTO.getDescription())
+                                                .setLocation(hiddenRiskReportDTO.getLocation())
+                                                .setRiskLevel(HiddenRisk.RiskLevel.getByCode(
+                                                        hiddenRiskReportDTO.getRiskLevelCode()))
+                                                .setRiskType(HiddenRisk.RiskType.getByCode(
+                                                        hiddenRiskReportDTO.getRiskTypeCode()))
+                                                .setResponsibleDepartmentId(
+                                                        hiddenRiskReportDTO.getResponsibleDepartmentId())
+                                                .setResponsiblePersonId(hiddenRiskReportDTO.getResponsiblePersonId())
+                                                .setDiscoveryTime(hiddenRiskReportDTO.getDiscoveryTime())
+                                                .setRectificationDeadline(
+                                                        hiddenRiskReportDTO.getRectificationDeadline())
+                                                .setStatus(HiddenRisk.RiskStatus.getByCode(
+                                                        hiddenRiskReportDTO.getStatusCode()))
+                                                .setSource(HiddenRisk.RiskSource.getByCode(
+                                                        hiddenRiskReportDTO.getSourceCode()));
+        ThrowUtil.throwIf(
+                hiddenRiskMapper.insert(hiddenRisk) != 1,
+                () -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+        String responsiblePersonName = userNameCache.get(hiddenRisk.getResponsiblePersonId());
+        if (!StringUtils.hasText(responsiblePersonName)) {
+            responsiblePersonName = userFacadeService.getRealNameById(hiddenRisk.getResponsiblePersonId());
+            userNameCache.put(hiddenRisk.getResponsiblePersonId(), responsiblePersonName);
+        }
+        String responsibleDepartmentName = departmentNameCache.get(hiddenRisk.getResponsibleDepartmentId());
+        if (!StringUtils.hasText(responsibleDepartmentName)) {
+            responsibleDepartmentName = departmentFacadeService.getDepartmentNameById(
+                    hiddenRisk.getResponsibleDepartmentId());
+            departmentNameCache.put(hiddenRisk.getResponsibleDepartmentId(), responsibleDepartmentName);
+        }
+        return hiddenRisk.toHiddenRiskVO(responsiblePersonName, responsibleDepartmentName);
     }
 }
 
