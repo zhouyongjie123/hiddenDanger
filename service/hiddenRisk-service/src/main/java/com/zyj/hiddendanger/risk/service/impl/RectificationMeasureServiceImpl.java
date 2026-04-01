@@ -1,9 +1,9 @@
-package com.zyj.hiddendanger.auth.service.impl;
+package com.zyj.hiddendanger.risk.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.model.domain.RectificationMeasure;
-import com.zyj.hiddendanger.auth.service.RectificationMeasureService;
-import com.zyj.hiddendanger.auth.mapper.RectificationMeasureMapper;
+import com.zyj.hiddendanger.risk.service.RectificationMeasureService;
+import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.auth.mapper;
+package com.zyj.hiddendanger.risk.mapper;
 
 import com.zyj.hiddendanger.model.domain.AcceptanceRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

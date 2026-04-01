@@ -73,6 +73,14 @@ public class HiddenRisk extends Entity {
 
         private final String name;
 
+        public static RiskStatus getByName(String name) {
+            for (RiskStatus value : values()) {
+                if (value.name.equals(name)) {
+                    return value;
+                }
+            }
+            throw new RuntimeException("没有对应的枚举值");
+        }
     }
 
     @Getter
@@ -90,7 +98,6 @@ public class HiddenRisk extends Entity {
 
         private final String name;
     }
-
 
     @Getter
     @AllArgsConstructor

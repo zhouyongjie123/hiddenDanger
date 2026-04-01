@@ -1,15 +1,15 @@
-package com.zyj.hiddendanger.auth.service.impl;
+package com.zyj.hiddendanger.risk.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zyj.hiddendanger.auth.mapper.HiddenRiskMapper;
-import com.zyj.hiddendanger.auth.service.HiddenRiskService;
 import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
+import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
+import com.zyj.hiddendanger.risk.service.HiddenRiskService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
 import com.zyj.hiddendanger.rpc.api.auth.service.DepartmentFacadeService;
 import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,38 +39,33 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
     @Resource
     private Cache<String, String> userNameCache;
 
-    private LambdaQueryWrapper<HiddenRisk> getPageQueryWrapper(HiddenRiskPageQueryDTO dto) {
-        String departmentId = dto.getDepartmentId();
-        String riskLevel = dto.getRiskLevel();
-        String riskType = dto.getRiskType();
-        String status = dto.getStatus();
-        String source = dto.getSource();
-        String name = dto.getName();
-        Date beginDiscoveryTime = dto.getBeginDiscoveryTime();
-        Date endDiscoveryTime = dto.getEndDiscoveryTime();
-        Date beginRectificationDeadline = dto.getBeginRectificationDeadline();
-        Date endRectificationDeadline = dto.getEndRectificationDeadline();
+
+    private LambdaQueryWrapper<HiddenRisk> getHiddenRiskQueryWrapper(HiddenRiskPageQueryDTO dto) {
         return new LambdaQueryWrapper<HiddenRisk>()
-                .eq(StringUtils.hasLength(departmentId), HiddenRisk::getResponsibleDepartmentId, departmentId)
-                .eq( StringUtils.hasLength(riskLevel), HiddenRisk::getRiskLevel, riskLevel)
-                .eq(StringUtils.hasLength(riskType), HiddenRisk::getRiskType, riskType)
-                .eq(StringUtils.hasLength(status), HiddenRisk::getStatus, status)
-                .eq(StringUtils.hasLength(source), HiddenRisk::getSource, source)
-                .like(StringUtils.hasLength(name), HiddenRisk::getName, name)
-                .ge(beginDiscoveryTime != null, HiddenRisk::getDiscoveryTime, beginDiscoveryTime)
-                .le(endDiscoveryTime != null, HiddenRisk::getDiscoveryTime, endDiscoveryTime)
+                .eq(
+                        StringUtils.hasText(dto.getDepartmentId()), HiddenRisk::getResponsibleDepartmentId,
+                        dto.getDepartmentId())
+                .eq(StringUtils.hasText(dto.getRiskType()), HiddenRisk::getRiskType, dto.getRiskType())
+                .eq(StringUtils.hasText(dto.getRiskLevel()), HiddenRisk::getRiskLevel, dto.getRiskLevel())
+                .eq(StringUtils.hasText(dto.getStatus()), HiddenRisk::getStatus, dto.getStatus())
+                .eq(StringUtils.hasText(dto.getSource()), HiddenRisk::getSource, dto.getSource())
+                .like(StringUtils.hasText(dto.getName()), HiddenRisk::getName, dto.getName())
                 .ge(
-                        beginRectificationDeadline != null, HiddenRisk::getRectificationDeadline,
-                        beginRectificationDeadline)
+                        dto.getBeginDiscoveryTime() != null, HiddenRisk::getDiscoveryTime,
+                        dto.getBeginDiscoveryTime())
+                .le(dto.getEndDiscoveryTime() != null, HiddenRisk::getDiscoveryTime, dto.getEndDiscoveryTime())
+                .ge(
+                        dto.getBeginRectificationDeadline() != null, HiddenRisk::getRectificationDeadline,
+                        dto.getBeginRectificationDeadline())
                 .le(
-                        endRectificationDeadline != null, HiddenRisk::getRectificationDeadline,
-                        endRectificationDeadline);
+                        dto.getEndRectificationDeadline() != null, HiddenRisk::getRectificationDeadline,
+                        dto.getEndRectificationDeadline());
     }
 
     @Override
     public Page<HiddenRiskVO> page(HiddenRiskPageQueryDTO dto) {
         Page<HiddenRisk> hiddenRiskPage = hiddenRiskMapper.selectPage(
-                Page.of(dto.getCurrent(), dto.getPageSize()), getPageQueryWrapper(dto));
+                Page.of(dto.getCurrent(), dto.getPageSize()), getHiddenRiskQueryWrapper(dto));
         // 优化:本地和远程缓存部门名,用户名
         List<HiddenRiskVO> list = hiddenRiskPage.getRecords().stream().map(record -> {
             // 查询部门名字

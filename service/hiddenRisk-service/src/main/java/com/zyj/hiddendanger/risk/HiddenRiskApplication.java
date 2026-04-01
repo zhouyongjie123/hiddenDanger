@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.auth;
+package com.zyj.hiddendanger.risk;
 
 import jakarta.annotation.Resource;
 import org.springframework.boot.SpringApplication;

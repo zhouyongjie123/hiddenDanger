@@ -1,6 +1,6 @@
-package com.zyj.hiddendanger.auth.controller;
+package com.zyj.hiddendanger.risk.controller;
 
-import com.zyj.hiddendanger.auth.service.HiddenRiskService;
+import com.zyj.hiddendanger.risk.service.HiddenRiskService;
 import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;

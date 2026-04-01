@@ -5,29 +5,22 @@
 <mapper namespace="com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper">
 
     <resultMap id="BaseResultMap" type="com.zyj.hiddendanger.model.domain.HiddenRisk">
-            <id property="id" column="id" />
-            <result property="name" column="name" />
-            <result property="description" column="description" />
-            <result property="location" column="location" />
-            <result property="riskLevel" column="risk_level" />
-            <result property="riskType" column="risk_type" />
-            <result property="responsibleDepartmentId" column="responsible_department_id" />
-            <result property="responsiblePersonId" column="responsible_person_id" />
-            <result property="discoveryTime" column="discovery_time" />
-            <result property="rectificationDeadline" column="rectification_deadline" />
-            <result property="status" column="status" />
-            <result property="source" column="source" />
-            <result property="deleted" column="is_deleted" />
-            <result property="creatorId" column="creator_id" />
-            <result property="updaterId" column="updater_id" />
-            <result property="createTime" column="create_time" />
-            <result property="updateTime" column="update_time" />
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="location" column="location"/>
+        <result property="riskLevel" column="risk_level"/>
+        <result property="riskType" column="risk_type"/>
+        <result property="responsibleDepartmentId" column="responsible_department_id"/>
+        <result property="responsiblePersonId" column="responsible_person_id"/>
+        <result property="discoveryTime" column="discovery_time"/>
+        <result property="rectificationDeadline" column="rectification_deadline"/>
+        <result property="status" column="status"/>
+        <result property="source" column="source"/>
+        <result property="deleted" column="is_deleted"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
-
-    <sql id="Base_Column_List">
-        id,name,description,location,risk_level,risk_type,
-        responsible_department_id,responsible_person_id,discovery_time,rectification_deadline,status,
-        source,is_deleted,creator_id,updater_id,create_time,
-        update_time
-    </sql>
 </mapper>

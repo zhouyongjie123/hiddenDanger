@@ -1,9 +1,9 @@
-package com.zyj.hiddendanger.auth.service.impl;
+package com.zyj.hiddendanger.risk.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.model.domain.HiddenRiskStream;
-import com.zyj.hiddendanger.auth.service.HiddenRiskStreamService;
-import com.zyj.hiddendanger.auth.mapper.HiddenRiskStreamMapper;
+import com.zyj.hiddendanger.risk.service.HiddenRiskStreamService;
+import com.zyj.hiddendanger.risk.mapper.HiddenRiskStreamMapper;
 import org.springframework.stereotype.Service;
 
 @Service
