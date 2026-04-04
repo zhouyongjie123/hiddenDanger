@@ -37,5 +37,10 @@
         from department
         where is_deleted = 0
     </select>
+    <select id="getAllLeaderId" resultType="java.lang.String">
+        select leader_id
+        from department
+        where is_deleted = 0
+    </select>
 
 </mapper>

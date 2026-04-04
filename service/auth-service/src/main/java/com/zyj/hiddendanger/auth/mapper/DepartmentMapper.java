@@ -11,6 +11,7 @@ import java.util.List;
 public interface DepartmentMapper extends BaseMapper<Department> {
     List<DepartmentSelectionVO> getSelectionVO();
 
+    List<String> getAllLeaderId();
 }
 
 
