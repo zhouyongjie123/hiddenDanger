@@ -49,4 +49,30 @@ public class DepartmentInfoVO {
      * 同级排序序号
      */
     private Integer sortOrder;
+
+    /**
+     * 部门人数
+     */
+    private Long userCount;
+
+    /**
+     * 部门负责人手机号
+     */
+    private String leaderPhoneNumber;
+
+    /**
+     * 累计隐患数
+     */
+    private Long totalHiddenRiskCount;
+
+
+    /**
+     * 已闭环的隐患数
+     */
+    private Long closedHiddenRiskCount;
+
+    /**
+     * 待整改的隐患数
+     */
+    private Long waitRectifyHiddenRiskCount;
 }

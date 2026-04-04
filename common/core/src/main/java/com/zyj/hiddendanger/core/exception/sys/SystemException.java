@@ -6,10 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class SystemException extends RuntimeException {
     private ExceptionCode exceptionCode;
+
+    public SystemException(ExceptionCode exceptionCode) {
+        super(exceptionCode.getMessage());
+        this.exceptionCode = exceptionCode;
+    }
 
     protected SystemException(String code, String message) {
         this.exceptionCode = new ExceptionCode() {

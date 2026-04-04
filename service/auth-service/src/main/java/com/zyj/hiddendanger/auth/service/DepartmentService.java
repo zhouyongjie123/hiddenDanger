@@ -12,8 +12,6 @@ import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import java.util.List;
 
 public interface DepartmentService extends IService<Department> {
-    Page<DepartmentInfoVO> page(Long current, Long pageSize);
-
     List<DepartmentSelectionVO> getSelectionVo();
 
     Page<DepartmentInfoVO> page(DepartmentPageQueryDTO dto);

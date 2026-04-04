@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.core.exception.sys;
+package com.zyj.hiddendanger.core.exception.sys.code;
 
 import com.zyj.hiddendanger.core.exception.ExceptionCode;
 import lombok.AllArgsConstructor;

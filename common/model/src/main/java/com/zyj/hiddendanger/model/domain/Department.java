@@ -58,7 +58,9 @@ public class Department extends Entity {
         private final String name;
     }
 
-    public DepartmentInfoVO toDepartmentInfoVO(String leaderName) {
+    public DepartmentInfoVO toDepartmentInfoVO(
+            String leaderName, String leaderPhoneNumber, Long userCount, Long totalHiddenRiskCount,
+            Long closedHiddenRiskCount, Long waitRectifyHiddenRiskCount) {
         return new DepartmentInfoVO()
                 .setId(this.getId())
                 .setDepartmentName(this.getDepartmentName())
@@ -66,6 +68,11 @@ public class Department extends Entity {
                 .setLeaderId(this.getLeaderId())
                 .setLeaderName(leaderName)
                 .setStatus(this.getStatus().getName())
-                .setSortOrder(this.getSortOrder());
+                .setSortOrder(this.getSortOrder())
+                .setLeaderPhoneNumber(leaderPhoneNumber)
+                .setUserCount(userCount)
+                .setTotalHiddenRiskCount(totalHiddenRiskCount)
+                .setClosedHiddenRiskCount(closedHiddenRiskCount)
+                .setWaitRectifyHiddenRiskCount(waitRectifyHiddenRiskCount);
     }
 }

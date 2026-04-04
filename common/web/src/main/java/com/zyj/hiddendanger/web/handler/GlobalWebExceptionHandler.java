@@ -2,6 +2,7 @@ package com.zyj.hiddendanger.web.handler;
 
 import cn.dev33.satoken.exception.NotLoginException;
 import com.zyj.hiddendanger.core.exception.biz.BizException;
+import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -21,6 +22,14 @@ public class GlobalWebExceptionHandler {
                 .setCode(bizException.getExceptionCode()
                                      .getCode())
                 .setMessage(bizException.getMessage());
+    }
+
+    @ExceptionHandler(SystemException.class)
+    public ResponseResult<Object> exceptionHandler(SystemException systemException) {
+        return new ResponseResult<>()
+                .setCode(systemException.getExceptionCode()
+                                        .getCode())
+                .setMessage(systemException.getMessage());
     }
 
     @ExceptionHandler(NotLoginException.class)
