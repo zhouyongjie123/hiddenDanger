@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyj.hiddendanger.model.domain.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zyj.hiddendanger.model.service.auth.dto.DepartmentAddDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.DepartmentPageQueryDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.DepartmentInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.DepartmentSelectionVO;
@@ -17,4 +18,6 @@ public interface DepartmentService extends IService<Department> {
     Page<DepartmentInfoVO> page(DepartmentPageQueryDTO dto);
 
     List<UserSelectionVO> getLeaderSelectionVO();
+
+    DepartmentInfoVO addDepartment(DepartmentAddDTO dto);
 }

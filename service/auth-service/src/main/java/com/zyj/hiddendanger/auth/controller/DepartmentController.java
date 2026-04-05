@@ -1,6 +1,7 @@
 package com.zyj.hiddendanger.auth.controller;
 
 import com.zyj.hiddendanger.auth.service.DepartmentService;
+import com.zyj.hiddendanger.model.service.auth.dto.DepartmentAddDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.DepartmentPageQueryDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.DepartmentInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.DepartmentSelectionVO;
@@ -32,5 +33,10 @@ public class DepartmentController {
     @GetMapping("/select/leader")
     public ResponseResult<List<UserSelectionVO>> selectLeader() {
         return ResponseResult.ok(departmentService.getLeaderSelectionVO());
+    }
+
+    @PostMapping("/add")
+    public ResponseResult<DepartmentInfoVO> addDepartment(@RequestBody DepartmentAddDTO dto) {
+        return ResponseResult.ok(departmentService.addDepartment(dto));
     }
 }

@@ -46,11 +46,6 @@ public class DepartmentInfoVO {
     private String status;
 
     /**
-     * 同级排序序号
-     */
-    private Integer sortOrder;
-
-    /**
      * 部门人数
      */
     private Long userCount;

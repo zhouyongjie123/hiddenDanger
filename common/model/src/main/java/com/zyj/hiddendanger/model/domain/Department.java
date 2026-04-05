@@ -40,12 +40,6 @@ public class Department extends Entity {
     @EnumValue
     private Status status;
 
-
-    /**
-     * 同级排序序号
-     */
-    private Integer sortOrder;
-
     @Getter
     @AllArgsConstructor
     public enum Status {
@@ -68,7 +62,6 @@ public class Department extends Entity {
                 .setLeaderId(this.getLeaderId())
                 .setLeaderName(leaderName)
                 .setStatus(this.getStatus().getName())
-                .setSortOrder(this.getSortOrder())
                 .setLeaderPhoneNumber(leaderPhoneNumber)
                 .setUserCount(userCount)
                 .setTotalHiddenRiskCount(totalHiddenRiskCount)
