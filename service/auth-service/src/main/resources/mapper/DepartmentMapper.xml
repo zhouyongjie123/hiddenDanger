@@ -42,5 +42,10 @@
         from department
         where is_deleted = 0
     </select>
-
+    <select id="getUserCountByDepartmentId" resultType="java.lang.Long">
+        select count(1)
+        from user
+        where department_id = #{departmentId}
+          and is_deleted = 0
+    </select>
 </mapper>

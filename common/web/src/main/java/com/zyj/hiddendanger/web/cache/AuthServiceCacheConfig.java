@@ -4,6 +4,7 @@ import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.CacheManager;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.template.QuickConfig;
+import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ public class AuthServiceCacheConfig {
     }
 
     @Bean
-    public Cache<String,String> userNameCache(){
+    public Cache<String, String> userNameCache() {
         QuickConfig qc = QuickConfig.newBuilder("user" + DEFAULT_SEPARATOR + "name" + DEFAULT_SEPARATOR)
                                     .expire(Duration.ofSeconds(100))
                                     .cacheType(CacheType.BOTH)
@@ -38,8 +39,18 @@ public class AuthServiceCacheConfig {
     }
 
     @Bean
-    public Cache<String,String> roleNameCache(){
+    public Cache<String, String> roleNameCache() {
         QuickConfig qc = QuickConfig.newBuilder("role" + DEFAULT_SEPARATOR + "name" + DEFAULT_SEPARATOR)
+                                    .expire(Duration.ofSeconds(100))
+                                    .cacheType(CacheType.BOTH)
+                                    .syncLocal(true)
+                                    .build();
+        return cacheManager.getOrCreateCache(qc);
+    }
+
+    @Bean
+    public Cache<String, UserInfoDTO> userInfoDtoCache() {
+        QuickConfig qc = QuickConfig.newBuilder("user" + DEFAULT_SEPARATOR + "info" + DEFAULT_SEPARATOR)
                                     .expire(Duration.ofSeconds(100))
                                     .cacheType(CacheType.BOTH)
                                     .syncLocal(true)

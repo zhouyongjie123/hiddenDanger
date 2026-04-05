@@ -24,3 +24,5 @@ server:
   port: 8082
   servlet:
     context-path: /auth
+rpc:
+  mock: true
