@@ -57,6 +57,7 @@ public class Department extends Entity {
             Long closedHiddenRiskCount, Long waitRectifyHiddenRiskCount) {
         return new DepartmentInfoVO()
                 .setId(this.getId())
+                .setParentDepartmentId(this.getParentDepartmentId())
                 .setDepartmentName(this.getDepartmentName())
                 .setDepartmentPath(this.getDepartmentPath())
                 .setLeaderId(this.getLeaderId())

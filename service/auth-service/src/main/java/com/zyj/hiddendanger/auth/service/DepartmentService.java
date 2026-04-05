@@ -20,4 +20,8 @@ public interface DepartmentService extends IService<Department> {
     List<UserSelectionVO> getLeaderSelectionVO();
 
     DepartmentInfoVO addDepartment(DepartmentAddDTO dto);
+
+    List<DepartmentInfoVO> getDepartmentInfoVO(List<Department> departments);
+
+    DepartmentInfoVO getDepartmentInfoVO(Department department);
 }

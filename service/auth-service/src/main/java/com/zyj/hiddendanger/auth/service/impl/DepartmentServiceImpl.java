@@ -31,10 +31,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +72,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return PageUtil.pageConvert(pageResult, result);
     }
 
-    private List<DepartmentInfoVO> getDepartmentInfoVO(List<Department> departments) {
+    @Override
+    public List<DepartmentInfoVO> getDepartmentInfoVO(List<Department> departments) {
         Map<String, HiddenRiskDepartmentStatisticResponse> hiddenRiskDepartmentStatistic = hiddenRiskStatisticFacadeService.getHiddenRiskDepartmentStatistic(
                 departments.stream().map(Department::getId).toList());
         Map<String, Long> userCountByBatchDepartmentId = getDepartmentUserCountByBatchDepartmentId(
@@ -90,14 +88,15 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             }
             return department.toDepartmentInfoVO(
                     userInfoDTO.getRealName(), userInfoDTO.getPhoneNumber(),
-                    userCountByBatchDepartmentId.get(department.getId()),
+                    Optional.ofNullable(userCountByBatchDepartmentId.get(department.getId())).orElse(0L),
                     response.getTotalHiddenRiskCount(),
                     response.getClosedHiddenRiskCount(),
                     response.getWaitRectifyHiddenRiskCount());
         }).toList();
     }
 
-    private DepartmentInfoVO getDepartmentInfoVO(Department department) {
+    @Override
+    public DepartmentInfoVO getDepartmentInfoVO(Department department) {
         return getDepartmentInfoVO(List.of(department)).get(0);
     }
 
@@ -138,6 +137,21 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return getDepartmentInfoVO(department);
     }
 
+
+    private Map<String, Long> getDepartmentUserCountByBatchDepartmentId(List<String> departmentIds) {
+        List<Map<String, Object>> maps = userMapper.selectMaps(Wrappers
+                                                                       .query(User.class)
+                                                                       .in("department_id", departmentIds)
+                                                                       .groupBy("department_id")
+                                                                       .select(
+                                                                               "department_id",
+                                                                               "count(1) as user_count"));
+        return maps.stream().collect(Collectors.toMap(
+                map -> map.get("department_id").toString(),
+                map -> Long.parseLong(map.get("user_count").toString())
+        ));
+    }
+
     public static String getNextDepartmentPath(String path) {
         if (path == null || path.isBlank()) {
             return "/1";
@@ -158,21 +172,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
         // 拼接回去
         return path + "/" + next;
-    }
-
-    private Map<String, Long> getDepartmentUserCountByBatchDepartmentId(List<String> departmentIds) {
-        // todo 完成null的处理
-        List<Map<String, Object>> maps = userMapper.selectMaps(Wrappers
-                                                                       .query(User.class)
-                                                                       .in("department_id", departmentIds)
-                                                                       .groupBy("department_id")
-                                                                       .select(
-                                                                               "department_id",
-                                                                               "count(1) as user_count"));
-        return maps.stream().collect(Collectors.toMap(
-                map -> map.get("department_id").toString(),
-                map -> Long.parseLong(map.get("user_count").toString())
-        ));
     }
 }
 

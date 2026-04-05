@@ -16,9 +16,9 @@ public class DepartmentInfoVO {
     private String id;
 
     /**
-     * 父部门名字，顶级部门为无
+     * 父部门id
      */
-    private String parentDepartmentName;
+    private String parentDepartmentId;
 
     /**
      * 部门名
