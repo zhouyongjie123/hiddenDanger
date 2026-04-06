@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-    UserInfoDTO getUserInfoByAccount(String account);
+    UserInfoDTO getUserInfoDTOByAccount(String account);
 
-    UserInfoDTO getUserInfoById(String id);
+    UserInfoDTO getUserInfoDTOById(String id);
 
     List<UserInfoDTO> getUserInfoByRoleId(String roleId);
 }

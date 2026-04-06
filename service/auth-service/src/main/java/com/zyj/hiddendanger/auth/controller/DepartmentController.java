@@ -39,4 +39,10 @@ public class DepartmentController {
     public ResponseResult<DepartmentInfoVO> addDepartment(@RequestBody DepartmentAddDTO dto) {
         return ResponseResult.ok(departmentService.addDepartment(dto));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseResult<?> delete(@RequestParam("id") String departmentId) {
+        departmentService.deleteDepartmentAndChild(departmentId);
+        return ResponseResult.ok("删除成功");
+    }
 }

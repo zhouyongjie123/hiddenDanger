@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
-import com.zyj.hiddendanger.core.exception.sys.code.UnknownExceptionCode;
+import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
@@ -113,7 +113,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
                                                         hiddenRiskReportDTO.getSourceCode()));
         ThrowUtil.throwIf(
                 hiddenRiskMapper.insert(hiddenRisk) != 1,
-                () -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+                () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         String responsiblePersonName = userNameCache.get(hiddenRisk.getResponsiblePersonId());
         if (!StringUtils.hasText(responsiblePersonName)) {
             responsiblePersonName = userFacadeService.getRealNameById(hiddenRisk.getResponsiblePersonId());

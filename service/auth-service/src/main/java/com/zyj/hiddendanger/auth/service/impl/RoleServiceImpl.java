@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.service.RoleService;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
-import com.zyj.hiddendanger.core.exception.sys.code.UnknownExceptionCode;
+import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.model.domain.Role;
 import com.zyj.hiddendanger.model.service.auth.dto.RoleAddDTO;
@@ -35,7 +35,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Role role = new Role().setRoleName(dto.getRoleName()).setRoleCode(dto.getRoleCode());
         ThrowUtil.supplyWithExceptionTranslation(
                 () -> roleMapper.insert(role), Exception.class,
-                (e) -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+                (e) -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         return role.toRoleSelectionVO();
     }
 

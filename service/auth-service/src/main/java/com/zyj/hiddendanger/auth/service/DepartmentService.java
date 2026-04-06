@@ -24,4 +24,6 @@ public interface DepartmentService extends IService<Department> {
     List<DepartmentInfoVO> getDepartmentInfoVO(List<Department> departments);
 
     DepartmentInfoVO getDepartmentInfoVO(Department department);
+
+    void deleteDepartmentAndChild(String departmentId);
 }

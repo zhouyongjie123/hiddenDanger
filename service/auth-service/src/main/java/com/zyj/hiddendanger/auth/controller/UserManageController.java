@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.auth.controller;
 import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserUpdateDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;
@@ -18,6 +19,11 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserManageController {
     private final UserService userService;
+
+    @PutMapping("/update")
+    public ResponseResult<UserInfoVO> updateUser(@RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        return ResponseResult.ok(userService.updateUser(userUpdateDTO));
+    }
 
     @PostMapping("/register")
     public ResponseResult<UserInfoVO> register(@RequestBody @Valid UserRegisterDTO userRegisterDTO) {

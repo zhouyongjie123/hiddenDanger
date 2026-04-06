@@ -6,8 +6,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UnknownExceptionCode implements ExceptionCode {
-    DATABASE_INSERT_ERROR("10001", "数据库插入异常"),
+public enum DatabaseExceptionCode implements ExceptionCode {
+    INSERT_ERROR("10001", "数据库插入异常"),
+    UPDATE_ERROR("10002", "数据库更新异常"),
+    DELETE_ERROR("10003", "数据库删除异常"),
+    SELECT_ERROR("10004", "数据库查询异常"),
     ;
 
     private final String code;

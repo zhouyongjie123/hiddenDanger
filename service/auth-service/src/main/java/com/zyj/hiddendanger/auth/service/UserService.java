@@ -6,8 +6,10 @@ import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserUpdateDTO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface UserService extends IService<User> {
     List<UserSelectionVO> getUserInfosByDepartmentId(String departmentId);
 
     List<UserSelectionVO> selectUserByRoleId(String roleId);
+
+    UserInfoVO updateUser(UserUpdateDTO userUpdateDTO);
 }

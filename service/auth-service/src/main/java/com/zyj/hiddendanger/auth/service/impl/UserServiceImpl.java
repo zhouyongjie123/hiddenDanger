@@ -2,8 +2,11 @@ package com.zyj.hiddendanger.auth.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.hiddendanger.core.exception.sys.SystemException;
+import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.dto.UserPageQueryDTO;
 import com.zyj.hiddendanger.auth.mapper.DepartmentMapper;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
@@ -14,6 +17,7 @@ import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
+import com.zyj.hiddendanger.model.service.auth.dto.UserUpdateDTO;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
@@ -46,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public UserInfoDTO getUserInfoByAccount(String account) {
-        UserInfoDTO userInfoDTO = userMapper.getUserInfoByAccount(account);
+        UserInfoDTO userInfoDTO = userMapper.getUserInfoDTOByAccount(account);
         ThrowUtil.throwIfNull(userInfoDTO, () -> new AuthException(AuthExceptionCode.ACCOUNT_ERROR));
         return userInfoDTO;
     }
@@ -68,7 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 (duplicateKeyException) -> new AuthException(
                         AuthExceptionCode.ACCOUNT_DUPLICATE));
         // 返回用户信息
-        return userMapper.getUserInfoById(user.getId()).toUserInfoVO();
+        return userMapper.getUserInfoDTOById(user.getId()).toUserInfoVO();
     }
 
     @Override
@@ -120,5 +124,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public List<UserSelectionVO> selectUserByRoleId(String roleId) {
         return userMapper.getUserInfoByRoleId(roleId).stream().map(UserInfoDTO::toUserSelectionVO).toList();
+    }
+
+    @Override
+    public UserInfoVO updateUser(UserUpdateDTO userUpdateDTO) {
+        ThrowUtil.throwIf(
+                userMapper.update(new LambdaUpdateWrapper<User>()
+                                          .eq(User::getId, userUpdateDTO.getId())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getAccount()),
+                                                  User::getAccount,
+                                                  userUpdateDTO.getAccount())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getPassword()),
+                                                  User::getPassword,
+                                                  userUpdateDTO.getPassword())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getRealName()),
+                                                  User::getRealName,
+                                                  userUpdateDTO.getRealName())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getPhoneNumber()),
+                                                  User::getPhoneNumber,
+                                                  userUpdateDTO.getPhoneNumber())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getDepartmentId()),
+                                                  User::getDepartmentId,
+                                                  userUpdateDTO.getDepartmentId())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getRoleId()), User::getRoleId,
+                                                  userUpdateDTO.getRoleId())
+                                          .set(
+                                                  StringUtils.hasText(userUpdateDTO.getAvatarUrl()),
+                                                  User::getAvatarUrl,
+                                                  userUpdateDTO.getAvatarUrl())) != 1,
+                () -> new SystemException(DatabaseExceptionCode.UPDATE_ERROR));
+        return userMapper.getUserInfoDTOById(userUpdateDTO.getId()).toUserInfoVO();
     }
 }

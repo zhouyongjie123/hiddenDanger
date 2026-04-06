@@ -2,12 +2,11 @@ package com.zyj.hiddendanger.auth.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
-import com.zyj.hiddendanger.core.exception.sys.code.UnknownExceptionCode;
+import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.Department;
@@ -29,6 +28,7 @@ import com.zyj.hiddendanger.rpc.api.risk.service.HiddenRiskStatisticFacadeServic
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -83,14 +83,13 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             HiddenRiskDepartmentStatisticResponse response = hiddenRiskDepartmentStatistic.get(department.getId());
             UserInfoDTO userInfoDTO = userInfoDtoCache.get(department.getLeaderId());
             if (userInfoDTO == null) {
-                userInfoDTO = userMapper.getUserInfoById(department.getLeaderId());
+                userInfoDTO = userMapper.getUserInfoDTOById(department.getLeaderId());
                 ThrowUtil.throwIfNull(userInfoDTO, () -> new AuthException(AuthExceptionCode.ID_NOT_EXIST));
             }
             return department.toDepartmentInfoVO(
                     userInfoDTO.getRealName(), userInfoDTO.getPhoneNumber(),
                     Optional.ofNullable(userCountByBatchDepartmentId.get(department.getId())).orElse(0L),
-                    response.getTotalHiddenRiskCount(),
-                    response.getClosedHiddenRiskCount(),
+                    response.getTotalHiddenRiskCount(), response.getClosedHiddenRiskCount(),
                     response.getWaitRectifyHiddenRiskCount());
         }).toList();
     }
@@ -98,6 +97,38 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public DepartmentInfoVO getDepartmentInfoVO(Department department) {
         return getDepartmentInfoVO(List.of(department)).get(0);
+    }
+
+    @Override
+    @Transactional(rollbackFor = SystemException.class)
+    public void deleteDepartmentAndChild(String departmentId) {
+        ThrowUtil.throwIfTrue(!isExist(departmentId), () -> new AuthException(AuthExceptionCode.ID_NOT_EXIST));
+        // 删除该部门及其子部门
+        // 先查找该部门下的所有子部门
+        List<String> departmentIds = getChildDepartmentIds(departmentId);
+        departmentIds.add(departmentId);
+        // 删除该部门及其子部门
+        ThrowUtil.throwIfTrue(
+                departmentMapper.deleteBatchIds(departmentIds) != departmentIds.size(),
+                () -> new SystemException(DatabaseExceptionCode.DELETE_ERROR));
+    }
+
+    private boolean isExist(String departmentId) {
+        return departmentMapper.exists(new LambdaQueryWrapper<Department>().eq(Department::getId, departmentId));
+    }
+
+    // 优化点:不要在循环中进行数据库查询,
+    private List<String> getChildDepartmentIds(String parentDepartmentId) {
+        List<String> result = new ArrayList<>();
+        List<Department> departments = departmentMapper.selectList(
+                new LambdaQueryWrapper<Department>().eq(Department::getParentDepartmentId, parentDepartmentId));
+
+        // 递归获取子部门
+        for (Department department : departments) {
+            result.add(department.getId());
+            result.addAll(getChildDepartmentIds(department.getId()));
+        }
+        return result;
     }
 
     @Override
@@ -126,14 +157,15 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             ThrowUtil.throwIfNull(parentDepartment, () -> new AuthException(AuthExceptionCode.ID_NOT_EXIST));
             departmentPath = getNextDepartmentPath(parentDepartment.getDepartmentPath());
         }
-        Department department = new Department().setParentDepartmentId(parentDepartmentId)
-                                                .setDepartmentName(departmentName)
-                                                .setDepartmentPath(departmentPath)
-                                                .setLeaderId(leaderId)
-                                                .setStatus(Department.Status.ENABLED);
+        Department department = new Department()
+                .setParentDepartmentId(parentDepartmentId)
+                .setDepartmentName(departmentName)
+                .setDepartmentPath(departmentPath)
+                .setLeaderId(leaderId)
+                .setStatus(Department.Status.ENABLED);
         ThrowUtil.throwIf(
                 departmentMapper.insert(department) != 1,
-                () -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+                () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         return getDepartmentInfoVO(department);
     }
 
@@ -146,10 +178,11 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
                                                                        .select(
                                                                                "department_id",
                                                                                "count(1) as user_count"));
-        return maps.stream().collect(Collectors.toMap(
-                map -> map.get("department_id").toString(),
-                map -> Long.parseLong(map.get("user_count").toString())
-        ));
+        return maps
+                .stream()
+                .collect(Collectors.toMap(
+                        map -> map.get("department_id").toString(),
+                        map -> Long.parseLong(map.get("user_count").toString())));
     }
 
     public static String getNextDepartmentPath(String path) {
@@ -158,9 +191,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
 
         // 按 / 分割
-        List<String> parts = Arrays.stream(path.split("/"))
-                                   .filter(s -> !s.isBlank())
-                                   .toList();
+        List<String> parts = Arrays.stream(path.split("/")).filter(s -> !s.isBlank()).toList();
 
         if (parts.isEmpty()) {
             return "/1";
