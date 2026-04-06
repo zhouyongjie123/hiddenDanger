@@ -12,8 +12,8 @@ public enum AuthExceptionCode implements ExceptionCode {
     NOT_LOGIN("10003", "未登录"),
     ID_NOT_EXIST("10004", "id不存在"),
     ACCOUNT_DUPLICATE("10005", "账号已存在"),
-    ROLE_DUPLICATE("10006", "角色已存在")
-    ;
+    ROLE_DUPLICATE("10006", "角色已存在"),
+    ROLE_EXIST("10007", "角色已存在");
 
     private final String code;
 

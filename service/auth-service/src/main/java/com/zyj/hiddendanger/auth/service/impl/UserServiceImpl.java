@@ -116,4 +116,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                                              .eq(User::getDepartmentId, departmentId)).stream().map(
                 User::toUserSelectionVO).toList();
     }
+
+    @Override
+    public List<UserSelectionVO> selectUserByRoleId(String roleId) {
+        return userMapper.getUserInfoByRoleId(roleId).stream().map(UserInfoDTO::toUserSelectionVO).toList();
+    }
 }

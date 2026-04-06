@@ -2,6 +2,7 @@ package com.zyj.hiddendanger.model.service.auth.dto;
 
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
+import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,5 +45,10 @@ public class UserInfoDTO {
                                .setAvatarUrl(this.avatarUrl)
                                .setRoleId(this.roleId)
                                .setRoleName(this.roleName);
+    }
+
+    public UserSelectionVO toUserSelectionVO() {
+        return new UserSelectionVO().setId(this.id)
+                                    .setRealName(this.realName);
     }
 }

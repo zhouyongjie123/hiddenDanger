@@ -40,4 +40,8 @@ public class UserManageController {
         userService.removeById(id);
         return ResponseResult.ok("删除成功");
     }
+    @GetMapping("/select/role")
+    public ResponseResult<List<UserSelectionVO>> selectUserByRole(@RequestParam("roleId") String roleId) {
+        return ResponseResult.ok(userService.selectUserByRoleId(roleId));
+    }
 }

@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.service.RoleService;
+import com.zyj.hiddendanger.core.exception.sys.SystemException;
+import com.zyj.hiddendanger.core.exception.sys.code.UnknownExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.model.domain.Role;
+import com.zyj.hiddendanger.model.service.auth.dto.RoleAddDTO;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
 import com.zyj.hiddendanger.model.service.auth.vo.RoleSelectionVO;
@@ -16,8 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
-        implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
     private final RoleMapper roleMapper;
 
     @Override
@@ -26,12 +28,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     }
 
     @Override
-    public RoleSelectionVO addRole(String roleName) {
-        ThrowUtil.throwIfTrue(this.isRoleExist(roleName), () -> new AuthException(AuthExceptionCode.ROLE_DUPLICATE));
-        Role role = new Role().setRoleName(roleName);
-        roleMapper.insert(role);
-        return new RoleSelectionVO().setId(role.getId())
-                                    .setRoleName(role.getRoleName());
+    public RoleSelectionVO addRole(RoleAddDTO dto) {
+        ThrowUtil.throwIfTrue(
+                isRoleExist(dto.getRoleCode(), dto.getRoleName()),
+                () -> new AuthException(AuthExceptionCode.ROLE_EXIST));
+        Role role = new Role().setRoleName(dto.getRoleName()).setRoleCode(dto.getRoleCode());
+        ThrowUtil.supplyWithExceptionTranslation(
+                () -> roleMapper.insert(role), Exception.class,
+                (e) -> new SystemException(UnknownExceptionCode.DATABASE_INSERT_ERROR));
+        return role.toRoleSelectionVO();
     }
 
     @Override
@@ -40,8 +45,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     }
 
     @Override
-    public Boolean isRoleExist(String roleName) {
-        return this.exists(new LambdaQueryWrapper<Role>().eq(Role::getRoleName, roleName));
+    public List<RoleSelectionVO> getLeaderSelectVO() {
+        return roleMapper.getLeaderSelectVO();
+    }
+
+    private boolean isRoleExist(String roleCode, String roleName) {
+        return count(
+                new LambdaQueryWrapper<Role>().eq(Role::getRoleName, roleName).eq(Role::getRoleCode, roleCode)) > 0;
     }
 }
 

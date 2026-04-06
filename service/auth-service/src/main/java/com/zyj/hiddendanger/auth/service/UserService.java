@@ -21,4 +21,6 @@ public interface UserService extends IService<User> {
     Boolean isAccountExist(String account);
 
     List<UserSelectionVO> getUserInfosByDepartmentId(String departmentId);
+
+    List<UserSelectionVO> selectUserByRoleId(String roleId);
 }
