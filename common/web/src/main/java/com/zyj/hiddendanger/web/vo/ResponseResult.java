@@ -21,7 +21,8 @@ public class ResponseResult<T> {
     public static ResponseResult<Object> ok(String message) {
         return new ResponseResult<Object>()
                 .setCode(SUCCESSFUL_CODE)
-                .setMessage(message);
+                .setMessage(message)
+                .setData("");
     }
 
     public static <T> ResponseResult<T> ok(T data) {

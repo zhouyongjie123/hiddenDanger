@@ -42,8 +42,8 @@ public class UserManageController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseResult<?> delete(@RequestParam("id") Long id) {
-        userService.removeById(id);
+    public ResponseResult<?> delete(@RequestParam("id") String id) {
+        userService.deleteUserById(id);
         return ResponseResult.ok("删除成功");
     }
     @GetMapping("/select/role")

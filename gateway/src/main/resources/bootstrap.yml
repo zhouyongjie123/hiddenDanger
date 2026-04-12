@@ -21,6 +21,10 @@ spring:
           uri: lb://hidden-risk-service
           predicates:
             - Path=/risk/**
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/ai/**
     nacos:
       discovery:
         server-addr: 120.26.139.5:8848

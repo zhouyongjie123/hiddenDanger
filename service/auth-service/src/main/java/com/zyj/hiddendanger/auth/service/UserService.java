@@ -16,6 +16,8 @@ import java.util.List;
 public interface UserService extends IService<User> {
     UserInfoDTO getUserInfoByAccount(String account);
 
+    void deleteUserById(String id);
+
     UserInfoVO register(UserRegisterDTO userRegisterDTO);
 
     Page<UserInfoVO> page(UserPageQueryDTO userPageQueryDTO);

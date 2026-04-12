@@ -56,6 +56,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public void deleteUserById(String id) {
+        ThrowUtil.throwIf(userMapper.deleteById(id) != 1, () -> new AuthException(AuthExceptionCode.ID_NOT_EXIST));
+    }
+
+    @Override
     public UserInfoVO register(UserRegisterDTO userRegisterDTO) {
         // todo 增加管理员的权限校验
         User user = new User().setAccount(userRegisterDTO.getAccount())
