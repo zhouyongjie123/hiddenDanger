@@ -92,6 +92,15 @@ public class HiddenRisk extends Entity {
         }
     }
 
+    public enum RiskEvent {
+        RECTIFY,// 整改
+        RECTIFY_COMPLETE,// 整改完成
+        REJECT,// 拒绝整改完成
+        ACCEPT,// 同意完成整改
+        REVOKE,// 撤销该隐患
+        ;
+    }
+
     @Getter
     @AllArgsConstructor
     public enum RiskType {
