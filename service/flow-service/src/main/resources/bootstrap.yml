@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: flow-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.139.5:8848
+        namespace: 18cde16e-ffb2-419f-80bb-5e79a5e4ca95
+      config:
+        import-check:
+          enabled: false
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        refresh-enabled: true
+        shared-configs:
+          - ${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - cache-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+server:
+  port: 8085
+  servlet:
+    context-path: /flow

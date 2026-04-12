@@ -15,6 +15,7 @@
         <module>auth-service</module>
         <module>ai-service</module>
         <module>hiddenRisk-service</module>
+        <module>flow-service</module>
     </modules>
 
     <properties>
