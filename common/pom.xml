@@ -21,6 +21,7 @@
         <module>model</module>
         <module>validate</module>
         <module>rpc</module>
+        <module>mq</module>
     </modules>
 
     <properties>
