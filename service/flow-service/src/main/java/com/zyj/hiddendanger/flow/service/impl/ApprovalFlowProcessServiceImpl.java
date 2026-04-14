@@ -1,10 +1,10 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
-import com.zyj.hiddendanger.flow.infrustructure.flow.approval.event.AbstractApprovalFlowEdgeEvent;
-import com.zyj.hiddendanger.flow.infrustructure.flow.approval.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
+import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
-import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdge;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
+import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

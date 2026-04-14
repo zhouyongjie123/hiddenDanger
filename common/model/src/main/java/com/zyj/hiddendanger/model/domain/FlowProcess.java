@@ -2,7 +2,6 @@ package com.zyj.hiddendanger.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdge;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import lombok.AllArgsConstructor;
 import lombok.Data;

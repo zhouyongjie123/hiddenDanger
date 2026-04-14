@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.flow.infrustructure.flow.approval.enums;
+package com.zyj.hiddendanger.model.service.flow.approval.enums;
 
 public enum ApprovalStatusEnum {
     // 待审批
