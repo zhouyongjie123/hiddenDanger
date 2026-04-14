@@ -5,4 +5,7 @@ public interface FlowEdgeEvent {
 
     // 业务号
     String getBusinessId();
+
+    // 事件Id用于幂等
+    String getEventId();
 }
