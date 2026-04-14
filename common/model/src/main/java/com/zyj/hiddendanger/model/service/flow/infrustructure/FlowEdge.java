@@ -3,7 +3,7 @@ package com.zyj.hiddendanger.model.service.flow.infrustructure;
 /**
  * 流程边(有向边)
  */
-public interface FlowEdge {
+public interface FlowEdge<E extends FlowEdgeEvent> {
     // 边的id
     String getEdgeId();
 
@@ -13,6 +13,6 @@ public interface FlowEdge {
     // 边的目标节点id
     String getTargetNodeId();
 
-    // 边支持的事件
-    FlowEdgeEvent getSupportedEvent();
+    // 判断该边是否支持该事件
+    Boolean isSupportedEvent(E event);
 }

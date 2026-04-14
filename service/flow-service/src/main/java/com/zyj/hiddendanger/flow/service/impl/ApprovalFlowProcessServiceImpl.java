@@ -3,12 +3,15 @@ package com.zyj.hiddendanger.flow.service.impl;
 import com.zyj.hiddendanger.flow.infrustructure.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.flow.infrustructure.flow.approval.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
+import com.zyj.hiddendanger.model.domain.FlowProcess;
+import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdge;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessService {
-
     @Override
     @Transactional
     public void handleEvent(AbstractApprovalFlowEdgeEvent event) {
@@ -16,10 +19,22 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         String eventId = event.getEventId();
         ApprovalFlowNode sourceNode = event.getSourceNode();
         String businessId = event.getBusinessId();
-        // 1.根据业务Id加载流程
-        // 2.找到房钱节点的所有出边
+        // todo 1.根据业务Id加载流程
+        FlowProcess<AbstractApprovalFlowEdgeEvent> flowProcess = new FlowProcess<>();
+        // 2.找到当前节点的所有出边
+        List<FlowEdge<AbstractApprovalFlowEdgeEvent>> outEdges = flowProcess
+                .getEdgeList()
+                .stream()
+                .filter(edge -> edge.getSourceNodeId().equals(sourceNode.getId()))
+                .toList();
         // 3.找到能响应事件的边
-           // 4.推进节点
-        // 5.保存新状态
+        for (FlowEdge<AbstractApprovalFlowEdgeEvent> edge : outEdges) {
+            if (edge.isSupportedEvent(event)) {
+                // 4.推进节点
+                flowProcess.setCurrentNodeId(edge.getTargetNodeId());
+                break;
+            }
+        }
+        // todo 5.保存新状态
     }
 }

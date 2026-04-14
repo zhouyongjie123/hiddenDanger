@@ -1,5 +1,7 @@
 package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
+import com.zyj.hiddendanger.model.domain.FlowNode;
+
 public interface FlowEdgeEvent {
     FlowNode getSourceNode();
 

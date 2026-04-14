@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.edge;
 
+import com.zyj.hiddendanger.flow.infrustructure.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdge;
 import lombok.Data;
 
@@ -7,12 +8,12 @@ import lombok.Data;
  * 审批流程边
  */
 @Data
-public abstract class AbstractApprovalFlowEdge<ApprovalFlowEdgeEventEnum> implements FlowEdge<ApprovalFlowEdgeEventEnum> {
+public abstract class AbstractApprovalFlowEdge implements FlowEdge<AbstractApprovalFlowEdgeEvent> {
     protected String id;
 
     protected String sourceNodeId;
 
     protected String targetNodeId;
 
-    protected ApprovalFlowEdgeEventEnum event;
+    protected AbstractApprovalFlowEdgeEvent event;
 }

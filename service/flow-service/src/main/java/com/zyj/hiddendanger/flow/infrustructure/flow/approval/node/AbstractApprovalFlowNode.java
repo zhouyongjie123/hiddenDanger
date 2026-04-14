@@ -1,12 +1,12 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.node;
 
-import com.zyj.hiddendanger.model.service.flow.infrustructure.AbstractFlowNode;
 import com.zyj.hiddendanger.flow.infrustructure.flow.approval.enums.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.domain.FlowNode;
 
 /**
  * 抽象审批节点
  */
-public abstract class AbstractApprovalFlowNode extends AbstractFlowNode implements ApprovalFlowNode {
+public abstract class AbstractApprovalFlowNode extends FlowNode implements ApprovalFlowNode {
     /**
      * 审批人id
      */
