@@ -17,7 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @TableName("rectification_measure")
 public class RectificationMeasure extends Entity {
-    private Long hiddenRiskId;
+    private String hiddenRiskId;
 
     private String measureContent;
 

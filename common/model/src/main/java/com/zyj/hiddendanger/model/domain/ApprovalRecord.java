@@ -17,9 +17,14 @@ import lombok.experimental.Accessors;
 @TableName("approval_record")
 public class ApprovalRecord extends Entity {
     /**
+     * 审批节点id
+     */
+    private String approvalFlowNodeId;
+
+    /**
      * 审批人id
      */
-    private String approvalId;
+    private String approverId;
 
     /**
      * 审批意见
