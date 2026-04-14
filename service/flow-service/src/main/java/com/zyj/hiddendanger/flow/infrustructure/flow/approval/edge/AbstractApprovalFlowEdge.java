@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.edge;
 
-import com.zyj.hiddendanger.flow.infrustructure.flow.FlowEdge;
+import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdge;
 import lombok.Data;
 
 /**

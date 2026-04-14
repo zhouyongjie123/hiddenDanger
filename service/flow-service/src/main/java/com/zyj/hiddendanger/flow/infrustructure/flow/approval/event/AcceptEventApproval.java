@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.event;
 
-import com.zyj.hiddendanger.flow.infrustructure.flow.FlowNode;
+import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowNode;
 
 public class AcceptEventApproval extends AbstractApprovalFlowEdgeEvent {
     public AcceptEventApproval(FlowNode sourceNode, String businessId, String eventId, String approvalMessage) {

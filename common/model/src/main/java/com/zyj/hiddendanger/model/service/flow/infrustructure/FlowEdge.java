@@ -1,9 +1,9 @@
-package com.zyj.hiddendanger.flow.infrustructure.flow;
+package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
 /**
  * 流程边(有向边)
  */
-public interface FlowEdge<E> {
+public interface FlowEdge {
     // 边的id
     String getEdgeId();
 

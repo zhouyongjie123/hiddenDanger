@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.node;
 
-import com.zyj.hiddendanger.flow.infrustructure.flow.FlowNode;
+import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowNode;
 import com.zyj.hiddendanger.flow.infrustructure.flow.approval.enums.ApprovalStatusEnum;
 
 /**

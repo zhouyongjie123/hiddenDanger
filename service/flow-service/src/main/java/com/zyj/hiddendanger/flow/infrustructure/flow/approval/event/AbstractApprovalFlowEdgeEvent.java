@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.flow.infrustructure.flow.approval.event;
 
-import com.zyj.hiddendanger.flow.infrustructure.flow.FlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import com.zyj.hiddendanger.flow.infrustructure.flow.approval.node.ApprovalFlowNode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
