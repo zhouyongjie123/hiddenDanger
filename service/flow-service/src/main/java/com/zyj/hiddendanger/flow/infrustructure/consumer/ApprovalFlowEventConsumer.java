@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.flow.infrustructure.consumer;
 
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
+import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
