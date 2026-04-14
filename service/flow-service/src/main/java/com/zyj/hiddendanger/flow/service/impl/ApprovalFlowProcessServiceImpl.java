@@ -1,17 +1,22 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
+import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessService {
+    private final FlowProcessMapper<AbstractApprovalFlowEdgeEvent> flowProcessMapper;
+
     @Override
     @Transactional
     public void handleEvent(AbstractApprovalFlowEdgeEvent event) {
@@ -20,7 +25,9 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         ApprovalFlowNode sourceNode = event.getSourceNode();
         String businessId = event.getBusinessId();
         // todo 1.根据业务Id加载流程
-        FlowProcess<AbstractApprovalFlowEdgeEvent> flowProcess = new FlowProcess<>();
+        FlowProcess<AbstractApprovalFlowEdgeEvent> flowProcess = flowProcessMapper.getApprovalFlowProcess(
+                businessId);
+//        FlowProcess<AbstractApprovalFlowEdgeEvent> flowProcess = new FlowProcess<>();
         // 2.找到当前节点的所有出边
         List<FlowEdge<AbstractApprovalFlowEdgeEvent>> outEdges = flowProcess
                 .getEdgeList()

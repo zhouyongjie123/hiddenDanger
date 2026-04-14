@@ -25,10 +25,10 @@ public class FlowEdge<E extends FlowEdgeEvent> extends Entity {
     private String targetNodeId;
 
     // 支持的事件
-    private List<E> events;
+    private List<E> supportedEventList;
 
     // 判断该边是否支持该事件
     public Boolean isSupportedEvent(E event) {
-        return events.stream().anyMatch(e -> e.equals(event));
+        return supportedEventList.stream().anyMatch(e -> e.equals(event));
     }
 }

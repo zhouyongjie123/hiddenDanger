@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyj.hiddendanger.flow.mapper.FlowProcessMapper">
+
+    <resultMap id="ApprovalFlowResultMap" type="com.zyj.hiddendanger.model.domain.FlowProcess">
+        <!-- 主表 flow_process -->
+        <id property="id" column="p_id"/>
+        <result property="processName" column="process_name"/>
+        <result property="businessId" column="business_id"/>
+        <result property="currentNodeId" column="current_node_id"/>
+        <result property="deleted" column="p_is_deleted"/>
+        <result property="creatorId" column="p_creator_id"/>
+        <result property="updaterId" column="p_updater_id"/>
+        <result property="createTime" column="p_create_time"/>
+        <result property="updateTime" column="p_update_time"/>
+
+        <!-- ====================== 节点集合：父表 flow_node + 子表 approval_flow_node ====================== -->
+        <collection
+                property="nodeList"
+                ofType="com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode">
+            <id property="id" column="n_id"/>
+            <!-- 来自父表 flow_node -->
+            <result property="x" column="x"/>
+            <result property="y" column="y"/>
+            <!-- 来自子表 approval_flow_node -->
+            <result property="status" column="status"/>
+            <!-- 公共字段 -->
+            <result property="deleted" column="n_is_deleted"/>
+            <result property="creatorId" column="n_creator_id"/>
+            <result property="updaterId" column="n_updater_id"/>
+            <result property="createTime" column="n_create_time"/>
+            <result property="updateTime" column="n_update_time"/>
+
+            <collection property="approvalRecords" ofType="com.zyj.hiddendanger.model.domain.ApprovalRecord"/>
+        </collection>
+
+        <!-- ====================== 边集合：父表 flow_edge + 子表 approval_flow_edge ====================== -->
+        <collection
+                property="edgeList"
+                ofType="com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge">
+            <id property="id" column="e_id"/>
+            <!-- 来自父表 flow_edge -->
+            <result property="sourceNodeId" column="source_node_id"/>
+            <result property="targetNodeId" column="target_node_id"/>
+            <result property="supportedEventList" column="supported_event_list"
+                    typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+            <!-- 公共字段 -->
+            <result property="deleted" column="e_is_deleted"/>
+            <result property="creatorId" column="e_creator_id"/>
+            <result property="updaterId" column="e_updater_id"/>
+            <result property="createTime" column="e_create_time"/>
+            <result property="updateTime" column="e_update_time"/>
+        </collection>
+    </resultMap>
+    <select id="getApprovalFlowProcess" resultMap="ApprovalFlowResultMap">
+        SELECT
+            -- 1. 流程主表 flow_process
+            p.id          AS p_id,
+            p.process_name,
+            p.business_id,
+            p.current_node_id,
+            p.is_deleted  AS p_is_deleted,
+            p.creator_id  AS p_creator_id,
+            p.updater_id  AS p_updater_id,
+            p.create_time AS p_create_time,
+            p.update_time AS p_update_time,
+
+            -- 2. 节点：父表 flow_node + 子表 approval_flow_node
+            n.id          AS n_id,
+            n.x,
+            n.y,
+            afn.status,
+            n.is_deleted  AS n_is_deleted,
+            n.creator_id  AS n_creator_id,
+            n.updater_id  AS n_updater_id,
+            n.create_time AS n_create_time,
+            n.update_time AS n_update_time,
+
+            -- 3. 边：父表 flow_edge + 子表 approval_flow_edge
+            e.id          AS e_id,
+            e.source_node_id,
+            e.target_node_id,
+            e.supported_event_list,
+            e.is_deleted  AS e_is_deleted,
+            e.creator_id  AS e_creator_id,
+            e.updater_id  AS e_updater_id,
+            e.create_time AS e_create_time,
+            e.update_time AS e_update_time
+
+        FROM flow_process p
+
+                 -- 关联节点父表
+                 LEFT JOIN flow_node n
+                           ON p.id = n.process_id AND n.is_deleted = 0
+
+            -- 关联节点子表（id 关联）
+                 LEFT JOIN approval_flow_node afn
+                           ON n.id = afn.id AND afn.is_deleted = 0
+
+            -- 关联边父表
+                 LEFT JOIN flow_edge e
+                           ON p.id = e.process_id AND e.is_deleted = 0
+
+            -- 关联边子表（id 关联）
+                 LEFT JOIN approval_flow_edge afe
+                           ON e.id = afe.id AND afe.is_deleted = 0
+
+        WHERE p.business_id = #{businessId}
+          AND p.is_deleted = 0
+    </select>
+
+</mapper>
