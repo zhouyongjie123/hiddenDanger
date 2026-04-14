@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.flow.infrustructure;
+package com.zyj.hiddendanger.flow.infrustructure.flow;
 
 public interface EventBus {
     // 注册监听

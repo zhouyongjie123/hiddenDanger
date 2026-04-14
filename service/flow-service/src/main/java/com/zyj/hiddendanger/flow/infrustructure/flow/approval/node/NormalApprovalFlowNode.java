@@ -1,6 +1,6 @@
-package com.zyj.hiddendanger.flow.infrustructure.approval.node;
+package com.zyj.hiddendanger.flow.infrustructure.flow.approval.node;
 
-import com.zyj.hiddendanger.flow.infrustructure.approval.enums.ApprovalStatusEnum;
+import com.zyj.hiddendanger.flow.infrustructure.flow.approval.enums.ApprovalStatusEnum;
 
 /**
  * 正常审批节点

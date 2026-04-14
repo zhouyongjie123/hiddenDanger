@@ -1,6 +1,6 @@
-package com.zyj.hiddendanger.flow.consumer;
+package com.zyj.hiddendanger.flow.infrustructure.consumer;
 
-import com.zyj.hiddendanger.flow.infrustructure.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.flow.infrustructure.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

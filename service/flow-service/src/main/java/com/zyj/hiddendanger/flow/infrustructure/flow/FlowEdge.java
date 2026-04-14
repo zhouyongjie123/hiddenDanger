@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.flow.infrustructure;
+package com.zyj.hiddendanger.flow.infrustructure.flow;
 
 /**
  * 流程边(有向边)
