@@ -49,7 +49,7 @@
         <jetcache.version>2.7.4</jetcache.version>
         <jedis.version>5.2.0</jedis.version>
         <knife4j.version>4.4.0</knife4j.version>
-        <rocketmq.version>2.1.1</rocketmq.version>
+        <rocketmq.version>2.3.5</rocketmq.version>
         <rocketmq.client.version>4.9.6</rocketmq.client.version>
     </properties>
     <dependencyManagement>
