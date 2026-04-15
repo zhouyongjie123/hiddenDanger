@@ -1,9 +1,7 @@
 package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
-import com.zyj.hiddendanger.model.domain.FlowNode;
-
 public interface FlowEdgeEvent {
-    FlowNode getSourceNode();
+    String getSourceNodeId();
 
     // 业务号
     String getBusinessId();

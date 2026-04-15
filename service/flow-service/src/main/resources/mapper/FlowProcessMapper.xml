@@ -47,7 +47,7 @@
             <result property="sourceNodeId" column="source_node_id"/>
             <result property="targetNodeId" column="target_node_id"/>
             <result property="supportedEventList" column="supported_event_list"
-                    typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+                    typeHandler="com.zyj.hiddendanger.database.handler.ClassListTypeHandler"/>
             <!-- 公共字段 -->
             <result property="deleted" column="e_is_deleted"/>
             <result property="creatorId" column="e_creator_id"/>

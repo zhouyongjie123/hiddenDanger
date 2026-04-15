@@ -2,8 +2,8 @@ package com.zyj.hiddendanger.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.database.handler.ClassListTypeHandler;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -30,7 +30,7 @@ public class FlowEdge<E extends FlowEdgeEvent> extends Entity {
     private String targetNodeId;
 
     // 支持的事件类型
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = ClassListTypeHandler.class)
     private List<Class<E>> supportedEventList;
 
     // 判断该边是否支持该事件
