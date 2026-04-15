@@ -5,6 +5,7 @@ import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-@TableName("approval_flowEdge")
+@TableName("approval_flow_edge")
+@ToString(callSuper = true)
 public class ApprovalFlowEdge extends FlowEdge<AbstractApprovalFlowEdgeEvent> {
 }

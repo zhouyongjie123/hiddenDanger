@@ -9,6 +9,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+/**
+ * 审批记录表
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

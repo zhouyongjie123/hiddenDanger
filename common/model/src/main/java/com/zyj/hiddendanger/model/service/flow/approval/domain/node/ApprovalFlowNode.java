@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.model.domain.ApprovalRecord;
 import com.zyj.hiddendanger.model.domain.FlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.List;
@@ -20,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @TableName("approval_flow_node")
 public class ApprovalFlowNode extends FlowNode {
     /**

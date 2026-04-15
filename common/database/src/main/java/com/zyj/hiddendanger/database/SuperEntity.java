@@ -4,17 +4,17 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@Getter
+@Setter
+@ToString(of = {"id"})
 public abstract class SuperEntity {
     @TableId
     protected String id;

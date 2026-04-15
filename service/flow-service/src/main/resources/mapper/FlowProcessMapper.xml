@@ -22,6 +22,7 @@
                 ofType="com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode">
             <id property="id" column="n_id"/>
             <!-- 来自父表 flow_node -->
+            <result property="processId" column="process_id"/>
             <result property="x" column="x"/>
             <result property="y" column="y"/>
             <!-- 来自子表 approval_flow_node -->
@@ -42,6 +43,7 @@
                 ofType="com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge">
             <id property="id" column="e_id"/>
             <!-- 来自父表 flow_edge -->
+            <result property="processId" column="process_id"/>
             <result property="sourceNodeId" column="source_node_id"/>
             <result property="targetNodeId" column="target_node_id"/>
             <result property="supportedEventList" column="supported_event_list"
@@ -69,6 +71,7 @@
 
             -- 2. 节点：父表 flow_node + 子表 approval_flow_node
             n.id          AS n_id,
+            n.process_id,
             n.x,
             n.y,
             afn.status,
@@ -80,6 +83,7 @@
 
             -- 3. 边：父表 flow_edge + 子表 approval_flow_edge
             e.id          AS e_id,
+            e.process_id,
             e.source_node_id,
             e.target_node_id,
             e.supported_event_list,

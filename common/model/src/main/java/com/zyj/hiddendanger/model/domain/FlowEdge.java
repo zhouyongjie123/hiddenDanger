@@ -1,12 +1,11 @@
 package com.zyj.hiddendanger.model.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.List;
@@ -16,19 +15,26 @@ import java.util.List;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @TableName("flow_edge")
 public class FlowEdge<E extends FlowEdgeEvent> extends Entity {
+    /**
+     * 关联流程的id
+     */
+    private String processId;
+
     // 边的源节点id
     private String sourceNodeId;
 
     // 边的目标节点id
     private String targetNodeId;
 
-    // 支持的事件
-    private List<E> supportedEventList;
+    // 支持的事件类型
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<Class<E>> supportedEventList;
 
     // 判断该边是否支持该事件
     public Boolean isSupportedEvent(E event) {
-        return supportedEventList.stream().anyMatch(e -> e.equals(event));
+        return supportedEventList.stream().anyMatch(e -> e.isAssignableFrom(event.getClass()));
     }
 }
