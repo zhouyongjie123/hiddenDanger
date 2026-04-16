@@ -11,6 +11,5 @@ public class TestGraph {
                 {0, 0, 0, 0, 0}
         };
         ApprovalFlowGraph approvalFlowGraph = new ApprovalFlowGraph(graph, "123", "123");
-        System.out.println(approvalFlowGraph.isLegal());
     }
 }
