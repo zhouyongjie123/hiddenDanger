@@ -14,6 +14,11 @@ public interface FlowGraph<E extends FlowEdgeEvent> {
     Integer[][] getOriginalGraph();
 
     /**
+     * 获取维度
+     */
+    Integer getDimension();
+
+    /**
      * 获取流程名
      */
     String getProcessName();
@@ -27,9 +32,4 @@ public interface FlowGraph<E extends FlowEdgeEvent> {
      * 转换为流程对象
      */
     FlowProcess<E> convertToFlowProcess();
-
-    /**
-     * 获取当前节点id
-     */
-    String getCurrentNodeId();
 }
