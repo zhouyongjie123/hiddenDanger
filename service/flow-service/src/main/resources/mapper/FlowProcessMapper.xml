@@ -23,8 +23,6 @@
             <id property="id" column="n_id"/>
             <!-- 来自父表 flow_node -->
             <result property="processId" column="process_id"/>
-            <result property="x" column="x"/>
-            <result property="y" column="y"/>
             <!-- 来自子表 approval_flow_node -->
             <result property="status" column="status"/>
             <!-- 公共字段 -->
@@ -48,6 +46,8 @@
             <result property="targetNodeId" column="target_node_id"/>
             <result property="supportedEventList" column="supported_event_list"
                     typeHandler="com.zyj.hiddendanger.database.handler.ClassListTypeHandler"/>
+            <!-- 来自子表 approval_flow_edge -->
+            <result property="remark" column="remark"/>
             <!-- 公共字段 -->
             <result property="deleted" column="e_is_deleted"/>
             <result property="creatorId" column="e_creator_id"/>
@@ -59,39 +59,42 @@
     <select id="getApprovalFlowProcess" resultMap="ApprovalFlowResultMap">
         SELECT
             -- 1. 流程主表 flow_process
-            p.id          AS p_id,
+            p.id                     AS p_id,
             p.process_name,
             p.business_id,
             p.current_node_id,
-            p.is_deleted  AS p_is_deleted,
-            p.creator_id  AS p_creator_id,
-            p.updater_id  AS p_updater_id,
-            p.create_time AS p_create_time,
-            p.update_time AS p_update_time,
+            p.is_deleted             AS p_is_deleted,
+            p.creator_id             AS p_creator_id,
+            p.updater_id             AS p_updater_id,
+            p.create_time            AS p_create_time,
+            p.update_time            AS p_update_time,
 
             -- 2. 节点：父表 flow_node + 子表 approval_flow_node
-            n.id          AS n_id,
+            n.id                     AS n_id,
             n.process_id,
-            n.x,
-            n.y,
-            afn.status,
-            n.is_deleted  AS n_is_deleted,
-            n.creator_id  AS n_creator_id,
-            n.updater_id  AS n_updater_id,
-            n.create_time AS n_create_time,
-            n.update_time AS n_update_time,
+            n.approver_id afn.status, ar.id AS ar_id,
+            ar.approver_id           AS ar_approver_id,
+            ar.approval_flow_node_id AS ar_flow_node_id,
+            ar.approval_message      AS ar_approval_message,
+            ar.status                AS ar_status,
+            n.is_deleted             AS n_is_deleted,
+            n.creator_id             AS n_creator_id,
+            n.updater_id             AS n_updater_id,
+            n.create_time            AS n_create_time,
+            n.update_time            AS n_update_time,
 
             -- 3. 边：父表 flow_edge + 子表 approval_flow_edge
-            e.id          AS e_id,
+            e.id                     AS e_id,
             e.process_id,
             e.source_node_id,
             e.target_node_id,
             e.supported_event_list,
-            e.is_deleted  AS e_is_deleted,
-            e.creator_id  AS e_creator_id,
-            e.updater_id  AS e_updater_id,
-            e.create_time AS e_create_time,
-            e.update_time AS e_update_time
+            afe.remark,
+            e.is_deleted             AS e_is_deleted,
+            e.creator_id             AS e_creator_id,
+            e.updater_id             AS e_updater_id,
+            e.create_time            AS e_create_time,
+            e.update_time            AS e_update_time
 
         FROM flow_process p
 
@@ -102,6 +105,10 @@
             -- 关联节点子表（id 关联）
                  LEFT JOIN approval_flow_node afn
                            ON n.id = afn.id AND afn.is_deleted = 0
+
+            -- 关联审批记录表
+                 LEFT JOIN approval_record ar
+                           ON afn.id = ar.node_id AND ar.is_deleted = 0
 
             -- 关联边父表
                  LEFT JOIN flow_edge e

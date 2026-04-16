@@ -1,17 +1,12 @@
 package com.zyj.hiddendanger.model.service.flow.approval.graph;
 
-import com.zyj.hiddendanger.core.exception.sys.SystemException;
-import com.zyj.hiddendanger.core.exception.sys.code.UnImplementationExceptionCode;
-import com.zyj.hiddendanger.model.domain.FlowProcess;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
-    public ApprovalFlowGraph(Integer[][] originalGraph, String processName, String businessId) {
-        super(originalGraph, processName, businessId);
+    public ApprovalFlowGraph(Integer[][] originalGraph) {
+        super(originalGraph);
     }
 
     @Override
@@ -21,6 +16,7 @@ public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
             return Boolean.FALSE;
         }
         int dimension = originalGraph.length;
+        // 2.检查图是否至少包含三个节点:START->业务节点->END
         // 2.检查V0节点是否只有出度 && Vn节点是否只有入度
         for (int i = 0, j = 0; i < dimension; i++, j++) {
             if (originalGraph[i][0] != 0 || originalGraph[dimension - 1][j] != 0) {
@@ -84,10 +80,5 @@ public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
             }
         }
         return false;
-    }
-
-    @Override
-    public FlowProcess<AbstractApprovalFlowEdgeEvent> convertToFlowProcess() {
-        throw new SystemException(UnImplementationExceptionCode.METHOD_UNIMPLEMENT);
     }
 }

@@ -17,8 +17,4 @@ public class FlowNode extends Entity {
      * 关联流程的id
      */
     private String processId;
-
-    private Double x;
-
-    private Double y;
 }

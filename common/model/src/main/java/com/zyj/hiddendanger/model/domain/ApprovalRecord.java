@@ -35,11 +35,6 @@ public class ApprovalRecord extends Entity {
     private String approvalMessage;
 
     /**
-     * 顺序
-     */
-    private String order;
-
-    /**
      * 审批后的状态
      */
     private ApprovalStatusEnum status;

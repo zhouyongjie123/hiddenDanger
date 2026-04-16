@@ -9,16 +9,6 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApprovalFlowEdgeEvent> {
     /**
-     * 流程名字
-     */
-    protected String processName;
-
-    /**
-     * 业务id
-     */
-    protected String businessId;
-
-    /**
      * 图
      */
     protected Integer[][] originalGraph;
@@ -28,14 +18,12 @@ public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApp
      */
     protected Integer dimension;
 
-    public AbstractApprovalFlowGraph(Integer[][] originalGraph, String processName, String businessId) {
+    public AbstractApprovalFlowGraph(Integer[][] originalGraph) {
         if (!isLegal(originalGraph)) {
             throw new RuntimeException("图数据不合法");
         }
         this.originalGraph = originalGraph;
         this.dimension = originalGraph.length;
-        this.processName = processName;
-        this.businessId = businessId;
     }
 
     protected abstract Boolean isLegal(Integer[][] originalGraph);

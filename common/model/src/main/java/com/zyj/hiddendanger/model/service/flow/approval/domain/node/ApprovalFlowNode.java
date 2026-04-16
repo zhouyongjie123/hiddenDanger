@@ -21,9 +21,24 @@ import java.util.List;
 @TableName("approval_flow_node")
 public class ApprovalFlowNode extends FlowNode {
     /**
+     * 特殊的开始节点
+     */
+    public final static ApprovalFlowNode START = new ApprovalFlowNode();
+
+    /**
+     * 特殊的结束节点
+     */
+    public final static ApprovalFlowNode END = new ApprovalFlowNode();
+
+    /**
      * 审批状态
      */
     private ApprovalStatusEnum status;
+
+    /**
+     * 审批人id
+     */
+    private String approverId;
 
     /**
      * 审批记录
