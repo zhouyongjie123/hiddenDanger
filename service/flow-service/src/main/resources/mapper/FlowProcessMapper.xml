@@ -47,7 +47,6 @@
             <result property="supportedEventList" column="supported_event_list"
                     typeHandler="com.zyj.hiddendanger.database.handler.ClassListTypeHandler"/>
             <!-- 来自子表 approval_flow_edge -->
-            <result property="remark" column="remark"/>
             <!-- 公共字段 -->
             <result property="deleted" column="e_is_deleted"/>
             <result property="creatorId" column="e_creator_id"/>
@@ -89,7 +88,6 @@
             e.source_node_id,
             e.target_node_id,
             e.supported_event_list,
-            afe.remark,
             e.is_deleted             AS e_is_deleted,
             e.creator_id             AS e_creator_id,
             e.updater_id             AS e_updater_id,

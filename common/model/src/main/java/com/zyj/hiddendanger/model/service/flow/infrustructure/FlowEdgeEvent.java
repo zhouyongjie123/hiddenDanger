@@ -8,7 +8,4 @@ public interface FlowEdgeEvent {
 
     // 事件Id用于幂等
     String getEventId();
-
-    // 获取事件编码
-    Integer getEventCode();
 }

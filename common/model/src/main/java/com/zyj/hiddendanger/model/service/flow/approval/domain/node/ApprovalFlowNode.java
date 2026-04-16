@@ -30,6 +30,11 @@ public class ApprovalFlowNode extends FlowNode {
      */
     public final static ApprovalFlowNode END = new ApprovalFlowNode();
 
+    static {
+        START.setId("-1");
+        START.setProcessId("-2");
+    }
+
     /**
      * 审批状态
      */

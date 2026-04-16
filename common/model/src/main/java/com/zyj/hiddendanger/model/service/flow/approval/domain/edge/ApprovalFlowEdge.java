@@ -17,8 +17,4 @@ import lombok.experimental.Accessors;
 @TableName("approval_flow_edge")
 @ToString(callSuper = true)
 public class ApprovalFlowEdge extends FlowEdge<AbstractApprovalFlowEdgeEvent> {
-    /**
-     * 备注
-     */
-    private String remark;
 }

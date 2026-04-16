@@ -27,7 +27,7 @@ public class FlowProcess<E extends FlowEdgeEvent> extends Entity {
     private List<? extends FlowNode> nodeList;
 
     // 边列表
-    private List<? extends FlowEdge<E>> edgeList;
+    private List<? extends FlowEdge<? extends E>> edgeList;
 
     // 当前节点（分布式状态统一）
     private String currentNodeId;

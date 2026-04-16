@@ -31,7 +31,7 @@ public class FlowEdge<E extends FlowEdgeEvent> extends Entity {
 
     // 支持的事件类型
     @TableField(typeHandler = ClassListTypeHandler.class)
-    private List<Class<E>> supportedEventList;
+    private List<Class<? extends E>> supportedEventList;
 
     // 判断该边是否支持该事件
     public Boolean isSupportedEvent(E event) {
