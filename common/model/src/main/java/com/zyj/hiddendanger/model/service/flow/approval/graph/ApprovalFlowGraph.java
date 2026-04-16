@@ -17,6 +17,9 @@ public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
         }
         int dimension = originalGraph.length;
         // 2.检查图是否至少包含三个节点:START->业务节点->END
+        if (dimension < 3) {
+            return Boolean.FALSE;
+        }
         // 2.检查V0节点是否只有出度 && Vn节点是否只有入度
         for (int i = 0, j = 0; i < dimension; i++, j++) {
             if (originalGraph[i][0] != 0 || originalGraph[dimension - 1][j] != 0) {
