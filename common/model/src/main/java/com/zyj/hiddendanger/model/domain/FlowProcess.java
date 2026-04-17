@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class FlowProcess<E extends FlowEdgeEvent> extends Entity {
+public class FlowProcess<E extends FlowEdgeEvent, N extends FlowNode> extends Entity {
     // 流程名字
     private String processName;
 
@@ -24,7 +24,7 @@ public class FlowProcess<E extends FlowEdgeEvent> extends Entity {
     private String businessId;
 
     // 节点列表
-    private List<? extends FlowNode> nodeList;
+    private List<N> nodeList;
 
     // 边列表
     private List<? extends FlowEdge<? extends E>> edgeList;

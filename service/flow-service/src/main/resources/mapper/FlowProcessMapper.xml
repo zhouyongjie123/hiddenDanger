@@ -71,7 +71,9 @@
             -- 2. 节点：父表 flow_node + 子表 approval_flow_node
             n.id                     AS n_id,
             n.process_id,
-            n.approver_id afn.status, ar.id AS ar_id,
+            afn.approver_id,
+            afn.status,
+            ar.id                    AS ar_id,
             ar.approver_id           AS ar_approver_id,
             ar.approval_flow_node_id AS ar_flow_node_id,
             ar.approval_message      AS ar_approval_message,

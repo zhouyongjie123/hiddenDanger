@@ -3,7 +3,6 @@ package com.zyj.hiddendanger.flow.service.impl;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import com.zyj.hiddendanger.flow.mapper.*;
 import com.zyj.hiddendanger.flow.service.FlowService;
-import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
@@ -87,7 +86,7 @@ public class FlowServiceImpl implements FlowService {
         }
 
         // 创建一个流程对象
-        FlowProcess<AbstractApprovalFlowEdgeEvent> flowProcess = new FlowProcess<>();
+        FlowProcess<AbstractApprovalFlowEdgeEvent, ApprovalFlowNode> flowProcess = new FlowProcess<>();
         flowProcess.setProcessName(dto.getProcessName())
                    .setBusinessId(dto.getBusinessId())
                    .setNodeList(nodeList)
@@ -100,10 +99,10 @@ public class FlowServiceImpl implements FlowService {
         // 将FlowNode放入数据库
 //        flowNodeMapper.insertBatch(flowProcess.getNodeList());
         // 将FlowEdge放入数据库
-        List<? extends FlowEdge<? extends AbstractApprovalFlowEdgeEvent>> edgeList1 = flowProcess.getEdgeList();
-        System.out.println(flowEdgeMapper.insertBatch(edgeList1));
+//        flowEdgeMapper.insertBatch(flowProcess.getEdgeList());
         // 将ApprovalFlowNode放入数据库
-//        approvalFlowNodeMapper.insert();
+        List<ApprovalFlowNode> nodeList1 = flowProcess.getNodeList();
+        System.out.println(approvalFlowNodeMapper.insertBatch(nodeList1));
         // 将ApprovalFlowEdge放入数据库
 //        approvalFlowEdgeMapper.insert();
     }
