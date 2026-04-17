@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
 import com.zyj.hiddendanger.core.id.IdGenerator;
-import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
+import com.zyj.hiddendanger.flow.mapper.*;
 import com.zyj.hiddendanger.flow.service.FlowService;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
@@ -24,6 +24,14 @@ public class FlowServiceImpl implements FlowService {
     private final IdGenerator<String> idGenerator;
 
     private final FlowProcessMapper flowProcessMapper;
+
+    private final FlowNodeMapper flowNodeMapper;
+
+    private final FlowEdgeMapper flowEdgeMapper;
+
+    private final ApprovalFlowNodeMapper approvalFlowNodeMapper;
+
+    private final ApprovalFlowEdgeMapper approvalFlowEdgeMapper;
 
     @Override
     public void createApprovalProcess(ApprovalFlowCreateDTO dto) {
@@ -82,10 +90,19 @@ public class FlowServiceImpl implements FlowService {
         flowProcess.setProcessName(dto.getProcessName())
                    .setBusinessId(dto.getBusinessId())
                    .setNodeList(nodeList)
-                   .setCurrentNodeId(nodeList.get(1).getId())
                    .setEdgeList(edgeList)
+                   .setCurrentNodeId(nodeList.get(1).getId())
                    .setId(processId);
         // todo 放入到数据库中
-        flowProcessMapper.saveFlowProcess(flowProcess);
+        // 将FlowProcess放入数据库
+//        flowProcessMapper.saveFlowProcess(flowProcess);
+        // 将FlowNode放入数据库
+        flowNodeMapper.insertBatch(flowProcess.getNodeList());
+        // 将FlowEdge放入数据库
+//        flowEdgeMapper.insert();
+        // 将ApprovalFlowNode放入数据库
+//        approvalFlowNodeMapper.insert();
+        // 将ApprovalFlowEdge放入数据库
+//        approvalFlowEdgeMapper.insert();
     }
 }
