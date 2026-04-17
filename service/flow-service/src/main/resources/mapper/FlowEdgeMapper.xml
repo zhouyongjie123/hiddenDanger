@@ -3,4 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zyj.hiddendanger.flow.mapper.FlowEdgeMapper">
+    <insert id="insertBatch">
+        INSERT INTO flow_edge(id, process_id,source_node_id, target_node_id, supported_event_list, is_deleted,
+        creator_id, updater_id, create_time, update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.processId}, #{item.sourceNodeId}, #{item.targetNodeId},
+            #{item.supportedEventList,typeHandler=com.zyj.hiddendanger.database.handler.ClassListTypeHandler},
+            #{item.deleted}, #{item.creatorId}, #{item.updaterId}, #{item.createTime},
+            #{item.updateTime})
+        </foreach>
+    </insert>
 </mapper>

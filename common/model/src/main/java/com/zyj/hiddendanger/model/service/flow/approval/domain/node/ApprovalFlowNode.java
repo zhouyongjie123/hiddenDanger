@@ -32,7 +32,7 @@ public class ApprovalFlowNode extends FlowNode {
 
     static {
         START.setId("-1");
-        START.setProcessId("-2");
+        END.setId("-2");
     }
 
     /**
