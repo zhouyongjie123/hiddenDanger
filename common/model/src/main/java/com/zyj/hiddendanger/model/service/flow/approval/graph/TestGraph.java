@@ -10,6 +10,6 @@ public class TestGraph {
                 {0, 1, 0, 0, 1},
                 {0, 0, 0, 0, 0}
         };
-        ApprovalFlowGraph approvalFlowGraph = new ApprovalFlowGraph(graph, "123", "123");
+        ApprovalFlowGraph approvalFlowGraph = new ApprovalFlowGraph(graph);
     }
 }

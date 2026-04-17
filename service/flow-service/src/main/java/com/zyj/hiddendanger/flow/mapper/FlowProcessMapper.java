@@ -7,6 +7,6 @@ import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface FlowProcessMapper<E extends FlowEdgeEvent> extends BaseMapper<FlowProcess<E>> {
+public interface FlowProcessMapper extends BaseMapper<FlowProcess<? extends FlowEdgeEvent>> {
     FlowProcess<AbstractApprovalFlowEdgeEvent> getApprovalFlowProcess(String businessId);
 }

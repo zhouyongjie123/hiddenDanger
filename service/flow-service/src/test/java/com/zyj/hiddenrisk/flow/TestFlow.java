@@ -36,7 +36,7 @@ public class TestFlow {
         edge.setId("2044283644896821250");
         List<Class<AcceptApprovalEvent>> list = new ArrayList<>();
         list.add(AcceptApprovalEvent.class);
-        edge.setSupportedEventList(list);
+//        edge.setSupportedEventList(list);
         flowEdgeMapper.insert(edge);
 
     }

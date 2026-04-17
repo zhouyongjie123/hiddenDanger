@@ -56,7 +56,7 @@ public class FlowServiceImpl implements FlowService {
                     if (j == graph.getDimension() - 1) {
                         targetNode = ApprovalFlowNode.END;
                     } else {
-                        targetNode = nodeList.get(j);
+                        targetNode = nodeList.get(j - 1);
                     }
                     Integer eventCode = originalGraph[i][j];
                     List<Class<? extends AbstractApprovalFlowEdgeEvent>> supportedEventClass = ApprovalFlowEdgeEventParser.getSupportedEventClass(
