@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApprovalRecordServiceImpl extends ServiceImpl<ApprovalRecordMapper, ApprovalRecord>
-    implements ApprovalRecordService{
+        implements ApprovalRecordService {
 
 }
 

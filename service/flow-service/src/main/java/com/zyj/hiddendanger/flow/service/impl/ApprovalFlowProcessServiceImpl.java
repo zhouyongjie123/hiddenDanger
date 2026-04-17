@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessService {
-    private final FlowProcessMapper<AbstractApprovalFlowEdgeEvent> flowProcessMapper;
+    private final FlowProcessMapper flowProcessMapper;
 
     @Override
     @Transactional
