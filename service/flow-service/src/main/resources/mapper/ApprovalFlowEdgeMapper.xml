@@ -13,4 +13,15 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <insert id="insertBatch">
+        INSERT INTO approval_flow_edge(id, is_deleted, creator_id, updater_id, create_time,
+        update_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.deleted}, #{item.creatorId}, #{item.updaterId},
+            #{item.createTime},
+            #{item.updateTime})
+        </foreach>
+    </insert>
+
 </mapper>

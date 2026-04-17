@@ -86,7 +86,7 @@ public class FlowServiceImpl implements FlowService {
         }
 
         // 创建一个流程对象
-        FlowProcess<AbstractApprovalFlowEdgeEvent, ApprovalFlowNode> flowProcess = new FlowProcess<>();
+        FlowProcess<ApprovalFlowEdge, ApprovalFlowNode> flowProcess = new FlowProcess<>();
         flowProcess.setProcessName(dto.getProcessName())
                    .setBusinessId(dto.getBusinessId())
                    .setNodeList(nodeList)
@@ -95,15 +95,15 @@ public class FlowServiceImpl implements FlowService {
                    .setId(processId);
         // todo 放入到数据库中
         // 将FlowProcess放入数据库
-//        flowProcessMapper.saveFlowProcess(flowProcess);
+        flowProcessMapper.saveFlowProcess(flowProcess);
         // 将FlowNode放入数据库
 //        flowNodeMapper.insertBatch(flowProcess.getNodeList());
         // 将FlowEdge放入数据库
 //        flowEdgeMapper.insertBatch(flowProcess.getEdgeList());
         // 将ApprovalFlowNode放入数据库
-        List<ApprovalFlowNode> nodeList1 = flowProcess.getNodeList();
-        System.out.println(approvalFlowNodeMapper.insertBatch(nodeList1));
+//        approvalFlowNodeMapper.insertBatch(flowProcess.getNodeList());
         // 将ApprovalFlowEdge放入数据库
-//        approvalFlowEdgeMapper.insert();
+        List<ApprovalFlowEdge> edgeList1 = flowProcess.getEdgeList();
+        System.out.println(approvalFlowEdgeMapper.insertBatch(edgeList1));
     }
 }
