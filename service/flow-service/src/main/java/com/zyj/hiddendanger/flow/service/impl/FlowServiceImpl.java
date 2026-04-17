@@ -93,17 +93,16 @@ public class FlowServiceImpl implements FlowService {
                    .setEdgeList(edgeList)
                    .setCurrentNodeId(nodeList.get(1).getId())
                    .setId(processId);
-        // todo 放入到数据库中
+        // todo 长事务异步
         // 将FlowProcess放入数据库
         flowProcessMapper.saveFlowProcess(flowProcess);
         // 将FlowNode放入数据库
-//        flowNodeMapper.insertBatch(flowProcess.getNodeList());
+        flowNodeMapper.insertBatch(flowProcess.getNodeList());
         // 将FlowEdge放入数据库
-//        flowEdgeMapper.insertBatch(flowProcess.getEdgeList());
+        flowEdgeMapper.insertBatch(flowProcess.getEdgeList());
         // 将ApprovalFlowNode放入数据库
-//        approvalFlowNodeMapper.insertBatch(flowProcess.getNodeList());
+        approvalFlowNodeMapper.insertBatch(flowProcess.getNodeList());
         // 将ApprovalFlowEdge放入数据库
-        List<ApprovalFlowEdge> edgeList1 = flowProcess.getEdgeList();
-        System.out.println(approvalFlowEdgeMapper.insertBatch(edgeList1));
+        approvalFlowEdgeMapper.insertBatch(flowProcess.getEdgeList());
     }
 }
