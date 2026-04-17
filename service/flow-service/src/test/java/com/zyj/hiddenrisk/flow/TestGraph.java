@@ -29,11 +29,13 @@ public class TestGraph {
                 {0, 0b10, 0, 0, 0b01},
                 {0, 0, 0, 0, 0}
         };
+        // 审批人id序列
         String[] approverIds = new String[]{"2036347045152862209", "2038875970340347906", "2038877752227487745"};
         ApprovalFlowCreateDTO dto = new ApprovalFlowCreateDTO().setProcessName("测试创建流程")
                                                                .setBusinessId("123")
                                                                .setGraph(new ApprovalFlowGraph(graph))
                                                                .setApproverIds(approverIds);
+        // 创建一个审批流程
         flowService.createApprovalProcess(dto);
     }
 }
