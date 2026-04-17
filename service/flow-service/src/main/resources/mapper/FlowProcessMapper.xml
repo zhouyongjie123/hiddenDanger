@@ -120,4 +120,11 @@
           AND p.is_deleted = 0
     </select>
 
+    <insert id="saveFlowProcess">
+        insert into flow_process (id, process_name, business_id, current_node_id, is_deleted, creator_id, updater_id,
+                                  create_time, update_time)
+        values (#{flowProcess.id}, #{flowProcess.processName}, #{flowProcess.businessId}, #{flowProcess.currentNodeId},
+                #{flowProcess.deleted}, #{flowProcess.creatorId}, #{flowProcess.updaterId},
+                #{flowProcess.createTime}, #{flowProcess.updateTime})
+    </insert>
 </mapper>

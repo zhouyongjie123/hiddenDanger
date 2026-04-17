@@ -1,6 +1,7 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
 import com.zyj.hiddendanger.core.id.IdGenerator;
+import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.FlowService;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
@@ -21,6 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlowServiceImpl implements FlowService {
     private final IdGenerator<String> idGenerator;
+
+    private final FlowProcessMapper flowProcessMapper;
 
     @Override
     public void createApprovalProcess(ApprovalFlowCreateDTO dto) {
@@ -83,5 +86,6 @@ public class FlowServiceImpl implements FlowService {
                    .setEdgeList(edgeList)
                    .setId(processId);
         // todo 放入到数据库中
+        flowProcessMapper.saveFlowProcess(flowProcess);
     }
 }

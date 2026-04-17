@@ -1,12 +1,12 @@
 package com.zyj.hiddendanger.flow.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
-import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface FlowProcessMapper extends BaseMapper<FlowProcess<? extends FlowEdgeEvent>> {
+public interface FlowProcessMapper {
     FlowProcess<AbstractApprovalFlowEdgeEvent> getApprovalFlowProcess(String businessId);
+
+    void saveFlowProcess(FlowProcess<?> flowProcess);
 }
