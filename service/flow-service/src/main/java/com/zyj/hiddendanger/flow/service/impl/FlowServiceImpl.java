@@ -1,7 +1,9 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.zyj.hiddendanger.core.id.IdGenerator;
-import com.zyj.hiddendanger.flow.mapper.*;
+import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
+import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.FlowService;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
@@ -12,8 +14,13 @@ import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFl
 import com.zyj.hiddendanger.model.service.flow.approval.event.ApprovalFlowEdgeEventParser;
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
 import lombok.RequiredArgsConstructor;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.TransactionMQProducer;
+import org.apache.rocketmq.common.message.Message;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,15 +32,11 @@ public class FlowServiceImpl implements FlowService {
 
     private final FlowProcessMapper flowProcessMapper;
 
-    private final FlowNodeMapper flowNodeMapper;
-
-    private final FlowEdgeMapper flowEdgeMapper;
-
-    private final ApprovalFlowNodeMapper approvalFlowNodeMapper;
-
-    private final ApprovalFlowEdgeMapper approvalFlowEdgeMapper;
+    @Resource
+    private TransactionMQProducer approvalFlowProcessCreateTransactionMQProducer;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createApprovalProcess(ApprovalFlowCreateDTO dto) {
         ApprovalFlowGraph graph = dto.getGraph();
         String[] approverIds = dto.getApproverIds();
@@ -93,16 +96,23 @@ public class FlowServiceImpl implements FlowService {
                    .setEdgeList(edgeList)
                    .setCurrentNodeId(nodeList.get(1).getId())
                    .setId(processId);
-        // todo 长事务异步
-        // 将FlowProcess放入数据库
+        // 长事务异步
+        // 1.插入主表,将FlowProcess放入数据库
         flowProcessMapper.saveFlowProcess(flowProcess);
-        // 将FlowNode放入数据库
-        flowNodeMapper.insertBatch(flowProcess.getNodeList());
-        // 将FlowEdge放入数据库
-        flowEdgeMapper.insertBatch(flowProcess.getEdgeList());
-        // 将ApprovalFlowNode放入数据库
-        approvalFlowNodeMapper.insertBatch(flowProcess.getNodeList());
-        // 将ApprovalFlowEdge放入数据库
-        approvalFlowEdgeMapper.insertBatch(flowProcess.getEdgeList());
+        // 异步解耦
+        // 2. 构造半事务消息
+        Message message = new Message(
+                "approval-flow-process-create", "", JSON.toJSONBytes(new ApprovalFlowProcessCreateMessage(
+                flowProcess.getId(),
+                flowProcess.getNodeList(),
+                flowProcess.getEdgeList()
+        )));
+        try {
+            // 3. 发送半事务消息
+            approvalFlowProcessCreateTransactionMQProducer.sendMessageInTransaction(
+                    message, flowProcess);
+        } catch (MQClientException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

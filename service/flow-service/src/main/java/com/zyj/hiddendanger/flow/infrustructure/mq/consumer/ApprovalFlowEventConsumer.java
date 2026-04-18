@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.flow.infrustructure.consumer;
+package com.zyj.hiddendanger.flow.infrustructure.mq.consumer;
 
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;

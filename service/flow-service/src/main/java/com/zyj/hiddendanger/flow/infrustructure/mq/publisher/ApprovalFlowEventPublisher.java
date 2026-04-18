@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.flow.infrustructure.publisher;
+package com.zyj.hiddendanger.flow.infrustructure.mq.publisher;
 
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import jakarta.annotation.Resource;
