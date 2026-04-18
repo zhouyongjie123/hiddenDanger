@@ -3,10 +3,12 @@ package com.zyj.hiddendanger.model.service.flow.approval.graph;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowGraph;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApprovalFlowEdgeEvent> {
     /**
      * 图

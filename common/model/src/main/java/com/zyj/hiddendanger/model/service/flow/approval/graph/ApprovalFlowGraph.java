@@ -1,11 +1,15 @@
 package com.zyj.hiddendanger.model.service.flow.approval.graph;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
-    public ApprovalFlowGraph(Integer[][] originalGraph) {
+    @JsonCreator
+    public ApprovalFlowGraph(@JsonProperty("originalGraph") Integer[][] originalGraph) {
         super(originalGraph);
     }
 
