@@ -14,7 +14,7 @@ public @interface Idempotent {
      * 幂等 key，支持 SpEL 表达式
      * 例如：#msg.flowProcessId
      */
-    String key();
+    String idempotentKey();
 
     /**
      * 锁过期时间（防止死锁）

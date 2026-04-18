@@ -5,6 +5,7 @@ import com.zyj.hiddendanger.flow.mapper.ApprovalFlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowNodeMapper;
+import com.zyj.hiddendanger.web.infrustructure.idempotent.Idempotent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -28,8 +29,9 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Appro
     private final ApprovalFlowEdgeMapper approvalFlowEdgeMapper;
 
     @Override
+    // 幂等操作
+    @Idempotent(idempotentKey = "#approvalFlowProcessCreateMessage.flowProcessId")
     public void onMessage(ApprovalFlowProcessCreateMessage approvalFlowProcessCreateMessage) {
-        // todo 幂等操作
         // 将FlowNode放入数据库
         flowNodeMapper.insertBatch(approvalFlowProcessCreateMessage.getNodeList());
         // 将FlowEdge放入数据库

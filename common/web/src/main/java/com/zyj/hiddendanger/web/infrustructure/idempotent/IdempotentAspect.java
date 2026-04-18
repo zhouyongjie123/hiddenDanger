@@ -29,7 +29,7 @@ public class IdempotentAspect {
         Idempotent anno = method.getAnnotation(Idempotent.class);
         // 1. 解析 SpEL key
         SpELValidatorAndParser spELValidatorAndParser = new SpELValidatorAndParser();
-        Expression expression = spELValidatorAndParser.validateAndParse(anno.key());
+        Expression expression = spELValidatorAndParser.validateAndParse(anno.idempotentKey());
         StandardEvaluationContext context = new StandardEvaluationContext();
         for (int i = 0; i < paramNames.length; i++) {
             context.setVariable(paramNames[i], args[i]);

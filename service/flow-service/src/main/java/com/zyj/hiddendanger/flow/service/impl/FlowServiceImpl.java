@@ -13,6 +13,7 @@ import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.approval.event.ApprovalFlowEdgeEventParser;
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
@@ -20,7 +21,6 @@ import org.apache.rocketmq.common.message.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

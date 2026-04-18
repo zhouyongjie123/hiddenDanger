@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
+import jakarta.annotation.Resource;
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 @Component
 public class ApprovalFlowProcessCreateTransactionListener implements TransactionListener {
