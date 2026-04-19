@@ -7,8 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public abstract class AbstractApprovalFlowEdgeEvent implements FlowEdgeEvent {
-    protected String sourceNodeId;
-
     protected String businessId;
 
     protected String eventId;

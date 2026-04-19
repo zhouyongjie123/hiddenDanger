@@ -1,8 +1,6 @@
 package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
 public interface FlowEdgeEvent {
-    String getSourceNodeId();
-
     // 业务号
     String getBusinessId();
 
