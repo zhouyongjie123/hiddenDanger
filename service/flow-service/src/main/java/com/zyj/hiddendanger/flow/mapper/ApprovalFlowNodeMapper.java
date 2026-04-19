@@ -9,6 +9,8 @@ import java.util.List;
 @Mapper
 public interface ApprovalFlowNodeMapper extends BaseMapper<ApprovalFlowNode> {
     int insertBatch(List<ApprovalFlowNode> list);
+
+//    int updateById(ApprovalFlowNode entity);
 }
 
 

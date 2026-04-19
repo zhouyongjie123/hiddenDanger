@@ -24,4 +24,17 @@
             #{item.updateTime})
         </foreach>
     </insert>
+<!--    <update id="updateById">-->
+<!--        UPDATE approval_flow_node-->
+<!--        <set>-->
+<!--            <if test="status != null">-->
+<!--                status = #{status},-->
+<!--            </if>-->
+<!--            <if test="approverId != null">-->
+<!--                approver_id = #{approverId},-->
+<!--            </if>-->
+<!--            updater_id = #{updaterId,fill=},-->
+<!--            update_time = #{updateTime},-->
+<!--        </set>-->
+<!--    </update>-->
 </mapper>

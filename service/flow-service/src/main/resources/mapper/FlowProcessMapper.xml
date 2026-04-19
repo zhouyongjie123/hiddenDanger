@@ -25,6 +25,7 @@
             <result property="processId" column="process_id"/>
             <!-- 来自子表 approval_flow_node -->
             <result property="status" column="status"/>
+            <result property="approverId" column="afn_approver_id"/>
             <!-- 公共字段 -->
             <result property="deleted" column="n_is_deleted"/>
             <result property="creatorId" column="n_creator_id"/>
@@ -71,7 +72,7 @@
             -- 2. 节点：父表 flow_node + 子表 approval_flow_node
             n.id                     AS n_id,
             n.process_id,
-            afn.approver_id,
+            afn.approver_id          AS afn_approver_id,
             afn.status,
             ar.id                    AS ar_id,
             ar.approver_id           AS ar_approver_id,
@@ -108,7 +109,7 @@
 
             -- 关联审批记录表
                  LEFT JOIN approval_record ar
-                           ON afn.id = ar.approval_flow_node_id  AND ar.is_deleted = 0
+                           ON afn.id = ar.approval_flow_node_id AND ar.is_deleted = 0
 
             -- 关联边父表
                  LEFT JOIN flow_edge e

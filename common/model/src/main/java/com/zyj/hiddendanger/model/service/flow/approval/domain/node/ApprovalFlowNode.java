@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.model.service.flow.approval.domain.node;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.model.domain.ApprovalRecord;
 import com.zyj.hiddendanger.model.domain.FlowNode;
@@ -45,8 +46,12 @@ public class ApprovalFlowNode extends FlowNode {
      */
     private String approverId;
 
+    @TableField(exist = false)
+    private String processId;
+
     /**
      * 审批记录
      */
+    @TableField(exist = false)
     private List<ApprovalRecord> approvalRecords;
 }

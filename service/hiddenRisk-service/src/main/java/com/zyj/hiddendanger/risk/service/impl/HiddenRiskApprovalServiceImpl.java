@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.risk.service.impl;
 
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AcceptApprovalEvent;
 import com.zyj.hiddendanger.model.service.flow.approval.event.RejectApprovalEvent;
@@ -9,6 +10,7 @@ import com.zyj.hiddendanger.rpc.annotation.RpcReference;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +26,7 @@ public class HiddenRiskApprovalServiceImpl implements HiddenRiskApprovalService 
     public void approvalAccept(HiddenRiskApprovalDTO dto) {
         String hiddenRiskId = dto.getHiddenRiskId();
         String approvalMessage = dto.getApprovalMessage();
+        RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         approvalFacadeService.approve(new AcceptApprovalEvent(hiddenRiskId, idGenerator.generate(), approvalMessage));
     }
 

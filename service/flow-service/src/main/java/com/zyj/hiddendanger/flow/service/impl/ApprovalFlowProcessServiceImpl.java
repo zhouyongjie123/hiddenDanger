@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalRecordMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
@@ -9,6 +10,7 @@ import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNodeStatusMachine;
 import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +49,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
                                                   .findFirst()
                                                   .orElseThrow(() -> new RuntimeException("找不到当前节点"));
         ApprovalRecord approvalRecord = new ApprovalRecord().setApprovalFlowNodeId(currentNodeId)
-                                                            .setApproverId(currentNode.getApproverId())
+                                                            .setApproverId(UserIdContextHolder.get())
                                                             .setApprovalMessage(approvalMessage);
         approvalRecord.setStatus(ApprovalStatusEnum.of(event));
 
@@ -55,7 +57,8 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         // 4.找到能响应事件的边
         for (FlowEdge<AbstractApprovalFlowEdgeEvent> edge : outEdges) {
             if (edge.isSupportedEvent(event)) {
-                // 5.推进图节点
+                // 5.推进图节点,推进审批节点自身的状态
+                ApprovalFlowNodeStatusMachine.getInstance().transition(currentNode.getStatus(), event.getClass(), true);
                 flowProcess.setCurrentNodeId(edge.getTargetNodeId());
                 break;
             }

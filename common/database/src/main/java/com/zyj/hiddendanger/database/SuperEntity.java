@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString(of = {"id"})
-public abstract class SuperEntity {
+public abstract class SuperEntity implements Serializable {
     @TableId
     protected String id;
 
@@ -29,4 +31,7 @@ public abstract class SuperEntity {
 
     @TableField(fill = FieldFill.UPDATE)
     protected Date updateTime;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }
