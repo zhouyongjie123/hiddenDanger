@@ -37,7 +37,7 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Messa
     @Idempotent(idempotentKey = "#messageExt.getMsgId()")
     public void onMessage(MessageExt messageExt) {
         try {
-            // 1. 先设置当前消息的 userId
+            // 1. 恢复上下文
             String userId = messageExt.getProperty(MessageHeaderConstant.USER_ID);
             UserIdContextHolder.set(userId);
 

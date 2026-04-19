@@ -114,11 +114,7 @@ public class FlowServiceImpl implements FlowService {
                         flowProcess.getEdgeList()))
                 .setHeader(MessageHeaderConstant.USER_ID, UserIdContextHolder.get())
                 .build();
-//        Message message = new Message(
-//                "approval-flow-process-create", ));
         // 3. 发送半事务消息
-//            approvalFlowProcessCreateTransactionMQProducer.sendMessageInTransaction(
-//                    message, flowProcess);
         rocketMQTemplate.setProducer(approvalFlowProcessCreateTransactionMQProducer);
         rocketMQTemplate.sendMessageInTransaction("approval-flow-process-create", build, flowProcess);
     }
