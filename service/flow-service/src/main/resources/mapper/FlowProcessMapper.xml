@@ -108,7 +108,7 @@
 
             -- 关联审批记录表
                  LEFT JOIN approval_record ar
-                           ON afn.id = ar.node_id AND ar.is_deleted = 0
+                           ON afn.id = ar.approval_flow_node_id  AND ar.is_deleted = 0
 
             -- 关联边父表
                  LEFT JOIN flow_edge e

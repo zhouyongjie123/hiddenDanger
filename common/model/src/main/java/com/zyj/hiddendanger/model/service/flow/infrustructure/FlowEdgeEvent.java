@@ -1,6 +1,8 @@
 package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
-public interface FlowEdgeEvent {
+import java.io.Serializable;
+
+public interface FlowEdgeEvent extends Serializable {
     // 业务号
     String getBusinessId();
 
