@@ -32,6 +32,7 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Appro
     // 幂等操作
     @Idempotent(idempotentKey = "#approvalFlowProcessCreateMessage.flowProcessId")
     public void onMessage(ApprovalFlowProcessCreateMessage approvalFlowProcessCreateMessage) {
+        System.out.println("分支事务开始");
         // 将FlowNode放入数据库
         flowNodeMapper.insertBatch(approvalFlowProcessCreateMessage.getNodeList());
         // 将FlowEdge放入数据库
@@ -40,5 +41,6 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Appro
         approvalFlowNodeMapper.insertBatch(approvalFlowProcessCreateMessage.getNodeList());
         // 将ApprovalFlowEdge放入数据库
         approvalFlowEdgeMapper.insertBatch(approvalFlowProcessCreateMessage.getEdgeList());
+        System.out.println("分支事务结束");
     }
 }

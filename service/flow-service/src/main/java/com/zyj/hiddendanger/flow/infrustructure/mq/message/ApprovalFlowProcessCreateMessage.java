@@ -4,6 +4,7 @@ import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlow
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ApprovalFlowProcessCreateMessage implements Serializable {
     private String flowProcessId;
 

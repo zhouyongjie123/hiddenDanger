@@ -1,6 +1,5 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
-import com.alibaba.fastjson2.JSON;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
@@ -15,9 +14,10 @@ import com.zyj.hiddendanger.model.service.flow.approval.event.ApprovalFlowEdgeEv
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
-import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
-import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +31,9 @@ public class FlowServiceImpl implements FlowService {
     private final IdGenerator<String> idGenerator;
 
     private final FlowProcessMapper flowProcessMapper;
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
     @Resource
     private TransactionMQProducer approvalFlowProcessCreateTransactionMQProducer;
@@ -99,20 +102,22 @@ public class FlowServiceImpl implements FlowService {
         // 长事务异步
         // 1.插入主表,将FlowProcess放入数据库
         flowProcessMapper.saveFlowProcess(flowProcess);
+        System.out.println("主表插入完成");
         // 异步解耦
         // 2. 构造半事务消息
-        Message message = new Message(
-                "approval-flow-process-create", "", JSON.toJSONBytes(new ApprovalFlowProcessCreateMessage(
-                flowProcess.getId(),
-                flowProcess.getNodeList(),
-                flowProcess.getEdgeList()
-        )));
-        try {
-            // 3. 发送半事务消息
-            approvalFlowProcessCreateTransactionMQProducer.sendMessageInTransaction(
-                    message, flowProcess);
-        } catch (MQClientException e) {
-            throw new RuntimeException(e);
-        }
+        Message<ApprovalFlowProcessCreateMessage> build = MessageBuilder
+                .withPayload(new ApprovalFlowProcessCreateMessage(
+                        flowProcess.getId(),
+                        flowProcess.getNodeList(),
+                        flowProcess.getEdgeList()))
+//                .setHeader(MessageHeaderConstant.USER_ID, UserIdContextHolder.get())
+                .build();
+//        Message message = new Message(
+//                "approval-flow-process-create", ));
+        // 3. 发送半事务消息
+//            approvalFlowProcessCreateTransactionMQProducer.sendMessageInTransaction(
+//                    message, flowProcess);
+        rocketMQTemplate.setProducer(approvalFlowProcessCreateTransactionMQProducer);
+        rocketMQTemplate.sendMessageInTransaction("approval-flow-process-create", build, flowProcess);
     }
 }
