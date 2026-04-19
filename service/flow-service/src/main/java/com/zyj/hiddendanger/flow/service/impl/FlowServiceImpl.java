@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.flow.service.impl;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
-import com.zyj.hiddendanger.flow.infrustructure.mq.MessageHeaderConstant;
+import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.FlowService;

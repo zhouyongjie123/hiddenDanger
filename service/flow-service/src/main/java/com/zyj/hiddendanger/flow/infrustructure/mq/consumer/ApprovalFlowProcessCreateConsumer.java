@@ -3,7 +3,7 @@ package com.zyj.hiddendanger.flow.infrustructure.mq.consumer;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
-import com.zyj.hiddendanger.flow.infrustructure.mq.MessageHeaderConstant;
+import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
