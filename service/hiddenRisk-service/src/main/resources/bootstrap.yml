@@ -20,6 +20,7 @@ spring:
           - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - cache-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - mq-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
 server:
   port: 8084
   servlet:
