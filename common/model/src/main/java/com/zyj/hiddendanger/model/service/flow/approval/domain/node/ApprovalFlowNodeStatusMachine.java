@@ -11,9 +11,9 @@ import java.util.Map;
 public class ApprovalFlowNodeStatusMachine extends AbstractStatusMachine<ApprovalStatusEnum, Class<? extends AbstractApprovalFlowEdgeEvent>> {
     public ApprovalFlowNodeStatusMachine() {
         super(Map.of(
-                // 待处理->审批通过
                 ApprovalStatusEnum.PENDING,
                 Map.of(
+                        // 待处理->审批通过
                         AcceptApprovalEvent.class, ApprovalStatusEnum.ACCEPTED,
                         // 待处理->审批拒绝
                         RejectApprovalEvent.class, ApprovalStatusEnum.REJECTED
@@ -22,7 +22,7 @@ public class ApprovalFlowNodeStatusMachine extends AbstractStatusMachine<Approva
     }
 
     @Override
-    public ApprovalStatusEnum transition(
+    public ApprovalStatusEnum doTransition(
             ApprovalStatusEnum currentStatus, Class<? extends AbstractApprovalFlowEdgeEvent> eventClass) {
         Map<Class<? extends AbstractApprovalFlowEdgeEvent>, ApprovalStatusEnum> allowed = transitions.get(
                 currentStatus);

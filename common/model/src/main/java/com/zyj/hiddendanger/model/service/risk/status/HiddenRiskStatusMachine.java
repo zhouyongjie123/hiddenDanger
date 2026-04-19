@@ -8,7 +8,7 @@ import java.util.Map;
 public class HiddenRiskStatusMachine extends AbstractStatusMachine<HiddenRisk.RiskStatus, HiddenRisk.RiskEvent> {
 
     @Override
-    public HiddenRisk.RiskStatus transition(HiddenRisk.RiskStatus currentStatus, HiddenRisk.RiskEvent event) {
+    public HiddenRisk.RiskStatus doTransition(HiddenRisk.RiskStatus currentStatus, HiddenRisk.RiskEvent event) {
         Map<HiddenRisk.RiskEvent, HiddenRisk.RiskStatus> allowed = transitions.get(currentStatus);
         if (allowed == null || !allowed.containsKey(event)) {
             throw new IllegalStateException("unsupported transition: " + currentStatus + " -> " + event);

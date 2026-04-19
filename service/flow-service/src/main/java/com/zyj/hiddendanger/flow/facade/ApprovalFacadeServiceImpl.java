@@ -5,6 +5,7 @@ import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
 import com.zyj.hiddendanger.rpc.facade.Facade;
+import com.zyj.hiddendanger.web.infrustructure.idempotent.Idempotent;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -18,6 +19,7 @@ public class ApprovalFacadeServiceImpl implements ApprovalFacadeService {
     private final ApprovalFlowProcessService approvalFlowProcessService;
 
     @Override
+    @Idempotent(idempotentKey = "#event.getEventId")
     public void approve(AbstractApprovalFlowEdgeEvent event) {
         String userId = RpcContext.getServerAttachment().getAttachment("userId");
         UserIdContextHolder.set(userId);

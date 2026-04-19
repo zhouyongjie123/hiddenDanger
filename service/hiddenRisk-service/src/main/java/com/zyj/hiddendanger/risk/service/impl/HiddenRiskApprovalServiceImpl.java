@@ -34,6 +34,7 @@ public class HiddenRiskApprovalServiceImpl implements HiddenRiskApprovalService 
     public void approvalReject(HiddenRiskApprovalDTO dto) {
         String hiddenRiskId = dto.getHiddenRiskId();
         String approvalMessage = dto.getApprovalMessage();
+        RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         approvalFacadeService.approve(new RejectApprovalEvent(hiddenRiskId, idGenerator.generate(), approvalMessage));
     }
 }

@@ -21,7 +21,7 @@ public class TestApproval {
     @Test
     public void testApproval() {
         HiddenRiskApprovalDTO dto = new HiddenRiskApprovalDTO();
-        dto.setHiddenRiskId("92612219037");
+        dto.setHiddenRiskId("63091293266");
         dto.setApprovalMessage("整改很好,给予通过");
         hiddenRiskApprovalService.approvalAccept(dto);
     }

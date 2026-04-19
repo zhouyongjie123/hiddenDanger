@@ -53,12 +53,15 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
                                                             .setApprovalMessage(approvalMessage);
         approvalRecord.setStatus(ApprovalStatusEnum.of(event));
 
-        currentNode.getApprovalRecords().add(new ApprovalRecord());
+        currentNode.getApprovalRecords().add(approvalRecord);
         // 4.找到能响应事件的边
         for (FlowEdge<AbstractApprovalFlowEdgeEvent> edge : outEdges) {
             if (edge.isSupportedEvent(event)) {
                 // 5.推进图节点,推进审批节点自身的状态
-                ApprovalFlowNodeStatusMachine.getInstance().transition(currentNode.getStatus(), event.getClass(), true);
+                ApprovalStatusEnum targetStatus = ApprovalFlowNodeStatusMachine
+                        .getInstance()
+                        .transition(currentNode.getStatus(), event.getClass());
+                currentNode.setStatus(targetStatus);
                 flowProcess.setCurrentNodeId(edge.getTargetNodeId());
                 break;
             }
