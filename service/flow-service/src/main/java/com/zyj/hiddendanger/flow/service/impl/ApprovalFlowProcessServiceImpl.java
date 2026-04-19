@@ -29,7 +29,6 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void handleEvent(AbstractApprovalFlowEdgeEvent event) {
-        ApprovalStatusEnum approvalStatusEnum = ApprovalStatusEnum.of(event);
         String approvalMessage = event.getApprovalMessage();
         String businessId = event.getBusinessId();
         // 1.根据业务Id加载流程
@@ -50,7 +49,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         ApprovalRecord approvalRecord = new ApprovalRecord().setApprovalFlowNodeId(currentNodeId)
                                                             .setApproverId(currentNode.getApproverId())
                                                             .setApprovalMessage(approvalMessage);
-        approvalRecord.setStatus(approvalStatusEnum);
+        approvalRecord.setStatus(ApprovalStatusEnum.of(event));
 
         currentNode.getApprovalRecords().add(new ApprovalRecord());
         // 4.找到能响应事件的边
