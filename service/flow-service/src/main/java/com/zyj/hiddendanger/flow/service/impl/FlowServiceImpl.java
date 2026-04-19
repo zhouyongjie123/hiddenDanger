@@ -104,7 +104,6 @@ public class FlowServiceImpl implements FlowService {
         // 长事务异步
         // 1.插入主表,将FlowProcess放入数据库
         flowProcessMapper.saveFlowProcess(flowProcess);
-        System.out.println("主表插入完成");
         // 异步解耦
         // 2. 构造半事务消息
         Message<ApprovalFlowProcessCreateMessage> build = MessageBuilder
