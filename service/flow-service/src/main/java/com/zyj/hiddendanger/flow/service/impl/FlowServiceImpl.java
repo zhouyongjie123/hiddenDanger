@@ -1,6 +1,8 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
+import com.zyj.hiddendanger.flow.infrustructure.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.FlowService;
@@ -110,7 +112,7 @@ public class FlowServiceImpl implements FlowService {
                         flowProcess.getId(),
                         flowProcess.getNodeList(),
                         flowProcess.getEdgeList()))
-//                .setHeader(MessageHeaderConstant.USER_ID, UserIdContextHolder.get())
+                .setHeader(MessageHeaderConstant.USER_ID, UserIdContextHolder.get())
                 .build();
 //        Message message = new Message(
 //                "approval-flow-process-create", ));

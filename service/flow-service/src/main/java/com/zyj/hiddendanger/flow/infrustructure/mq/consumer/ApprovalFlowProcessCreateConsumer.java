@@ -1,5 +1,9 @@
 package com.zyj.hiddendanger.flow.infrustructure.mq.consumer;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONReader;
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
+import com.zyj.hiddendanger.flow.infrustructure.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
@@ -8,6 +12,7 @@ import com.zyj.hiddendanger.flow.mapper.FlowNodeMapper;
 import com.zyj.hiddendanger.web.infrustructure.idempotent.Idempotent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Service;
@@ -19,7 +24,7 @@ import org.springframework.stereotype.Service;
         consumerGroup = "approval-flow-process-create-group"
 )
 @RequiredArgsConstructor
-public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<ApprovalFlowProcessCreateMessage> {
+public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<MessageExt> {
     private final FlowNodeMapper flowNodeMapper;
 
     private final FlowEdgeMapper flowEdgeMapper;
@@ -29,18 +34,25 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Appro
     private final ApprovalFlowEdgeMapper approvalFlowEdgeMapper;
 
     @Override
-    // 幂等操作
-    @Idempotent(idempotentKey = "#approvalFlowProcessCreateMessage.flowProcessId")
-    public void onMessage(ApprovalFlowProcessCreateMessage approvalFlowProcessCreateMessage) {
-        System.out.println("分支事务开始");
-        // 将FlowNode放入数据库
-        flowNodeMapper.insertBatch(approvalFlowProcessCreateMessage.getNodeList());
-        // 将FlowEdge放入数据库
-        flowEdgeMapper.insertBatch(approvalFlowProcessCreateMessage.getEdgeList());
-        // 将ApprovalFlowNode放入数据库
-        approvalFlowNodeMapper.insertBatch(approvalFlowProcessCreateMessage.getNodeList());
-        // 将ApprovalFlowEdge放入数据库
-        approvalFlowEdgeMapper.insertBatch(approvalFlowProcessCreateMessage.getEdgeList());
-        System.out.println("分支事务结束");
+    @Idempotent(idempotentKey = "#messageExt.getMsgId()")
+    public void onMessage(MessageExt messageExt) {
+        try {
+            // 1. 先设置当前消息的 userId
+            String userId = messageExt.getProperty(MessageHeaderConstant.USER_ID);
+            UserIdContextHolder.set(userId);
+
+            // 2. 解析消息 (启用 SupportClassForName 特性以支持 Class 类型反序列化)
+            ApprovalFlowProcessCreateMessage message = JSON.parseObject(
+                    messageExt.getBody(),
+                    ApprovalFlowProcessCreateMessage.class,
+                    JSONReader.Feature.SupportClassForName);
+
+            flowNodeMapper.insertBatch(message.getNodeList());
+            flowEdgeMapper.insertBatch(message.getEdgeList());
+            approvalFlowNodeMapper.insertBatch(message.getNodeList());
+            approvalFlowEdgeMapper.insertBatch(message.getEdgeList());
+        } finally {
+            UserIdContextHolder.remove();
+        }
     }
 }

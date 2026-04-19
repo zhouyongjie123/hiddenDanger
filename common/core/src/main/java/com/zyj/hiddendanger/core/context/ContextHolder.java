@@ -1,5 +1,6 @@
 package com.zyj.hiddendanger.core.context;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.zyj.hiddendanger.core.exception.ContextException;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import static com.zyj.hiddendanger.core.exception.constant.ContextExceptionCodeE
 @Setter
 @Accessors(chain = true)
 public class ContextHolder<T> {
-    private static final Map<Class<?>, ThreadLocal<?>> threadLocalMap = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, TransmittableThreadLocal<?>> threadLocalMap = new ConcurrentHashMap<>();
 
     private String exceptionMessage;
 
@@ -22,12 +23,12 @@ public class ContextHolder<T> {
 
     protected ContextHolder(String exceptionMessage) {
         this.exceptionMessage = exceptionMessage;
-        threadLocalMap.put(this.getClass(), new ThreadLocal<>());
+        threadLocalMap.put(this.getClass(), new TransmittableThreadLocal<>());
     }
 
     @SuppressWarnings("unchecked")
     private ThreadLocal<T> getThreadLocal() {
-        return (ThreadLocal<T>) threadLocalMap.computeIfAbsent(this.getClass(), k -> new ThreadLocal<>());
+        return (ThreadLocal<T>) threadLocalMap.computeIfAbsent(this.getClass(), k -> new TransmittableThreadLocal<>());
     }
 
     public void set(T value) {
