@@ -46,12 +46,12 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
                 RpcReference.class);
         Class<?> interfaceClass = field.getType();
         Object target;
-        if (rpcProperties.isMock()) {
-            // 自动查找 Mock 类：接口名 + Mock
-            target = createMockInstance(interfaceClass);
-        } else {
+        if (!rpc.mock() && !rpcProperties.isMock()) {
             // 注入真实 Dubbo
             target = createDubboReference(interfaceClass, rpc);
+        } else {
+            // 自动查找 Mock 类：接口名 + Mock
+            target = createMockInstance(interfaceClass);
         }
         field.set(bean, target);
     }

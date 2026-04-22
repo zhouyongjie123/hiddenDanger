@@ -11,5 +11,7 @@ public @interface RpcReference {
     String group() default "";
 
     int timeout() default 3000;
+
+    boolean mock() default false;
 }
 
