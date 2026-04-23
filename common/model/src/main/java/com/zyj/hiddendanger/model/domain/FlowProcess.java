@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.database.handler.IntegerArray2DTypeHandler;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowEdgeEvent;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -31,6 +32,9 @@ public class FlowProcess<E extends FlowEdge<? extends FlowEdgeEvent>, N extends 
     // 边列表
     @TableField(exist = false)
     private List<E> edgeList;
+
+    @TableField(typeHandler = IntegerArray2DTypeHandler.class)
+    private Integer[][] originalGraph;
 
     // 当前节点（分布式状态统一）
     private String currentNodeId;

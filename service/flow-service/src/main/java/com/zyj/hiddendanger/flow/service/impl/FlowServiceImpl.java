@@ -99,6 +99,7 @@ public class FlowServiceImpl implements FlowService {
                    .setBusinessId(dto.getBusinessId())
                    .setNodeList(nodeList)
                    .setEdgeList(edgeList)
+                   .setOriginalGraph(originalGraph)
                    .setCurrentNodeId(nodeList.get(0).getId())
                    .setId(processId);
         // 长事务异步

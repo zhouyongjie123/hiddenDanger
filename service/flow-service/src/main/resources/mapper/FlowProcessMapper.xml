@@ -9,6 +9,8 @@
         <id property="id" column="p_id"/>
         <result property="processName" column="process_name"/>
         <result property="businessId" column="business_id"/>
+        <result property="originalGraph" column="original_graph"
+                typeHandler="com.zyj.hiddendanger.database.handler.IntegerArray2DTypeHandler"/>
         <result property="currentNodeId" column="current_node_id"/>
         <result property="deleted" column="p_is_deleted"/>
         <result property="creatorId" column="p_creator_id"/>
@@ -63,6 +65,7 @@
             p.process_name,
             p.business_id,
             p.current_node_id,
+            p.original_graph,
             p.is_deleted             AS p_is_deleted,
             p.creator_id             AS p_creator_id,
             p.updater_id             AS p_updater_id,
@@ -124,10 +127,14 @@
     </select>
 
     <insert id="saveFlowProcess">
-        insert into flow_process (id, process_name, business_id, current_node_id, is_deleted, creator_id, updater_id,
+        insert into flow_process (id, process_name, business_id, current_node_id, original_graph, is_deleted,
+                                  creator_id,
+                                  updater_id,
                                   create_time, update_time)
         values (#{flowProcess.id}, #{flowProcess.processName}, #{flowProcess.businessId}, #{flowProcess.currentNodeId},
-                #{flowProcess.deleted}, #{flowProcess.creatorId}, #{flowProcess.updaterId},
+                #{flowProcess.originalGraph,typeHandler=com.zyj.hiddendanger.database.handler.IntegerArray2DTypeHandler},
+                #{flowProcess.deleted},
+                #{flowProcess.creatorId}, #{flowProcess.updaterId},
                 #{flowProcess.createTime}, #{flowProcess.updateTime})
     </insert>
 </mapper>
