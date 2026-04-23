@@ -2,7 +2,7 @@ package com.zyj.hiddenrisk.flow;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.flow.FlowApplication;
-import com.zyj.hiddendanger.flow.service.FlowService;
+import com.zyj.hiddendanger.flow.service.FlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
 import jakarta.annotation.Resource;
@@ -18,7 +18,7 @@ public class TestGraph {
     }
 
     @Resource
-    private FlowService flowService;
+    private FlowProcessService flowProcessService;
 
     @Test
     public void testSaveProcess() {
@@ -36,6 +36,6 @@ public class TestGraph {
                                                                .setGraph(new ApprovalFlowGraph(graph))
                                                                .setApproverIds(approverIds);
         // 创建一个审批流程
-        flowService.createApprovalProcess(dto);
+        flowProcessService.createApprovalProcess(dto);
     }
 }

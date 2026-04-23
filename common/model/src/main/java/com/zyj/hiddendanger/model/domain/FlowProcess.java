@@ -36,6 +36,20 @@ public class FlowProcess<E extends FlowEdge<? extends FlowEdgeEvent>, N extends 
     @TableField(typeHandler = IntegerArray2DTypeHandler.class)
     private Integer[][] originalGraph;
 
+    @TableField(exist = false)
+    private Integer[][] minimizedGraph;
+
+    public Integer[][] getMinimizedGraph() {
+        if (this.minimizedGraph == null) {
+            Integer[][] result = new Integer[originalGraph.length - 1][originalGraph.length - 1];
+            for (int i = 1; i < originalGraph.length; i++) {
+                System.arraycopy(originalGraph[i], 1, result[i - 1], 0, originalGraph.length - 1);
+            }
+            return result;
+        }
+        return this.minimizedGraph;
+    }
+
     // 当前节点（分布式状态统一）
     private String currentNodeId;
 }

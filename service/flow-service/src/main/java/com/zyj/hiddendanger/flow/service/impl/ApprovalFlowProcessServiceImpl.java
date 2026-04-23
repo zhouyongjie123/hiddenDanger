@@ -47,7 +47,12 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         ApprovalFlowNode currentNode = flowProcess.getNodeList().stream()
                                                   .filter(node -> node.getId().equals(currentNodeId))
                                                   .findFirst()
-                                                  .orElseThrow(() -> new RuntimeException("找不到当前节点"));
+                                                  .orElseThrow(() -> {
+                                                      if (currentNodeId.equals(ApprovalFlowNode.END.getId())) {
+                                                          return new RuntimeException("流程已结束,无法推进节点");
+                                                      }
+                                                      return new RuntimeException("当前节点不存在");
+                                                  });
         ApprovalRecord approvalRecord = new ApprovalRecord().setApprovalFlowNodeId(currentNodeId)
                                                             .setApproverId(UserIdContextHolder.get())
                                                             .setApprovalMessage(approvalMessage);

@@ -1,6 +1,6 @@
 package com.zyj.hiddendanger.flow.controller;
 
-import com.zyj.hiddendanger.flow.service.FlowService;
+import com.zyj.hiddendanger.flow.service.FlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/process")
 public class FlowController {
-    private final FlowService flowService;
+    private final FlowProcessService flowProcessService;
 
     /**
      * 创建审批流程
@@ -22,7 +22,7 @@ public class FlowController {
     @PostMapping("/create/approval")
     public ResponseResult<?> createApprovalProcessByGraph(
             @RequestBody @Valid ApprovalFlowCreateDTO approvalFlowCreateDTO) {
-        flowService.createApprovalProcess(approvalFlowCreateDTO);
+        flowProcessService.createApprovalProcess(approvalFlowCreateDTO);
         return ResponseResult.ok("创建审批流程成功");
     }
 }

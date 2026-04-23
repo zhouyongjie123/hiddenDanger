@@ -17,6 +17,20 @@ public class ApprovalFlowNodeStatusMachine extends AbstractStatusMachine<Approva
                         AcceptApprovalEvent.class, ApprovalStatusEnum.ACCEPTED,
                         // 待处理->审批拒绝
                         RejectApprovalEvent.class, ApprovalStatusEnum.REJECTED
+                ),
+                ApprovalStatusEnum.ACCEPTED,
+                Map.of(
+                        // 审批通过->审批通过,
+                        AcceptApprovalEvent.class, ApprovalStatusEnum.ACCEPTED,
+                        // 审批通过->审批拒绝
+                        RejectApprovalEvent.class, ApprovalStatusEnum.REJECTED
+                ),
+                ApprovalStatusEnum.REJECTED,
+                Map.of(
+                        // 审批拒绝->审批通过
+                        AcceptApprovalEvent.class, ApprovalStatusEnum.ACCEPTED,
+                        // 审批拒绝->审批拒绝
+                        RejectApprovalEvent.class, ApprovalStatusEnum.REJECTED
                 )
         ));
     }
