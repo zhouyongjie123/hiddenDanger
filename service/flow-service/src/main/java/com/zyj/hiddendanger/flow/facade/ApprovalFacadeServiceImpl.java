@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.flow.facade;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.rpc.api.flow.response.ApprovalResponse;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
 import com.zyj.hiddendanger.rpc.facade.Facade;
 import com.zyj.hiddendanger.web.infrustructure.idempotent.Idempotent;
@@ -20,9 +21,9 @@ public class ApprovalFacadeServiceImpl implements ApprovalFacadeService {
 
     @Override
     @Idempotent(idempotentKey = "#event.getEventId")
-    public void approve(AbstractApprovalFlowEdgeEvent event) {
+    public ApprovalResponse approve(AbstractApprovalFlowEdgeEvent event) {
         String userId = RpcContext.getServerAttachment().getAttachment("userId");
         UserIdContextHolder.set(userId);
-        approvalFlowProcessService.handleEvent(event);
+        return new ApprovalResponse(approvalFlowProcessService.handleEvent(event));
     }
 }

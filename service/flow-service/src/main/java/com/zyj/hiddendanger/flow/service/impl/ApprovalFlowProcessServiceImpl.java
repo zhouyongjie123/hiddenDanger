@@ -30,7 +30,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void handleEvent(AbstractApprovalFlowEdgeEvent event) {
+    public boolean handleEvent(AbstractApprovalFlowEdgeEvent event) {
         String approvalMessage = event.getApprovalMessage();
         String businessId = event.getBusinessId();
         // 1.根据业务Id加载流程
@@ -78,5 +78,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         approvalFlowNodeMapper.updateById(currentNode);
         // 保存审批记录
         approvalRecordMapper.insert(approvalRecord);
+        // 返回是否流程结束
+        return flowProcess.getCurrentNodeId().equals(ApprovalFlowNode.END.getId());
     }
 }
