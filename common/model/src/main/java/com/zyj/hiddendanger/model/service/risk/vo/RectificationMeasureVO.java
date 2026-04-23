@@ -1,22 +1,23 @@
-package com.zyj.hiddendanger.model.domain;
+package com.zyj.hiddendanger.model.service.risk.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.zyj.hiddendanger.database.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
-@TableName("rectification_measure")
-public class RectificationMeasure extends Entity {
+public class RectificationMeasureVO implements Serializable {
+    /**
+     * 整改措施id
+     */
+    private String rectificationMeasureId;
+
     /**
      * 隐患id
      */
