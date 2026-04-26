@@ -45,7 +45,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
     private ApprovalFacadeService approvalFacadeService;
 
     @Resource
-    private Cache<String, String> userCache;
+    private Cache<String, String> userNameCache;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -75,7 +75,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
         RpcPageResult<String> rpcPageResult = approvalFacadeService.getMyApprovalNode(request);
         List<RectificationMeasure> list = rectificationMeasureMapper.selectList(
                 Wrappers.<RectificationMeasure>lambdaQuery()
-                        .eq(RectificationMeasure::getHiddenRiskId, rpcPageResult.getRecords())
+                        .in(RectificationMeasure::getHiddenRiskId, rpcPageResult.getRecords())
                         .eq(startTime != null, RectificationMeasure::getStartTime, startTime)
                         .eq(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
         );
@@ -92,7 +92,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
         Page<RectificationMeasureDTO> pageDto = rectificationMeasureService.getMyRectificationMeasurePageDTO(dto);
         List<RectificationMeasureVO> list = pageDto.getRecords().parallelStream().map(item -> {
             String responsiblePersonId = item.getResponsiblePersonId();
-            String responsiblePersonName = userCache.get(responsiblePersonId);
+            String responsiblePersonName = userNameCache.get(responsiblePersonId);
             if (responsiblePersonName == null) {
                 responsiblePersonName = userFacadeService.getRealNameById(responsiblePersonId);
             }

@@ -5,10 +5,7 @@ import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
 import com.zyj.hiddendanger.risk.service.RectificationMeasureService;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +16,7 @@ public class FlowController {
     /**
      * 获取我要审批的整改措施
      */
-    @GetMapping("/page")
+    @PostMapping("/page")
     public PageResponseResult<RectificationMeasureVO> getMyRectificationMeasure(
             @RequestBody
             MyRectificationMeasurePageQueryDTO dto) {

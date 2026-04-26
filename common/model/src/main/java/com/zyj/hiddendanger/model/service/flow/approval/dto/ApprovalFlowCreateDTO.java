@@ -3,6 +3,8 @@ package com.zyj.hiddendanger.model.service.flow.approval.dto;
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
 import com.zyj.hiddendanger.model.validation.annotation.ApprovalFlowCreate;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,13 +31,13 @@ public class ApprovalFlowCreateDTO {
     /**
      * 流程图
      */
-    @NotBlank(message = "流程图不能为空")
+    @NotNull(message = "流程图不能为空")
     private ApprovalFlowGraph graph;
 
 
     /**
      * 审批人id列表
      */
-    @NotBlank(message = "审批人id列表不能为空")
+    @NotEmpty(message = "审批人id列表不能为空")
     private String[] approverIds;
 }

@@ -9,10 +9,10 @@ import com.zyj.hiddendanger.model.domain.ApprovalRecord;
 import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalFlowNodeStatusMachine;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,11 +63,26 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         for (FlowEdge<AbstractApprovalFlowEdgeEvent> edge : outEdges) {
             if (edge.isSupportedEvent(event)) {
                 // 5.推进图节点,推进审批节点自身的状态
-                ApprovalStatusEnum targetStatus = ApprovalFlowNodeStatusMachine
-                        .getInstance()
-                        .transition(currentNode.getStatus(), event.getApprovalFlowNodeStatusEventEnum());
-                currentNode.setStatus(targetStatus);
+                currentNode.transition(event.getApprovalFlowNodeStatusEventEnum());
                 flowProcess.setCurrentNodeId(edge.getTargetNodeId());
+                // 如果流程没有结束
+                if (!flowProcess.getCurrentNodeId().equals(ApprovalFlowNode.END.getId())) {
+                    // 推进当前节点状态为处理中
+                    ApprovalFlowNode approvalFlowNode = flowProcess
+                            .getNodeList()
+                            .stream()
+                            .filter(node -> node.getId().equals(flowProcess.getCurrentNodeId()))
+                            .findFirst()
+                            .orElseThrow(() -> {
+                                if (currentNodeId.equals(ApprovalFlowNode.END.getId())) {
+                                    return new RuntimeException("流程已结束,无法推进节点");
+                                }
+                                return new RuntimeException("当前节点不存在");
+                            });
+                    approvalFlowNode.transition(ApprovalFlowNodeStatusEventEnum.PROCESS);
+                    // 保存目标节点状态
+                    approvalFlowNodeMapper.updateById(approvalFlowNode);
+                }
                 break;
             }
         }

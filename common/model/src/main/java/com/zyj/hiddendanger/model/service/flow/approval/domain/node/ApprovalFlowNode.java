@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.model.domain.ApprovalRecord;
 import com.zyj.hiddendanger.model.domain.FlowNode;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalFlowNodeStatusMachine;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -54,4 +56,8 @@ public class ApprovalFlowNode extends FlowNode {
      */
     @TableField(exist = false)
     private List<ApprovalRecord> approvalRecords;
+
+    public void transition(ApprovalFlowNodeStatusEventEnum event) {
+        this.status = ApprovalFlowNodeStatusMachine.getInstance().transition(this.status, event);
+    }
 }

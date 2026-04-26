@@ -25,12 +25,15 @@
         </foreach>
     </insert>
     <select id="getBusinessIdByApproverId" resultType="java.lang.String">
-        select fp.bussiness_id
+        select fp.business_id
         from flow_process as fp
         where fp.id in (select fn.process_id
-                        from flos_node as fn
+                        from flow_node as fn
                         where fn.id in
-                              (select afn.id from approval_flow_node as afn where afn.approver_id = #{approverId}))
+                              (select afn.id
+                               from approval_flow_node as afn
+                               where afn.approver_id = #{approverId}
+                                 and afn.status = 'PROCESSING'))
     </select>
 
 </mapper>
