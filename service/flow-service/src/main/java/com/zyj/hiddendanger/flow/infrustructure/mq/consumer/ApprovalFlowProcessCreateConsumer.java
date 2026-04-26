@@ -3,12 +3,13 @@ package com.zyj.hiddendanger.flow.infrustructure.mq.consumer;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
-import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowEdgeMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowNodeMapper;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
+import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.web.infrustructure.idempotent.Idempotent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,8 @@ public class ApprovalFlowProcessCreateConsumer implements RocketMQListener<Messa
                     ApprovalFlowProcessCreateMessage.class,
                     JSONReader.Feature.SupportClassForName);
 
+            // 将第一个节点的状态推进为处理中
+            message.getNodeList().get(0).transition(ApprovalFlowNodeStatusEventEnum.PROCESS);
             flowNodeMapper.insertBatch(message.getNodeList());
             flowEdgeMapper.insertBatch(message.getEdgeList());
             approvalFlowNodeMapper.insertBatch(message.getNodeList());
