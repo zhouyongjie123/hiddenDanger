@@ -61,7 +61,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
                 rectificationMeasureMapper.insert(rectificationMeasure) != 1,
                 () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         // 创建一个审批流程
-        approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDTO());
+        approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDto());
     }
 
     @Override

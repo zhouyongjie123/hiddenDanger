@@ -9,7 +9,7 @@ import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
-import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
+import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskReportDTO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
@@ -97,20 +97,18 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
         HiddenRisk hiddenRisk = new HiddenRisk().setName(hiddenRiskReportDTO.getName())
                                                 .setDescription(hiddenRiskReportDTO.getDescription())
                                                 .setLocation(hiddenRiskReportDTO.getLocation())
-                                                .setRiskLevel(HiddenRisk.RiskLevel.getByCode(
-                                                        hiddenRiskReportDTO.getRiskLevelCode()))
-                                                .setRiskType(HiddenRisk.RiskType.getByCode(
-                                                        hiddenRiskReportDTO.getRiskTypeCode()))
+                                                .setRiskLevel(hiddenRiskReportDTO.getRiskLevel())
+                                                .setRiskType(
+                                                        hiddenRiskReportDTO.getRiskType())
                                                 .setResponsibleDepartmentId(
                                                         hiddenRiskReportDTO.getResponsibleDepartmentId())
                                                 .setResponsiblePersonId(hiddenRiskReportDTO.getResponsiblePersonId())
                                                 .setDiscoveryTime(hiddenRiskReportDTO.getDiscoveryTime())
                                                 .setRectificationDeadline(
                                                         hiddenRiskReportDTO.getRectificationDeadline())
-                                                .setStatus(HiddenRisk.RiskStatus.getByCode(
-                                                        hiddenRiskReportDTO.getStatusCode()))
-                                                .setSource(HiddenRisk.RiskSource.getByCode(
-                                                        hiddenRiskReportDTO.getSourceCode()));
+                                                .setStatus(HiddenRisk.RiskStatus.WAIT_RECTIFY)
+                                                .setSource(
+                                                        hiddenRiskReportDTO.getSource());
         ThrowUtil.throwIf(
                 hiddenRiskMapper.insert(hiddenRisk) != 1,
                 () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));

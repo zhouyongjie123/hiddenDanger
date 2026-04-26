@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.risk.controller;
 
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskReportDTO;
 import com.zyj.hiddendanger.risk.service.HiddenRiskService;
-import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
+import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;
 import com.zyj.hiddendanger.web.vo.ResponseResult;

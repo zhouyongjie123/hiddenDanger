@@ -51,5 +51,5 @@ public class RectificationMeasureReportDTO {
     private String effectDescription;
 
     @NotNull(message = "流程信息不能为空")
-    private ApprovalFlowCreateDTO approvalFlowCreateDTO;
+    private ApprovalFlowCreateDTO approvalFlowCreateDto;
 }

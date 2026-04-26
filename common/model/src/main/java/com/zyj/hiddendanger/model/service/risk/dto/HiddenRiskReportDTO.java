@@ -1,12 +1,9 @@
 package com.zyj.hiddendanger.model.service.risk.dto;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
-import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
@@ -27,10 +24,10 @@ public class HiddenRiskReportDTO {
     private String location;
 
     @NotBlank(message = "隐患等级不能为空")
-    private String riskLevelCode;
+    private HiddenRisk.RiskLevel riskLevel;
 
     @NotBlank(message = "隐患类型不能为空")
-    private String riskTypeCode;
+    private HiddenRisk.RiskType riskType;
 
     @NotBlank(message = "责任部门不能为空")
     private String responsibleDepartmentId;
@@ -44,9 +41,6 @@ public class HiddenRiskReportDTO {
     @NotBlank(message = "整改期限不能为空")
     private Date rectificationDeadline;
 
-    @NotBlank(message = "隐患状态不能为空")
-    private String statusCode;
-
     @NotBlank(message = "隐患来源不能为空")
-    private String sourceCode;
+    private HiddenRisk.RiskSource source;
 }
