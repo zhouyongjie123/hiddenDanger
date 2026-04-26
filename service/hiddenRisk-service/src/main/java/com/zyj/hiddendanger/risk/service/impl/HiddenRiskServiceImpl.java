@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.database.util.PageUtil;
+import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import com.zyj.hiddendanger.model.service.auth.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
@@ -89,7 +89,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
             }
             return record.toHiddenRiskVO(departmentName, realName);
         }).toList();
-        return PageUtil.pageConvert(hiddenRiskPage, list);
+        return PageUtil.convert2Page(hiddenRiskPage, list);
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.RectificationMeasure;
 import com.zyj.hiddendanger.model.service.risk.dto.MyRectificationMeasurePageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
@@ -19,7 +18,10 @@ import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.RectificationMeasureService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
 import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
+import com.zyj.hiddendanger.rpc.api.flow.request.MyApprovalNodeRequest;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
+import com.zyj.hiddendanger.rpc.response.RpcPageResult;
+import com.zyj.hiddendanger.web.util.PageUtil;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.framework.AopContext;
@@ -66,19 +68,22 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
     public Page<RectificationMeasureDTO> getMyRectificationMeasurePageDTO(MyRectificationMeasurePageQueryDTO dto) {
         Date startTime = dto.getStartTime();
         Date completionTime = dto.getCompletionTime();
-        Page<RectificationMeasure> page = rectificationMeasureMapper.selectPage(
-                new Page<>(dto.getCurrent(), dto.getPageSize()), Wrappers
-                        .lambdaQuery(RectificationMeasure.class)
-                        .eq(RectificationMeasure::getResponsiblePersonId, UserIdContextHolder.get())
-                        .gt(startTime != null, RectificationMeasure::getStartTime, startTime)
-                        .lt(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
+        // 根据业务号码(隐患id),查询对应的整改措施
+        MyApprovalNodeRequest request = new MyApprovalNodeRequest().setApproverId(
+                UserIdContextHolder.get());
+        request.setCurrent(dto.getCurrent()).setPageSize(dto.getPageSize());
+        RpcPageResult<String> rpcPageResult = approvalFacadeService.getMyApprovalNode(request);
+        List<RectificationMeasure> list = rectificationMeasureMapper.selectList(
+                Wrappers.<RectificationMeasure>lambdaQuery()
+                        .eq(RectificationMeasure::getHiddenRiskId, rpcPageResult.getRecords())
+                        .eq(startTime != null, RectificationMeasure::getStartTime, startTime)
+                        .eq(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
         );
-        List<RectificationMeasureDTO> resultRecord = page
-                .getRecords()
+        List<RectificationMeasureDTO> resultRecord = list
                 .stream()
                 .map(RectificationMeasure::toDTO)
                 .toList();
-        return PageUtil.pageConvert(page, resultRecord);
+        return PageUtil.convert2Page(rpcPageResult, resultRecord);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
             String hiddenRiskName = hiddenRiskMapper.selectById(item.getHiddenRiskId()).getName();
             return item.toVO(hiddenRiskName, responsiblePersonName);
         }).toList();
-        return PageUtil.pageConvert(pageDto, list);
+        return PageUtil.convert2Page(pageDto, list);
     }
 }
 

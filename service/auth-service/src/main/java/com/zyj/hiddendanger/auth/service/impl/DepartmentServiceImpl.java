@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.database.util.PageUtil;
+import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.Department;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.DepartmentAddDTO;
@@ -69,7 +69,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Page<Department> pageResult = departmentMapper.selectPage(Page.of(current, pageSize), queryWrapper);
 
         List<DepartmentInfoVO> result = getDepartmentInfoVO(pageResult.getRecords());
-        return PageUtil.pageConvert(pageResult, result);
+        return PageUtil.convert2Page(pageResult, result);
     }
 
     @Override

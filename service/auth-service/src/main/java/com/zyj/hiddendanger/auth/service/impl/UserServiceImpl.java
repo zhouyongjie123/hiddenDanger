@@ -13,7 +13,7 @@ import com.zyj.hiddendanger.auth.mapper.RoleMapper;
 import com.zyj.hiddendanger.auth.mapper.UserMapper;
 import com.zyj.hiddendanger.auth.service.UserService;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.database.util.PageUtil;
+import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.User;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserRegisterDTO;
@@ -109,7 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
             return record.toUserInfoVO(departmentName, roleName);
         }).toList();
-        return PageUtil.pageConvert(page, results);
+        return PageUtil.convert2Page(page, results);
     }
 
     @Override
