@@ -1,12 +1,14 @@
-package com.zyj.hiddendanger.model.service.flow.approval.enums;
+package com.zyj.hiddendanger.model.service.flow.approval.domain.node.status;
 
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AcceptApprovalEvent;
-import com.zyj.hiddendanger.model.service.flow.approval.event.RejectApprovalEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AcceptApprovalEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.RejectApprovalEvent;
 
 public enum ApprovalStatusEnum {
     // 待审批
     PENDING,
+    // 审批中
+    PROCESSING,
     // 审批通过
     ACCEPTED,
     // 审批拒绝

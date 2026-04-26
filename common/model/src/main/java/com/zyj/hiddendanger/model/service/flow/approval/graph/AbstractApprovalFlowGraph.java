@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.model.service.flow.approval.graph;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.exception.FlowException;
 import com.zyj.hiddendanger.model.service.flow.exception.FlowExceptionCode;
 import com.zyj.hiddendanger.model.service.flow.infrustructure.FlowGraph;

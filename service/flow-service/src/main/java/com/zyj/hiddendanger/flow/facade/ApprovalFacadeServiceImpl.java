@@ -7,7 +7,7 @@ import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.flow.service.FlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.rpc.api.flow.response.ApprovalResponse;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
 import com.zyj.hiddendanger.rpc.facade.Facade;

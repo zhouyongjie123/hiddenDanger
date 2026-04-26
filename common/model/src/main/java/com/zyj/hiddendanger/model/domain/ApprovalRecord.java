@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
-import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

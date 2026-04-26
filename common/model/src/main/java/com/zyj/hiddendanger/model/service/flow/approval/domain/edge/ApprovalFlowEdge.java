@@ -2,7 +2,7 @@ package com.zyj.hiddendanger.model.service.flow.approval.domain.edge;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.model.domain.FlowEdge;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

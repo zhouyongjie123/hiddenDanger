@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.model.domain.ApprovalRecord;
 import com.zyj.hiddendanger.model.domain.FlowNode;
-import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import lombok.*;
 import lombok.experimental.Accessors;
 

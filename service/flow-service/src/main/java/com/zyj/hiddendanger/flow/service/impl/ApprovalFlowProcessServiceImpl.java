@@ -1,6 +1,5 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalRecordMapper;
@@ -11,9 +10,9 @@ import com.zyj.hiddendanger.model.domain.FlowEdge;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNodeStatusMachine;
-import com.zyj.hiddendanger.model.service.flow.approval.enums.ApprovalStatusEnum;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AbstractApprovalFlowEdgeEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalFlowNodeStatusMachine;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +65,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
                 // 5.推进图节点,推进审批节点自身的状态
                 ApprovalStatusEnum targetStatus = ApprovalFlowNodeStatusMachine
                         .getInstance()
-                        .transition(currentNode.getStatus(), event.getClass());
+                        .transition(currentNode.getStatus(), event.getApprovalFlowNodeStatusEventEnum());
                 currentNode.setStatus(targetStatus);
                 flowProcess.setCurrentNodeId(edge.getTargetNodeId());
                 break;

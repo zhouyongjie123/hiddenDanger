@@ -2,8 +2,8 @@ package com.zyj.hiddendanger.risk.service.impl;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
-import com.zyj.hiddendanger.model.service.flow.approval.event.AcceptApprovalEvent;
-import com.zyj.hiddendanger.model.service.flow.approval.event.RejectApprovalEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AcceptApprovalEvent;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.RejectApprovalEvent;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskApprovalDTO;
 import com.zyj.hiddendanger.risk.service.HiddenRiskApprovalService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;

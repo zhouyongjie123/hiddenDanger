@@ -1,4 +1,4 @@
-package com.zyj.hiddendanger.model.service.flow.approval.event;
+package com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event;
 
 import java.util.ArrayList;
 import java.util.List;
