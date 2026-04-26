@@ -24,6 +24,11 @@ public class RectificationMeasureVO implements Serializable {
     private String hiddenRiskId;
 
     /**
+     * 隐患名称
+     */
+    private String hiddenRiskName;
+
+    /**
      * 整改措施内容
      */
     private String measureContent;
@@ -32,6 +37,11 @@ public class RectificationMeasureVO implements Serializable {
      * 责任人id
      */
     private String responsiblePersonId;
+
+    /**
+     * 责任人姓名
+     */
+    private String responsiblePersonName;
 
     /**
      * 开始时间

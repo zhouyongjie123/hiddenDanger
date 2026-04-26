@@ -2,6 +2,7 @@ package com.zyj.hiddendanger.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,4 +47,10 @@ public class RectificationMeasure extends Entity {
      * 整改效果描述
      */
     private String effectDescription;
+
+    public RectificationMeasureDTO toDTO() {
+        return new RectificationMeasureDTO(
+                this.id, this.hiddenRiskId, this.measureContent, this.responsiblePersonId, this.startTime,
+                this.completionTime, this.effectDescription);
+    }
 }

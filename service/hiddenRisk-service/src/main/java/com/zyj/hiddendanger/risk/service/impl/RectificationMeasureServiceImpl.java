@@ -1,54 +1,100 @@
 package com.zyj.hiddendanger.risk.service.impl;
 
+import com.alicp.jetcache.Cache;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
+import com.zyj.hiddendanger.database.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.RectificationMeasure;
+import com.zyj.hiddendanger.model.service.risk.dto.MyRectificationMeasurePageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureReportDTO;
+import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
+import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
 import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.RectificationMeasureService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
+import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMeasureMapper, RectificationMeasure>
-        implements RectificationMeasureService {
+public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMeasureMapper, RectificationMeasure> implements RectificationMeasureService {
     private final RectificationMeasureMapper rectificationMeasureMapper;
+
+    private final HiddenRiskMapper hiddenRiskMapper;
+
+    @RpcReference
+    private UserFacadeService userFacadeService;
 
     @RpcReference
     private ApprovalFacadeService approvalFacadeService;
 
+    @Resource
+    private Cache<String, String> userCache;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void report(RectificationMeasureReportDTO dto) {
-        RectificationMeasure rectificationMeasure = new RectificationMeasure().setHiddenRiskId(dto.getHiddenRiskId())
-                                                                              .setMeasureContent(
-                                                                                      dto.getMeasureContent())
-                                                                              .setResponsiblePersonId(
-                                                                                      dto.getResponsiblePersonId())
-                                                                              .setStartTime(dto.getStartTime())
-                                                                              .setCompletionTime(
-                                                                                      dto.getCompletionTime())
-                                                                              .setEffectDescription(
-                                                                                      dto.getEffectDescription());
+        RectificationMeasure rectificationMeasure = new RectificationMeasure()
+                .setHiddenRiskId(dto.getHiddenRiskId())
+                .setMeasureContent(dto.getMeasureContent())
+                .setResponsiblePersonId(dto.getResponsiblePersonId())
+                .setStartTime(dto.getStartTime())
+                .setCompletionTime(dto.getCompletionTime())
+                .setEffectDescription(dto.getEffectDescription());
         ThrowUtil.throwIf(
-                rectificationMeasureMapper.insert(rectificationMeasure) != 1, () -> new SystemException(
-                        DatabaseExceptionCode.INSERT_ERROR));
+                rectificationMeasureMapper.insert(rectificationMeasure) != 1,
+                () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         // 创建一个审批流程
         approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDTO());
     }
 
     @Override
-    public List<RectificationMeasureDTO> getMyRectificationMeasureList() {
-        return List.of();
+    public Page<RectificationMeasureDTO> getMyRectificationMeasurePageDTO(MyRectificationMeasurePageQueryDTO dto) {
+        Date startTime = dto.getStartTime();
+        Date completionTime = dto.getCompletionTime();
+        Page<RectificationMeasure> page = rectificationMeasureMapper.selectPage(
+                new Page<>(dto.getCurrent(), dto.getPageSize()), Wrappers
+                        .lambdaQuery(RectificationMeasure.class)
+                        .eq(RectificationMeasure::getResponsiblePersonId, UserIdContextHolder.get())
+                        .gt(startTime != null, RectificationMeasure::getStartTime, startTime)
+                        .lt(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
+        );
+        List<RectificationMeasureDTO> resultRecord = page
+                .getRecords()
+                .stream()
+                .map(RectificationMeasure::toDTO)
+                .toList();
+        return PageUtil.pageConvert(page, resultRecord);
+    }
+
+    @Override
+    public Page<RectificationMeasureVO> getMyRectificationMeasurePageVO(MyRectificationMeasurePageQueryDTO dto) {
+        RectificationMeasureService rectificationMeasureService = (RectificationMeasureService) AopContext.currentProxy();
+        Page<RectificationMeasureDTO> pageDto = rectificationMeasureService.getMyRectificationMeasurePageDTO(dto);
+        List<RectificationMeasureVO> list = pageDto.getRecords().parallelStream().map(item -> {
+            String responsiblePersonId = item.getResponsiblePersonId();
+            String responsiblePersonName = userCache.get(responsiblePersonId);
+            if (responsiblePersonName == null) {
+                responsiblePersonName = userFacadeService.getRealNameById(responsiblePersonId);
+            }
+            String hiddenRiskName = hiddenRiskMapper.selectById(item.getHiddenRiskId()).getName();
+            return item.toVO(hiddenRiskName, responsiblePersonName);
+        }).toList();
+        return PageUtil.pageConvert(pageDto, list);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.zyj.hiddendanger.model.service.risk.dto;
 
+import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -46,4 +48,11 @@ public class RectificationMeasureDTO implements Serializable {
      * 整改效果描述
      */
     private String effectDescription;
+
+    public RectificationMeasureVO toVO(String hiddenRiskName, String responsiblePersonName) {
+        return new RectificationMeasureVO(
+                rectificationMeasureId, hiddenRiskId, hiddenRiskName, measureContent, responsiblePersonId,
+                responsiblePersonName, startTime,
+                completionTime, effectDescription);
+    }
 }
