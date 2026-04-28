@@ -10,6 +10,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 @Getter
 @Setter
 public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApprovalFlowEdgeEvent> {
@@ -32,4 +34,7 @@ public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApp
     }
 
     protected abstract Boolean isLegal(Integer[][] originalGraph);
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }

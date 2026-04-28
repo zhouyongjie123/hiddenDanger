@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.web.util;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zyj.hiddendanger.rpc.response.RpcPageResult;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PageUtil {
@@ -41,4 +42,13 @@ public class PageUtil {
     }
 
 
+    public static <T> Page<T> emptyPage() {
+        Page<T> page = new Page<>();
+        page.setCurrent(1);
+        page.setSize(10);
+        page.setTotal(0);
+        page.setPages(0);
+        page.setRecords(Collections.emptyList());
+        return page;
+    }
 }

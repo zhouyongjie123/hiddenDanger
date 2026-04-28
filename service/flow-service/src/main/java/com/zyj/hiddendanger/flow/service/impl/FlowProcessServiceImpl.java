@@ -2,18 +2,18 @@ package com.zyj.hiddendanger.flow.service.impl;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
-import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import com.zyj.hiddendanger.flow.infrustructure.mq.message.ApprovalFlowProcessCreateMessage;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
 import com.zyj.hiddendanger.flow.service.FlowProcessService;
 import com.zyj.hiddendanger.model.domain.FlowProcess;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.ApprovalFlowEdge;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
-import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
-import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.ApprovalFlowEdgeEventParser;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
+import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
 import com.zyj.hiddendanger.model.service.flow.approval.graph.ApprovalFlowGraph;
+import com.zyj.hiddendanger.mq.MessageHeaderConstant;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -101,6 +102,8 @@ public class FlowProcessServiceImpl implements FlowProcessService {
                    .setEdgeList(edgeList)
                    .setOriginalGraph(originalGraph)
                    .setCurrentNodeId(nodeList.get(0).getId())
+                   .setCreatorId(UserIdContextHolder.get())
+                   .setCreateTime(new Date())
                    .setId(processId);
         // 长事务异步
         // 1.插入主表,将FlowProcess放入数据库

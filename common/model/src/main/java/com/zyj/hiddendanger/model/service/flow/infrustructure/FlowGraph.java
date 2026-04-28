@@ -1,6 +1,8 @@
 package com.zyj.hiddendanger.model.service.flow.infrustructure;
 
-public interface FlowGraph<E extends FlowEdgeEvent> {
+import java.io.Serializable;
+
+public interface FlowGraph<E extends FlowEdgeEvent> extends Serializable {
     /*
      * 获取原始图
      */

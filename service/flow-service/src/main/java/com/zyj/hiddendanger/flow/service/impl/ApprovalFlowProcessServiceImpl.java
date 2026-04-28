@@ -1,6 +1,7 @@
 package com.zyj.hiddendanger.flow.service.impl;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
+import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.flow.mapper.ApprovalFlowNodeMapper;
 import com.zyj.hiddendanger.flow.mapper.ApprovalRecordMapper;
 import com.zyj.hiddendanger.flow.mapper.FlowProcessMapper;
@@ -13,6 +14,8 @@ import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.Abstra
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.exception.FlowException;
+import com.zyj.hiddendanger.model.service.flow.exception.FlowExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,7 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         // 1.根据业务Id加载流程
         FlowProcess<ApprovalFlowEdge, ApprovalFlowNode> flowProcess = flowProcessMapper.getApprovalFlowProcess(
                 businessId);
+        ThrowUtil.throwIfNull(flowProcess, () -> new FlowException(FlowExceptionCode.PROCESS_NOT_EXIST));
         // 2.找到当前节点的所有出边
         String currentNodeId = flowProcess.getCurrentNodeId();
         List<ApprovalFlowEdge> outEdges = flowProcess

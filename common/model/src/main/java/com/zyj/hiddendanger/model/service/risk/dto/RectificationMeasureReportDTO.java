@@ -36,13 +36,13 @@ public class RectificationMeasureReportDTO {
     /**
      * 开始时间
      */
-    @NotBlank(message = "开始时间不能为空")
+    @NotNull(message = "开始时间不能为空")
     private Date startTime;
 
     /**
      * 结束时间
      */
-    @NotBlank(message = "结束时间不能为空")
+    @NotNull(message = "结束时间不能为空")
     private Date completionTime;
 
     /**

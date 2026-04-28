@@ -1,7 +1,7 @@
 package com.zyj.hiddendanger.risk.service.impl;
 
 import com.alicp.jetcache.Cache;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
@@ -24,6 +24,7 @@ import com.zyj.hiddendanger.rpc.response.RpcPageResult;
 import com.zyj.hiddendanger.web.util.PageUtil;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +62,9 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
                 rectificationMeasureMapper.insert(rectificationMeasure) != 1,
                 () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
         // 创建一个审批流程
+        String businessId = rectificationMeasure.getId();
+        dto.getApprovalFlowCreateDto().setBusinessId(businessId);
+        RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDto());
     }
 
@@ -73,11 +77,15 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
                 UserIdContextHolder.get());
         request.setCurrent(dto.getCurrent()).setPageSize(dto.getPageSize());
         RpcPageResult<String> rpcPageResult = approvalFacadeService.getMyApprovalNode(request);
+        List<String> rectificationMeasureIds = rpcPageResult.getRecords();
+        if (rectificationMeasureIds.isEmpty()) {
+            return PageUtil.emptyPage();
+        }
         List<RectificationMeasure> list = rectificationMeasureMapper.selectList(
-                Wrappers.<RectificationMeasure>lambdaQuery()
-                        .in(RectificationMeasure::getHiddenRiskId, rpcPageResult.getRecords())
-                        .eq(startTime != null, RectificationMeasure::getStartTime, startTime)
-                        .eq(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
+                new LambdaQueryWrapper<RectificationMeasure>()
+                        .in(RectificationMeasure::getId, rectificationMeasureIds)
+                        .ge(startTime != null, RectificationMeasure::getStartTime, startTime)
+                        .le(completionTime != null, RectificationMeasure::getCompletionTime, completionTime)
         );
         List<RectificationMeasureDTO> resultRecord = list
                 .stream()

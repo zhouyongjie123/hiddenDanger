@@ -13,6 +13,13 @@ public class ApprovalFlowNodeStatusMachine extends AbstractStatusMachine<Approva
                         // 待处理->处理中
                         ApprovalFlowNodeStatusEventEnum.PROCESS, ApprovalStatusEnum.PROCESSING
                 ),
+                ApprovalStatusEnum.PROCESSING,
+                Map.of(
+                        // 处理中->审批通过
+                        ApprovalFlowNodeStatusEventEnum.ACCEPT, ApprovalStatusEnum.ACCEPTED,
+                        // 处理中->审批拒绝
+                        ApprovalFlowNodeStatusEventEnum.REJECT, ApprovalStatusEnum.REJECTED
+                ),
                 ApprovalStatusEnum.ACCEPTED,
                 Map.of(
                         // 审批通过->审批通过,
@@ -40,7 +47,7 @@ public class ApprovalFlowNodeStatusMachine extends AbstractStatusMachine<Approva
         Map<ApprovalFlowNodeStatusEventEnum, ApprovalStatusEnum> allowed = transitions.get(
                 currentStatus);
         if (allowed == null || !allowed.containsKey(event)) {
-            throw new IllegalStateException("unsupported transition: " + currentStatus + " -> " + event);
+            throw new IllegalStateException("unsupported transition: " + currentStatus + "trans by " + event);
         }
         return allowed.get(event);
     }

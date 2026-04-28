@@ -33,13 +33,13 @@ public class ApprovalFacadeServiceImpl implements ApprovalFacadeService {
     @Override
     @Idempotent(idempotentKey = "#event.getEventId")
     public ApprovalResponse approve(AbstractApprovalFlowEdgeEvent event) {
-        String userId = RpcContext.getServerAttachment().getAttachment("userId");
-        UserIdContextHolder.set(userId);
+        UserIdContextHolder.set(RpcContext.getServerAttachment().getAttachment("userId"));
         return new ApprovalResponse(approvalFlowProcessService.handleEvent(event));
     }
 
     @Override
     public void createApprovalProcess(ApprovalFlowCreateDTO dto) {
+        UserIdContextHolder.set(RpcContext.getServerAttachment().getAttachment("userId"));
         flowProcessService.createApprovalProcess(dto);
     }
 

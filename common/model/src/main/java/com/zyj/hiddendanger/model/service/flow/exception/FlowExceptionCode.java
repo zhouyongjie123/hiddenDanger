@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum FlowExceptionCode implements ExceptionCode {
     ILLEGAL_GRAPH("FLOW_GRAPH_ILLEGAL", "图非法"),
-    ;
+    PROCESS_NOT_EXIST("FLOW_PROCESS_NOT_EXIST", "流程不存在");
 
     private final String code;
 

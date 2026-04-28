@@ -10,12 +10,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 @ApprovalFlowCreate
-public class ApprovalFlowCreateDTO {
+public class ApprovalFlowCreateDTO implements Serializable {
     /**
      * 流程名称
      */
@@ -40,4 +43,7 @@ public class ApprovalFlowCreateDTO {
      */
     @NotEmpty(message = "审批人id列表不能为空")
     private String[] approverIds;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }
