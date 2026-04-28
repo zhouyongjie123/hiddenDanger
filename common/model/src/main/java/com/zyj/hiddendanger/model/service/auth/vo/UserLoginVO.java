@@ -10,19 +10,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class UserLoginVO {
-    private String id;
-
-    private String account;
-
-    private String realName;
-
-    private String phoneNumber;
-
-    private String departmentName;
-
-    private String roleName;
-
-    private String avatarUrl;
+    private UserInfoVO userInfoVO;
 
     private String tokenName;
 

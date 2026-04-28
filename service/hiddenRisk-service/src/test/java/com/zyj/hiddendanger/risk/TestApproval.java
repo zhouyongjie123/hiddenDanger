@@ -1,8 +1,8 @@
 package com.zyj.hiddendanger.risk;
 
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
-import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskApprovalDTO;
-import com.zyj.hiddendanger.risk.service.HiddenRiskApprovalService;
+import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureApprovalDTO;
+import com.zyj.hiddendanger.risk.service.RectificationMeasureApprovalService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = HiddenRiskApplication.class)
 public class TestApproval {
     @Resource
-    private HiddenRiskApprovalService hiddenRiskApprovalService;
+    private RectificationMeasureApprovalService rectificationMeasureApprovalService;
 
     @BeforeEach
     public void init() {
@@ -20,9 +20,9 @@ public class TestApproval {
 
     @Test
     public void testApproval() {
-        HiddenRiskApprovalDTO dto = new HiddenRiskApprovalDTO();
-        dto.setHiddenRiskId("66934932227");
+        RectificationMeasureApprovalDTO dto = new RectificationMeasureApprovalDTO();
+        dto.setRectificationMeasureId("66934932227");
         dto.setApprovalMessage("整改很好,给予通过");
-        hiddenRiskApprovalService.approvalAccept(dto);
+        rectificationMeasureApprovalService.approvalAccept(dto);
     }
 }

@@ -87,7 +87,8 @@ public class HiddenRisk extends Entity {
     }
 
 
-    public HiddenRiskVO toHiddenRiskVO(String responsibleDepartmentName, String responsiblePersonName) {
+    public HiddenRiskVO toHiddenRiskVO(
+            String responsibleDepartmentName, String responsiblePersonName, Boolean isRectify) {
         return new HiddenRiskVO().setName(this.getName())
                                  .setDescription(this.getDescription())
                                  .setLocation(this.getLocation())
@@ -98,6 +99,7 @@ public class HiddenRisk extends Entity {
                                  .setDiscoveryTime(this.getDiscoveryTime())
                                  .setRectificationDeadline(this.getRectificationDeadline())
                                  .setStatus(this.getStatus())
-                                 .setSource(this.getSource());
+                                 .setSource(this.getSource())
+                                 .setIsRectify(isRectify);
     }
 }

@@ -9,11 +9,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class HiddenRiskApprovalDTO {
+public class RectificationMeasureApprovalDTO {
     /**
-     * 要审批的隐患id
+     * 要审批的整改措施id
      */
-    private String hiddenRiskId;
+    private String rectificationMeasureId;
 
     /**
      * 审批意见

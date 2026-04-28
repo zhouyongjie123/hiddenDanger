@@ -2,11 +2,14 @@ package com.zyj.hiddendanger.risk.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
+import com.zyj.hiddendanger.model.domain.RectificationMeasure;
+import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
@@ -43,6 +46,8 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
     @Resource
     private Cache<String, String> userNameCache;
 
+    private final RectificationMeasureMapper rectificationMeasureMapper;
+
 
     private LambdaQueryWrapper<HiddenRisk> getHiddenRiskQueryWrapper(HiddenRiskPageQueryDTO dto) {
         return new LambdaQueryWrapper<HiddenRisk>()
@@ -68,6 +73,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
 
     @Override
     public Page<HiddenRiskVO> page(HiddenRiskPageQueryDTO dto) {
+        // ToDo 查询优化
         Page<HiddenRisk> hiddenRiskPage = hiddenRiskMapper.selectPage(
                 Page.of(dto.getCurrent(), dto.getPageSize()), getHiddenRiskQueryWrapper(dto));
         // 优化:本地和远程缓存部门名,用户名
@@ -87,7 +93,12 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
                 userNameCache.put(record.getResponsiblePersonId(), realNameById);
                 realName = realNameById;
             }
-            return record.toHiddenRiskVO(departmentName, realName);
+            // 查询是否有整改措施
+            boolean isRectify = rectificationMeasureMapper.exists(Wrappers.lambdaQuery(RectificationMeasure.class)
+                                                                          .eq(
+                                                                                  RectificationMeasure::getHiddenRiskId,
+                                                                                  record.getId()));
+            return record.toHiddenRiskVO(departmentName, realName, isRectify);
         }).toList();
         return PageUtil.convert2Page(hiddenRiskPage, list);
     }
@@ -123,7 +134,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
                     hiddenRisk.getResponsibleDepartmentId());
             departmentNameCache.put(hiddenRisk.getResponsibleDepartmentId(), responsibleDepartmentName);
         }
-        return hiddenRisk.toHiddenRiskVO(responsiblePersonName, responsibleDepartmentName);
+        return hiddenRisk.toHiddenRiskVO(responsiblePersonName, responsibleDepartmentName, Boolean.FALSE);
     }
 }
 

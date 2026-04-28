@@ -34,4 +34,9 @@ public class HiddenRiskVO {
     private HiddenRisk.RiskStatus status;
 
     private HiddenRisk.RiskSource source;
+
+    /**
+     * 是否整改
+     */
+    private Boolean isRectify;
 }

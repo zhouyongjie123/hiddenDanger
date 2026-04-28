@@ -62,7 +62,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public UserInfoVO register(UserRegisterDTO userRegisterDTO) {
-        // todo 增加管理员的权限校验
         User user = new User().setAccount(userRegisterDTO.getAccount())
                               .setPassword(userRegisterDTO.getPassword())
                               .setRealName(userRegisterDTO.getRealName())

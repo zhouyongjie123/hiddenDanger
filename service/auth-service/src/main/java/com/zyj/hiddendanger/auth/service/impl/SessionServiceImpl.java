@@ -10,6 +10,7 @@ import com.zyj.hiddendanger.model.service.auth.dto.LoginRequestDTO;
 import com.zyj.hiddendanger.model.service.auth.dto.UserInfoDTO;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthException;
 import com.zyj.hiddendanger.model.service.auth.exception.AuthExceptionCode;
+import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,18 @@ public class SessionServiceImpl implements SessionService {
         StpUtil.login(userInfoDTO.getId());
         // 获取token信息
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return new UserLoginVO().setId(userInfoDTO.getId())
-                                .setAccount(userInfoDTO.getAccount())
-                                .setRealName(userInfoDTO.getRealName())
-                                .setPhoneNumber(userInfoDTO.getPhoneNumber())
-                                .setDepartmentName(userInfoDTO.getDepartmentName())
-                                .setRoleName(userInfoDTO.getRoleName())
+        return new UserLoginVO().setUserInfoVO(
+                                        new UserInfoVO().setId(userInfoDTO.getId())
+                                                        .setAccount(userInfoDTO.getAccount())
+                                                        .setRealName(userInfoDTO.getRealName())
+                                                        .setPhoneNumber(userInfoDTO.getPhoneNumber())
+                                                        .setDepartmentId(userInfoDTO.getDepartmentId())
+                                                        .setDepartmentName(userInfoDTO.getDepartmentName())
+                                                        .setRoleId(userInfoDTO.getRoleId())
+                                                        .setRoleName(userInfoDTO.getRoleName())
+                                                        .setAvatarUrl(userInfoDTO.getAvatarUrl())
+                                )
                                 .setTokenName(tokenInfo.getTokenName())
-                                .setAvatarUrl(userInfoDTO.getAvatarUrl())
                                 .setTokenValue(tokenInfo.getTokenValue());
     }
 
