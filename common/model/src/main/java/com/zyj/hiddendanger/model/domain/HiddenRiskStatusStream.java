@@ -13,11 +13,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-@TableName("hidden_risk_stream")
-public class HiddenRiskStream extends Entity {
-    private Long hiddenRiskId;
+@TableName("hidden_risk_status_stream")
+public class HiddenRiskStatusStream extends Entity {
+    private String hiddenRiskId;
 
-    private String operationType;
-
-    private String operationContent;
+    private HiddenRisk.RiskEvent operationType;
 }

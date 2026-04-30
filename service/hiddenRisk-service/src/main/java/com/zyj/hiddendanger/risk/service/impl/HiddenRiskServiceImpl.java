@@ -5,24 +5,28 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.hiddendanger.core.exception.biz.BizException;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
-import com.zyj.hiddendanger.model.domain.RectificationMeasure;
-import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
-import com.zyj.hiddendanger.web.util.PageUtil;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
-import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
+import com.zyj.hiddendanger.model.domain.HiddenRiskStatusStream;
+import com.zyj.hiddendanger.model.domain.RectificationMeasure;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskReportDTO;
+import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
+import com.zyj.hiddendanger.risk.mapper.HiddenRiskStreamMapper;
+import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.HiddenRiskService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
 import com.zyj.hiddendanger.rpc.api.auth.service.DepartmentFacadeService;
 import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
+import com.zyj.hiddendanger.web.util.PageUtil;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -33,6 +37,8 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
         implements HiddenRiskService {
 
     private final HiddenRiskMapper hiddenRiskMapper;
+
+    private final HiddenRiskStreamMapper hiddenRiskStreamMapper;
 
     @RpcReference
     private DepartmentFacadeService departmentFacadeService;
@@ -136,8 +142,18 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
         }
         return hiddenRisk.toHiddenRiskVO(responsiblePersonName, responsibleDepartmentName, Boolean.FALSE);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void rectify(String riskId) {
+        HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(riskId);
+        ThrowUtil.throwIfNull(hiddenRisk, () -> new BizException(DatabaseExceptionCode.ID_NOT_FOUND));
+        hiddenRisk.transition(HiddenRisk.RiskEvent.RECTIFY);
+        hiddenRiskMapper.updateById(hiddenRisk);
+        ThrowUtil.throwIf(
+                hiddenRiskStreamMapper.insert(new HiddenRiskStatusStream().setHiddenRiskId(riskId)
+                                                                          .setOperationType(
+                                                                                  HiddenRisk.RiskEvent.RECTIFY))
+                        != 1, () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
+    }
 }
-
-
-
-

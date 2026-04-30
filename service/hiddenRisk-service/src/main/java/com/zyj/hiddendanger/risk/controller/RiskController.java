@@ -7,9 +7,7 @@ import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.web.vo.PageResponseResult;
 import com.zyj.hiddendanger.web.vo.ResponseResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +22,11 @@ public class RiskController {
     @PostMapping("/report")
     public ResponseResult<HiddenRiskVO> report(@RequestBody HiddenRiskReportDTO hiddenRiskReportDTO) {
         return ResponseResult.ok(hiddenRiskService.report(hiddenRiskReportDTO));
+    }
+
+    @PutMapping("/rectify")
+    public ResponseResult<?> rectify(@RequestParam("riskId") String riskId) {
+        hiddenRiskService.rectify(riskId);
+        return ResponseResult.ok("状态推进成功");
     }
 }

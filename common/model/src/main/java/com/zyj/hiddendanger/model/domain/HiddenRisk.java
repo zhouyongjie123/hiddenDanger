@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
+import com.zyj.hiddendanger.model.service.risk.status.HiddenRiskStatusMachine;
 import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -53,18 +54,16 @@ public class HiddenRisk extends Entity {
     public enum RiskStatus {
         WAIT_RECTIFY,// 待整改
         RECTIFYING,// 整改中
-        WAIT_ACCEPTANCE,// 待验收
+        RECTIFY_REPORT_SUBMITTED,// 整改报告已提交
         CLOSED,// 已闭环
-        CANCELED,// 已撤销
         ;
     }
 
     public enum RiskEvent {
         RECTIFY,// 整改
-        RECTIFY_COMPLETE,// 整改完成
-        REJECT,// 拒绝整改完成
-        ACCEPT,// 同意完成整改
-        REVOKE,// 撤销该隐患
+        SUBMIT_RECTIFY_REPORT,// 提交整改报告
+        ACCEPT,// 整改通过
+        REJECT,// 整改未通过
         ;
     }
 
@@ -101,5 +100,9 @@ public class HiddenRisk extends Entity {
                                  .setStatus(this.getStatus())
                                  .setSource(this.getSource())
                                  .setIsRectify(isRectify);
+    }
+
+    public void transition(RiskEvent event) {
+        this.status = HiddenRiskStatusMachine.getInstance().transition(this.status, event);
     }
 }

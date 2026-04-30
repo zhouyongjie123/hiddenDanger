@@ -11,29 +11,26 @@ public class HiddenRiskStatusMachine extends AbstractStatusMachine<HiddenRisk.Ri
     public HiddenRisk.RiskStatus doTransition(HiddenRisk.RiskStatus currentStatus, HiddenRisk.RiskEvent event) {
         Map<HiddenRisk.RiskEvent, HiddenRisk.RiskStatus> allowed = transitions.get(currentStatus);
         if (allowed == null || !allowed.containsKey(event)) {
-            throw new IllegalStateException("unsupported transition: " + currentStatus + " -> " + event);
+            throw new IllegalStateException("unsupported transition: " + currentStatus + " trans by  " + event);
         }
         return allowed.get(event);
     }
 
     private HiddenRiskStatusMachine() {
         super(Map.of(
-                // 待整改-->整改中
                 HiddenRisk.RiskStatus.WAIT_RECTIFY,
                 Map.of(
-                        HiddenRisk.RiskEvent.RECTIFY, HiddenRisk.RiskStatus.RECTIFYING,
-                        // 撤销
-                        HiddenRisk.RiskEvent.REVOKE, HiddenRisk.RiskStatus.CANCELED),
-                // 整改中-->待验收
+                        // 待整改-->整改中
+                        HiddenRisk.RiskEvent.RECTIFY, HiddenRisk.RiskStatus.RECTIFYING),
                 HiddenRisk.RiskStatus.RECTIFYING,
                 Map.of(
-                        HiddenRisk.RiskEvent.RECTIFY_COMPLETE, HiddenRisk.RiskStatus.WAIT_ACCEPTANCE,
-                        // 撤销
-                        HiddenRisk.RiskEvent.REVOKE, HiddenRisk.RiskStatus.CANCELED),
-                // 待验收---同意--->已闭环 待验收---拒绝--->整改中
-                HiddenRisk.RiskStatus.WAIT_ACCEPTANCE,
+                        // 整改中->整改报告已提交
+                        HiddenRisk.RiskEvent.SUBMIT_RECTIFY_REPORT, HiddenRisk.RiskStatus.RECTIFY_REPORT_SUBMITTED),
+                HiddenRisk.RiskStatus.RECTIFY_REPORT_SUBMITTED,
                 Map.of(
+                        // 整改报告已提交->已闭环
                         HiddenRisk.RiskEvent.ACCEPT, HiddenRisk.RiskStatus.CLOSED,
+                        // 整改报告已提交->整改中
                         HiddenRisk.RiskEvent.REJECT, HiddenRisk.RiskStatus.RECTIFYING)
         ));
     }

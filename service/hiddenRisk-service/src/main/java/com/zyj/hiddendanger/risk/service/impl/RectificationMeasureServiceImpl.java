@@ -70,6 +70,7 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
         dto.getApprovalFlowCreateDto().setBusinessId(businessId);
         RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDto());
+        // 修改隐患状态状态为整改完成
     }
 
     @Override

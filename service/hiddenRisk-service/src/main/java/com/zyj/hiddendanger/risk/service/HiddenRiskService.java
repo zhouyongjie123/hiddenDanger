@@ -11,4 +11,6 @@ public interface HiddenRiskService extends IService<HiddenRisk> {
     Page<HiddenRiskVO> page(HiddenRiskPageQueryDTO hiddenRiskPageQueryDTO);
 
     HiddenRiskVO report(HiddenRiskReportDTO hiddenRiskReportDTO);
+
+    void rectify(String riskId);
 }
