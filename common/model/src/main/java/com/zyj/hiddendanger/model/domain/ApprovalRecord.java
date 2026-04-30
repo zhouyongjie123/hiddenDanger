@@ -3,6 +3,7 @@ package com.zyj.hiddendanger.model.domain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalRecordVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,4 +39,8 @@ public class ApprovalRecord extends Entity {
      * 审批后的状态
      */
     private ApprovalStatusEnum status;
+
+    public ApprovalRecordVO toVO(String approverName) {
+        return new ApprovalRecordVO(this.getId(), this.approverId, approverName, this.approvalMessage, this.status);
+    }
 }

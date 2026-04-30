@@ -11,9 +11,11 @@ import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
 import com.zyj.hiddendanger.model.domain.RectificationMeasure;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalFlowProcessVO;
 import com.zyj.hiddendanger.model.service.risk.dto.MyRectificationMeasurePageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureReportDTO;
+import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureApprovalProcessVO;
 import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
 import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
@@ -123,6 +125,17 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
         String responsiblePersonName = userFacadeService.getRealNameById(rectificationMeasure.getResponsiblePersonId());
         return rectificationMeasure.toDTO().toVO(hiddenRiskName, responsiblePersonName);
 
+    }
+
+    @Override
+    public RectificationMeasureApprovalProcessVO getRectificationMeasureApprovalProcessVOByHiddenRiskId(String riskId) {
+        RectificationMeasureService rectificationMeasureService = (RectificationMeasureService) AopContext.currentProxy();
+        RectificationMeasureVO rectificationMeasureVO = rectificationMeasureService.getRectificationMeasureByHiddenRiskId(
+                riskId);
+        ApprovalFlowProcessVO approvalFlowProcessVO = approvalFacadeService.getApprovalFlowProcessVOByBusinessId(
+                rectificationMeasureVO.getRectificationMeasureId());
+        return new RectificationMeasureApprovalProcessVO().setRectificationMeasureVO(rectificationMeasureVO)
+                                                          .setApprovalFlowProcessVO(approvalFlowProcessVO);
     }
 }
 

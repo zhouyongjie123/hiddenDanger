@@ -7,6 +7,8 @@ import com.zyj.hiddendanger.model.domain.FlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalFlowNodeStatusMachine;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalFlowNodeVO;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalRecordVO;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -59,5 +61,15 @@ public class ApprovalFlowNode extends FlowNode {
 
     public void transition(ApprovalFlowNodeStatusEventEnum event) {
         this.status = ApprovalFlowNodeStatusMachine.getInstance().transition(this.status, event);
+    }
+
+    public ApprovalFlowNodeVO toVO(String approverName, List<ApprovalRecordVO> approvalRecordVOs) {
+        return new ApprovalFlowNodeVO()
+                .setApprovalFlowNodeId(this.getId())
+                .setApproverId(this.approverId)
+                .setProcessId(this.processId)
+                .setStatus(this.status)
+                .setApproverName(approverName)
+                .setApprovalRecords(approvalRecordVOs);
     }
 }

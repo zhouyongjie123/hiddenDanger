@@ -14,13 +14,18 @@ import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.Abstra
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.ApprovalFlowNode;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.event.ApprovalFlowNodeStatusEventEnum;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.node.status.ApprovalStatusEnum;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalFlowProcessVO;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalRecordVO;
 import com.zyj.hiddendanger.model.service.flow.exception.FlowException;
 import com.zyj.hiddendanger.model.service.flow.exception.FlowExceptionCode;
+import com.zyj.hiddendanger.rpc.annotation.RpcReference;
+import com.zyj.hiddendanger.rpc.api.auth.service.UserFacadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +35,9 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
     private final ApprovalFlowNodeMapper approvalFlowNodeMapper;
 
     private final ApprovalRecordMapper approvalRecordMapper;
+
+    @RpcReference
+    private UserFacadeService userFacadeService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -99,5 +107,33 @@ public class ApprovalFlowProcessServiceImpl implements ApprovalFlowProcessServic
         approvalRecordMapper.insert(approvalRecord);
         // 返回是否流程结束
         return flowProcess.getCurrentNodeId().equals(ApprovalFlowNode.END.getId());
+    }
+
+    @Override
+    public ApprovalFlowProcessVO getApprovalFlowProcessVOByBusinessId(String businessId) {
+        FlowProcess<ApprovalFlowEdge, ApprovalFlowNode> approvalFlowProcess = flowProcessMapper.getApprovalFlowProcess(
+                businessId);
+        ThrowUtil.throwIfNull(approvalFlowProcess, () -> new FlowException(FlowExceptionCode.PROCESS_NOT_EXIST));
+        assert approvalFlowProcess != null;
+        ApprovalFlowProcessVO result = new ApprovalFlowProcessVO();
+        result.setProcessId(approvalFlowProcess.getId())
+              .setProcessName(approvalFlowProcess.getProcessName())
+              .setOriginalGraph(approvalFlowProcess.getOriginalGraph())
+              .setCurrentNodeId(approvalFlowProcess.getCurrentNodeId());
+
+        List<ApprovalFlowNode> nodeList = approvalFlowProcess.getNodeList();
+        // 所有审批人的id
+        List<String> approverIds = nodeList.stream().map(ApprovalFlowNode::getApproverId).distinct().toList();
+        // 审批人id->姓名
+        Map<String, String> realNameMap = userFacadeService.getRealNameByIds(approverIds);
+        result.setNodeList(nodeList.stream().map(node -> {
+            List<ApprovalRecordVO> list = node
+                    .getApprovalRecords()
+                    .stream()
+                    .map(record -> record.toVO(realNameMap.get(record.getApproverId())))
+                    .toList();
+            return node.toVO(realNameMap.get(node.getApproverId()), list);
+        }).toList());
+        return result;
     }
 }

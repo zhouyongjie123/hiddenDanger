@@ -6,6 +6,7 @@ import com.zyj.hiddendanger.model.domain.RectificationMeasure;
 import com.zyj.hiddendanger.model.service.risk.dto.MyRectificationMeasurePageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureReportDTO;
+import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureApprovalProcessVO;
 import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
 
 public interface RectificationMeasureService extends IService<RectificationMeasure> {
@@ -16,4 +17,9 @@ public interface RectificationMeasureService extends IService<RectificationMeasu
     Page<RectificationMeasureVO> getMyRectificationMeasurePageVO(MyRectificationMeasurePageQueryDTO dto);
 
     RectificationMeasureVO getRectificationMeasureByHiddenRiskId(String riskId);
+
+    /**
+     * 获取整改流程
+     */
+    RectificationMeasureApprovalProcessVO getRectificationMeasureApprovalProcessVOByHiddenRiskId(String riskId);
 }

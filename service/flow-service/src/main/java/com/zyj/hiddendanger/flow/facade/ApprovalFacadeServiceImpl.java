@@ -7,6 +7,7 @@ import com.zyj.hiddendanger.flow.service.ApprovalFlowProcessService;
 import com.zyj.hiddendanger.flow.service.FlowProcessService;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AbstractApprovalFlowEdgeEvent;
 import com.zyj.hiddendanger.model.service.flow.approval.dto.ApprovalFlowCreateDTO;
+import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalFlowProcessVO;
 import com.zyj.hiddendanger.rpc.api.flow.request.MyApprovalNodeRequest;
 import com.zyj.hiddendanger.rpc.api.flow.response.ApprovalResponse;
 import com.zyj.hiddendanger.rpc.api.flow.service.ApprovalFacadeService;
@@ -48,5 +49,10 @@ public class ApprovalFacadeServiceImpl implements ApprovalFacadeService {
         Page<String> page = approvalFlowNodeMapper.getBusinessIdByApproverId(
                 new Page<>(request.getCurrent(), request.getPageSize()), request.getApproverId());
         return PageUtil.convert2RpcPageResult(page);
+    }
+
+    @Override
+    public ApprovalFlowProcessVO getApprovalFlowProcessVOByBusinessId(String businessId) {
+        return approvalFlowProcessService.getApprovalFlowProcessVOByBusinessId(businessId);
     }
 }
