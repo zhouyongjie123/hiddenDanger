@@ -27,6 +27,9 @@ public class RectificationController {
         return ResponseResult.ok("提交成功");
     }
 
+    /**
+     * 获取整改信息
+     */
     @GetMapping("/risk")
     public ResponseResult<RectificationMeasureVO> getRectificationMeasure(@RequestParam("riskId") String riskId) {
         return ResponseResult.ok(rectificationMeasureService.getRectificationMeasureByHiddenRiskId(riskId));

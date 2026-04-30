@@ -41,6 +41,7 @@ public class ApprovalRecord extends Entity {
     private ApprovalStatusEnum status;
 
     public ApprovalRecordVO toVO(String approverName) {
-        return new ApprovalRecordVO(this.getId(), this.approverId, approverName, this.approvalMessage, this.status);
+        return new ApprovalRecordVO(
+                this.approvalFlowNodeId, this.approverId, approverName, this.approvalMessage, this.status);
     }
 }

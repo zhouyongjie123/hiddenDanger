@@ -14,16 +14,25 @@ import org.springframework.web.bind.annotation.*;
 public class RiskController {
     private final HiddenRiskService hiddenRiskService;
 
+    /**
+     * 查询隐患记录
+     */
     @PostMapping("/page")
     public PageResponseResult<HiddenRiskVO> page(@RequestBody HiddenRiskPageQueryDTO hiddenRiskPageQueryDTO) {
         return PageResponseResult.ok(hiddenRiskService.page(hiddenRiskPageQueryDTO));
     }
 
+    /**
+     * 上报隐患
+     */
     @PostMapping("/report")
     public ResponseResult<HiddenRiskVO> report(@RequestBody HiddenRiskReportDTO hiddenRiskReportDTO) {
         return ResponseResult.ok(hiddenRiskService.report(hiddenRiskReportDTO));
     }
 
+    /**
+     * 整改隐患
+     */
     @PutMapping("/rectify")
     public ResponseResult<?> rectify(@RequestParam("riskId") String riskId) {
         hiddenRiskService.rectify(riskId);

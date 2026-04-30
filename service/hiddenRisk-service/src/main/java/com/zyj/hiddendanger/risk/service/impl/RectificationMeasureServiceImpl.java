@@ -10,13 +10,16 @@ import com.zyj.hiddendanger.core.exception.biz.BizException;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
+import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import com.zyj.hiddendanger.model.domain.RectificationMeasure;
 import com.zyj.hiddendanger.model.service.flow.approval.vo.ApprovalFlowProcessVO;
+import com.zyj.hiddendanger.model.service.risk.RiskException;
 import com.zyj.hiddendanger.model.service.risk.dto.MyRectificationMeasurePageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureReportDTO;
 import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureApprovalProcessVO;
 import com.zyj.hiddendanger.model.service.risk.vo.RectificationMeasureVO;
+import com.zyj.hiddendanger.model.service.risk.vo.RiskExceptionCode;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
 import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.RectificationMeasureService;
@@ -55,8 +58,15 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void report(RectificationMeasureReportDTO dto) {
+        // 只有整改中的隐患才能提交整改报告
+        String riskId = dto.getHiddenRiskId();
+        HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(riskId);
+        ThrowUtil.throwIfNull(hiddenRisk, () -> new BizException(DatabaseExceptionCode.ID_NOT_FOUND));
+        ThrowUtil.throwIfTrue(
+                !hiddenRisk.getStatus().equals(HiddenRisk.RiskStatus.RECTIFYING), () -> new RiskException(
+                        RiskExceptionCode.UNRECTIFIED_RISK));
         RectificationMeasure rectificationMeasure = new RectificationMeasure()
-                .setHiddenRiskId(dto.getHiddenRiskId())
+                .setHiddenRiskId(riskId)
                 .setMeasureContent(dto.getMeasureContent())
                 .setResponsiblePersonId(dto.getResponsiblePersonId())
                 .setStartTime(dto.getStartTime())
@@ -70,7 +80,11 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
         dto.getApprovalFlowCreateDto().setBusinessId(businessId);
         RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         approvalFacadeService.createApprovalProcess(dto.getApprovalFlowCreateDto());
-        // 修改隐患状态状态为整改完成
+        // 推进隐患状态为整改已上报
+        hiddenRisk.transition(HiddenRisk.RiskEvent.SUBMIT_RECTIFY_REPORT);
+        ThrowUtil.throwIfTrue(
+                hiddenRiskMapper.updateById(hiddenRisk) != 1,
+                () -> new SystemException(DatabaseExceptionCode.UPDATE_ERROR));
     }
 
     @Override
