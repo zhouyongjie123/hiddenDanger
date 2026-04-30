@@ -16,6 +16,21 @@ import java.io.Serial;
 @Setter
 public abstract class AbstractApprovalFlowGraph implements FlowGraph<AbstractApprovalFlowEdgeEvent> {
     /**
+     * 审批通过 - 出边值
+     */
+    public static final int APPROVE = 0b01;
+
+    /**
+     * 审批拒绝 - 出边值
+     */
+    public static final int REJECT = 0b10;
+
+    /**
+     * 中间节点必须的出度和：通过+拒绝
+     */
+    public static final int MIDDLE_NODE_OUT_SUM = APPROVE + REJECT;
+
+    /**
      * 图
      */
     @NotNull(message = "图不能为空")
