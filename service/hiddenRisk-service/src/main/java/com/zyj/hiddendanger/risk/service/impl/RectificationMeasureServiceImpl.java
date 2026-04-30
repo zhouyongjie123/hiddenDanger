@@ -2,9 +2,11 @@ package com.zyj.hiddendanger.risk.service.impl;
 
 import com.alicp.jetcache.Cache;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.hiddendanger.core.context.UserIdContextHolder;
+import com.zyj.hiddendanger.core.exception.biz.BizException;
 import com.zyj.hiddendanger.core.exception.sys.SystemException;
 import com.zyj.hiddendanger.core.exception.sys.code.DatabaseExceptionCode;
 import com.zyj.hiddendanger.core.util.ThrowUtil;
@@ -108,6 +110,19 @@ public class RectificationMeasureServiceImpl extends ServiceImpl<RectificationMe
             return item.toVO(hiddenRiskName, responsiblePersonName);
         }).toList();
         return PageUtil.convert2Page(pageDto, list);
+    }
+
+    @Override
+    public RectificationMeasureVO getRectificationMeasureByHiddenRiskId(String riskId) {
+        RectificationMeasure rectificationMeasure = rectificationMeasureMapper.selectOne(
+                Wrappers.<RectificationMeasure>lambdaQuery()
+                        .eq(RectificationMeasure::getHiddenRiskId, riskId));
+        ThrowUtil.throwIf(rectificationMeasure == null, () -> new BizException(DatabaseExceptionCode.ID_NOT_FOUND));
+        assert rectificationMeasure != null;
+        String hiddenRiskName = hiddenRiskMapper.selectById(riskId).getName();
+        String responsiblePersonName = userFacadeService.getRealNameById(rectificationMeasure.getResponsiblePersonId());
+        return rectificationMeasure.toDTO().toVO(hiddenRiskName, responsiblePersonName);
+
     }
 }
 

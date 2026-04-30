@@ -14,4 +14,6 @@ public interface RectificationMeasureService extends IService<RectificationMeasu
     Page<RectificationMeasureDTO> getMyRectificationMeasurePageDTO(MyRectificationMeasurePageQueryDTO dto);
 
     Page<RectificationMeasureVO> getMyRectificationMeasurePageVO(MyRectificationMeasurePageQueryDTO dto);
+
+    RectificationMeasureVO getRectificationMeasureByHiddenRiskId(String riskId);
 }

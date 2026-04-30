@@ -11,7 +11,7 @@ public enum DatabaseExceptionCode implements ExceptionCode {
     UPDATE_ERROR("10002", "数据库更新异常"),
     DELETE_ERROR("10003", "数据库删除异常"),
     SELECT_ERROR("10004", "数据库查询异常"),
-    ;
+    ID_NOT_FOUND("10005", "数据库查询结果为空");
 
     private final String code;
 
