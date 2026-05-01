@@ -88,18 +88,20 @@ public class HiddenRisk extends Entity {
 
     public HiddenRiskVO toHiddenRiskVO(
             String responsibleDepartmentName, String responsiblePersonName, Boolean isRectify) {
-        return new HiddenRiskVO().setName(this.getName())
-                                 .setDescription(this.getDescription())
-                                 .setLocation(this.getLocation())
-                                 .setRiskLevel(this.getRiskLevel())
-                                 .setRiskType(this.getRiskType())
-                                 .setResponsibleDepartmentName(responsibleDepartmentName)
-                                 .setResponsiblePersonName(responsiblePersonName)
-                                 .setDiscoveryTime(this.getDiscoveryTime())
-                                 .setRectificationDeadline(this.getRectificationDeadline())
-                                 .setStatus(this.getStatus())
-                                 .setSource(this.getSource())
-                                 .setIsRectify(isRectify);
+        return new HiddenRiskVO()
+                .setId(this.getId())
+                .setName(this.getName())
+                .setDescription(this.getDescription())
+                .setLocation(this.getLocation())
+                .setRiskLevel(this.getRiskLevel())
+                .setRiskType(this.getRiskType())
+                .setResponsibleDepartmentName(responsibleDepartmentName)
+                .setResponsiblePersonName(responsiblePersonName)
+                .setDiscoveryTime(this.getDiscoveryTime())
+                .setRectificationDeadline(this.getRectificationDeadline())
+                .setStatus(this.getStatus())
+                .setSource(this.getSource())
+                .setIsRectify(isRectify);
     }
 
     public void transition(RiskEvent event) {

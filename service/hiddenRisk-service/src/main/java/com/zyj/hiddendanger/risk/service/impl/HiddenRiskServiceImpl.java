@@ -16,7 +16,7 @@ import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskPageQueryDTO;
 import com.zyj.hiddendanger.model.service.risk.dto.HiddenRiskReportDTO;
 import com.zyj.hiddendanger.model.service.risk.vo.HiddenRiskVO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
-import com.zyj.hiddendanger.risk.mapper.HiddenRiskStreamMapper;
+import com.zyj.hiddendanger.risk.mapper.HiddenRiskStatusStreamMapper;
 import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.HiddenRiskService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
@@ -38,7 +38,7 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
 
     private final HiddenRiskMapper hiddenRiskMapper;
 
-    private final HiddenRiskStreamMapper hiddenRiskStreamMapper;
+    private final HiddenRiskStatusStreamMapper hiddenRiskStatusStreamMapper;
 
     @RpcReference
     private DepartmentFacadeService departmentFacadeService;
@@ -151,8 +151,8 @@ public class HiddenRiskServiceImpl extends ServiceImpl<HiddenRiskMapper, HiddenR
         hiddenRisk.transition(HiddenRisk.RiskEvent.RECTIFY);
         hiddenRiskMapper.updateById(hiddenRisk);
         ThrowUtil.throwIf(
-                hiddenRiskStreamMapper.insert(new HiddenRiskStatusStream().setHiddenRiskId(riskId)
-                                                                          .setOperationType(
+                hiddenRiskStatusStreamMapper.insert(new HiddenRiskStatusStream().setHiddenRiskId(riskId)
+                                                                                .setOperationType(
                                                                                   HiddenRisk.RiskEvent.RECTIFY))
                         != 1, () -> new SystemException(DatabaseExceptionCode.INSERT_ERROR));
     }

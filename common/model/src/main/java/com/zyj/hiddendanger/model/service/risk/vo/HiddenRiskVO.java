@@ -13,6 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class HiddenRiskVO {
+    private String id;
+
     private String name;
 
     private String description;
