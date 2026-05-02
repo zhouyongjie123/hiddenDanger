@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.zyj.hiddendanger.database.Entity;
 import com.zyj.hiddendanger.database.handler.PasswordEncryptTypeHandler;
 import com.zyj.hiddendanger.model.service.auth.vo.UserInfoVO;
-import com.zyj.hiddendanger.model.service.auth.vo.UserLoginVO;
 import com.zyj.hiddendanger.model.service.auth.vo.UserSelectionVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;

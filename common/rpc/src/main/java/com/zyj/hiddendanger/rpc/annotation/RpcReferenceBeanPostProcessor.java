@@ -50,7 +50,7 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
             // 注入真实 Dubbo
             target = createDubboReference(interfaceClass, rpc);
         } else {
-            // 自动查找 Mock 类：接口名 + Mock
+            // 自动查找 Mock 类
             target = createMockInstance(interfaceClass);
         }
         field.set(bean, target);
@@ -69,7 +69,7 @@ public class RpcReferenceBeanPostProcessor implements BeanPostProcessor {
         return reference.get();
     }
 
-    // ===================== 核心：找带@RpcMockService的类 =====================
+    // ===================== 找带@RpcMockService的类 =====================
     private Object createMockInstance(Class<?> interfaceClass) throws Exception {
         List<Class<?>> result = new ArrayList<>();
         ClassPathScanningCandidateComponentProvider scanner = getScanner(interfaceClass);

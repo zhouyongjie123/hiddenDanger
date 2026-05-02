@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,9 @@ public class RectificationMeasureApprovalServiceImpl implements RectificationMea
 
     private final HiddenRiskStatusStreamMapper hiddenRiskStatusStreamMapper;
 
+    @Resource
+    private TransactionTemplate transactionTemplate;
+
     @Override
     public void approvalAccept(RectificationMeasureApprovalDTO dto) {
         String hiddenRiskId = dto.getRectificationMeasureId();
@@ -39,15 +43,18 @@ public class RectificationMeasureApprovalServiceImpl implements RectificationMea
         ApprovalResponse response = approvalFacadeService.approve(
                 new AcceptApprovalEvent(hiddenRiskId, idGenerator.generate(), approvalMessage));
         if (response.isEnd()) {
-            // 更改隐患状态
-            HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(hiddenRiskId);
-            hiddenRisk.transition(HiddenRisk.RiskEvent.ACCEPT);
-            hiddenRiskMapper.updateById(hiddenRisk);
-            // 更新隐患状态流水
-            HiddenRiskStatusStream hiddenRiskStatusStream = new HiddenRiskStatusStream().setHiddenRiskId(hiddenRiskId)
-                                                                                        .setOperationType(
-                                                                                                HiddenRisk.RiskEvent.ACCEPT);
-            hiddenRiskStatusStreamMapper.insert(hiddenRiskStatusStream);
+            transactionTemplate.executeWithoutResult(status -> {
+                // 更改隐患状态
+                HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(hiddenRiskId);
+                hiddenRisk.transition(HiddenRisk.RiskEvent.ACCEPT);
+                hiddenRiskMapper.updateById(hiddenRisk);
+                // 更新隐患状态流水
+                HiddenRiskStatusStream hiddenRiskStatusStream = new HiddenRiskStatusStream()
+                        .setHiddenRiskId(hiddenRiskId)
+                        .setOperationType(
+                                HiddenRisk.RiskEvent.ACCEPT);
+                hiddenRiskStatusStreamMapper.insert(hiddenRiskStatusStream);
+            });
         }
     }
 
