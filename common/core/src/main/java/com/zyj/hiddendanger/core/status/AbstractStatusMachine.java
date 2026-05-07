@@ -22,10 +22,10 @@ public abstract class AbstractStatusMachine<S, E> implements StatusMachine<S, E>
 
 
     // 状态转换前hook
-    public void beforeTransition(S currentStatus, E event) {
+    protected void beforeTransition(S currentStatus, E event) {
     }
 
     // 状态转换后hook
-    public void afterTransition(S currentStatus, E event, S targetStatus) {
+    protected void afterTransition(S currentStatus, E event, S targetStatus) {
     }
 }
