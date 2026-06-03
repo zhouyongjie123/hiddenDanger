@@ -201,30 +201,4 @@ public class ApprovalFlowGraph extends AbstractApprovalFlowGraph {
         // 无法到达终点
         return false;
     }
-
-    // 邻接矩阵BFS
-    private boolean hasPathBFS(Integer[][] graph) {
-        int n = graph.length;
-        int v0 = 0;
-        int vn = graph.length - 1;
-        boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(v0);
-        visited[v0] = true;
-        while (!queue.isEmpty()) {
-            int u = queue.poll();
-
-            if (u == vn) {
-                return true;
-            }
-            // 遍历所有节点
-            for (int v = 0; v < n; v++) {
-                if (graph[u][v] == 1 && !visited[v]) {
-                    visited[v] = true;
-                    queue.add(v);
-                }
-            }
-        }
-        return false;
-    }
 }

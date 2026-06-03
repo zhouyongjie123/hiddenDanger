@@ -4,11 +4,13 @@ import com.zyj.hiddendanger.core.context.UserIdContextHolder;
 import com.zyj.hiddendanger.core.id.IdGenerator;
 import com.zyj.hiddendanger.model.domain.HiddenRisk;
 import com.zyj.hiddendanger.model.domain.HiddenRiskStatusStream;
+import com.zyj.hiddendanger.model.domain.RectificationMeasure;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.AcceptApprovalEvent;
 import com.zyj.hiddendanger.model.service.flow.approval.domain.edge.event.RejectApprovalEvent;
 import com.zyj.hiddendanger.model.service.risk.dto.RectificationMeasureApprovalDTO;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskMapper;
 import com.zyj.hiddendanger.risk.mapper.HiddenRiskStatusStreamMapper;
+import com.zyj.hiddendanger.risk.mapper.RectificationMeasureMapper;
 import com.zyj.hiddendanger.risk.service.RectificationMeasureApprovalService;
 import com.zyj.hiddendanger.rpc.annotation.RpcReference;
 import com.zyj.hiddendanger.rpc.api.flow.response.ApprovalResponse;
@@ -35,22 +37,27 @@ public class RectificationMeasureApprovalServiceImpl implements RectificationMea
     @Resource
     private TransactionTemplate transactionTemplate;
 
+    @Resource
+    private RectificationMeasureMapper rectificationMeasureMapper;
+
     @Override
     public void approvalAccept(RectificationMeasureApprovalDTO dto) {
-        String hiddenRiskId = dto.getRectificationMeasureId();
+        String rectificationMeasureId = dto.getRectificationMeasureId();
         String approvalMessage = dto.getApprovalMessage();
         RpcContext.getClientAttachment().setAttachment("userId", UserIdContextHolder.get());
         ApprovalResponse response = approvalFacadeService.approve(
-                new AcceptApprovalEvent(hiddenRiskId, idGenerator.generate(), approvalMessage));
+                new AcceptApprovalEvent(rectificationMeasureId, idGenerator.generate(), approvalMessage));
         if (response.isEnd()) {
             transactionTemplate.executeWithoutResult(status -> {
                 // 更改隐患状态
-                HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(hiddenRiskId);
+                RectificationMeasure rectificationMeasure = rectificationMeasureMapper.selectById(
+                        rectificationMeasureId);
+                HiddenRisk hiddenRisk = hiddenRiskMapper.selectById(rectificationMeasure.getHiddenRiskId());
                 hiddenRisk.transition(HiddenRisk.RiskEvent.ACCEPT);
                 hiddenRiskMapper.updateById(hiddenRisk);
                 // 更新隐患状态流水
                 HiddenRiskStatusStream hiddenRiskStatusStream = new HiddenRiskStatusStream()
-                        .setHiddenRiskId(hiddenRiskId)
+                        .setHiddenRiskId(rectificationMeasureId)
                         .setOperationType(
                                 HiddenRisk.RiskEvent.ACCEPT);
                 hiddenRiskStatusStreamMapper.insert(hiddenRiskStatusStream);
